@@ -1,12 +1,12 @@
 <?php
 /*
  * Plugin Name: ElectroSuite Reseller
- * Plugin URI: https://github.com/MagusBrashiva/electrosuite-reseller
+ * Plugin URI: https://electrosuite.org/affiliates/reseller
  * Description: Sell ElectroSuite services from your own site!
  * Version: 0.0.1
  * Author: ElectroSuite LLC
  * Author URI: https://electrosuite.org
- * Author Email: affiliates@electrosuite.org
+ * Author Email: ElectroSuite Affiliates <affiliates@electrosuite.org>
  * Requires at least: 3.8
  * Tested up to: 6.7
  * Text Domain: electrosuite-reseller
@@ -26,7 +26,7 @@
  * You should have received a copy of the GNU General Public License
  * along with WordPress Plugin Boilerplate. If not, see <http://www.gnu.org/licenses/>.
  *
- * @TODO Replace 'ElectroSuite_Reseller' with the name of your plugin class.
+ * @TODO Replace 'Plugin_Name' with the name of your plugin class.
  * @package ElectroSuite_Reseller
  * @author ElectroSuite LLC
  * @category Core
@@ -71,7 +71,7 @@ final class ElectroSuite_Reseller {
 	 * @TODO Rename the text domain to match the name of your plugin.
 	 * @var string
 	 */
-	public $text_domain = 'wordpress-plugin-boilerplate';
+	public $text_domain = 'electrosuite-reseller';
 
 	/**
 	 * The ElectroSuite Reseller.
@@ -79,14 +79,14 @@ final class ElectroSuite_Reseller {
 	 * @TODO Rename the plugin name to your own.
 	 * @var string
 	 */
-	public $name = "WordPress Plugin Boilerplate";
+	public $name = "ElectroSuite Reseller";
 
 	/**
 	 * The Plugin Version.
 	 *
 	 * @var string
 	 */
-	public $version = "1.0.0";
+	public $version = "0.0.1";
 
 	/**
 	 * The WordPress version the plugin requires minumum.
@@ -113,7 +113,7 @@ final class ElectroSuite_Reseller {
 	 * @TODO Replace the url
 	 * @var string
 	 */
-	public $web_url = "http://www.sebastiendumont.com/plugins/boilerplates/wordpress-plugin-boilerplate/ ";
+	public $web_url = "https://github.com/MagusBrashiva/electrosuite-reseller ";
 
 	/**
 	 * The Plugin documentation URL.
@@ -121,7 +121,7 @@ final class ElectroSuite_Reseller {
 	 * @TODO Replace the url
 	 * @var string
 	 */
-	public $doc_url = "https://github.com/seb86/WordPress-Plugin-Boilerplate/wiki/";
+	public $doc_url = "https://github.com/MagusBrashiva/electrosuite-reseller";
 
 	/**
 	 * The WordPress.org Plugin URL.
@@ -137,7 +137,7 @@ final class ElectroSuite_Reseller {
 	 * @TODO Replace the url ex. 'http://wordpress.org/support/plugin/your-plugin-name'
 	 * @var string
 	 */
-	public $wp_plugin_support_url = "http://www.sebastiendumont.com/support/forum/wordpress-plugin-boilerplate/";
+	public $wp_plugin_support_url = "https://github.com/MagusBrashiva/electrosuite-reseller";
 
 	/**
 	 * Theme Author URL
@@ -148,7 +148,7 @@ final class ElectroSuite_Reseller {
 	 * @TODO Replace the url
 	 * @var string
 	 */
-	public $theme_author_url = "http://www.yourdomain.com";
+	public $theme_author_url = "http://wordpress.org";
 
 	/**
 	 * Changelog URL
@@ -159,7 +159,7 @@ final class ElectroSuite_Reseller {
 	 * @TODO Replace the url
 	 * @var string
 	 */
-	public $changelog_url = "http://www.yourdomain.com/changelogs/";
+	public $changelog_url = "http://wordpress.org/changelogs/";
 
 	/**
 	 * GitHub Repo URL
@@ -167,7 +167,7 @@ final class ElectroSuite_Reseller {
 	 * @TODO Replace the url with your own repository
 	 * @var string
 	 */
-	public $github_repo_url = "https://github.com/seb86/WordPress-Plugin-Boilerplate/";
+	public $github_repo_url = "https://github.com/MagusBrashiva/electrosuite-reseller";
 
 	/**
 	 * Transifex Project URL
@@ -175,7 +175,7 @@ final class ElectroSuite_Reseller {
 	 * @TODO Replace the url with your own Transifex project
 	 * @var string
 	 */
-	public $transifex_project_url = "https://www.transifex.com/projects/p/wordpress-plugin-boilerplate/";
+	public $transifex_project_url = "https://www.transifex.com/projects/p/electrosuite-reseller/";
 
 	/**
 	 * The Plugin menu name.
@@ -183,7 +183,7 @@ final class ElectroSuite_Reseller {
 	 * @TODO Replace the name of the plugin for the side menu
 	 * @var string
 	 */
-	public $menu_name = "My Plugin";
+	public $menu_name = "ES Reseller";
 
 	/**
 	 * The Plugin title page name.
@@ -191,7 +191,7 @@ final class ElectroSuite_Reseller {
 	 * @TODO Replace the title with the name of your plugin.
 	 * @var string
 	 */
-	public $title_name = "WordPress Plugin Boilerplate";
+	public $title_name = "ElectroSuite Reseller";
 
 	/**
 	 * Manage Plugin.
@@ -220,7 +220,7 @@ final class ElectroSuite_Reseller {
 	 * @TODO Replace with your own
 	 * @var string
 	 */
-	public $facebook_page = "SebD";
+	public $facebook_page = "ElectroSuite";
 
 	/**
 	 * Twitter Username.
@@ -228,15 +228,7 @@ final class ElectroSuite_Reseller {
 	 * @TODO Replace with your own
 	 * @var string
 	 */
-	public $twitter_username = "sebd86";
-
-	/**
-	 * Google Plus ID Number.
-	 *
-	 * @TODO Replace with your own
-	 * @var string
-	 */
-	public $google_plus_id = "114016411970997366558";
+	public $twitter_username = "ElectroSuite";
 
 	/**
 	 * Transifex Project Slug
@@ -244,7 +236,7 @@ final class ElectroSuite_Reseller {
 	 * @TODO Replace with your own
 	 * @var string
 	 */
-	public $transifex_project_slug = 'wordpress-plugin-boilerplate';
+	public $transifex_project_slug = 'electrosuite-reseller';
 
 	/**
 	 * Transifex Resources Slug
@@ -252,7 +244,7 @@ final class ElectroSuite_Reseller {
 	 * @TODO Replace with your own
 	 * @var string
 	 */
-	public $transifex_resources_slug = 'wordpress-plugin-boilerplate';
+	public $transifex_resources_slug = 'electrosuite-reseller';
 
 	/**
 	 * Main ElectroSuite Reseller Instance
@@ -277,25 +269,25 @@ final class ElectroSuite_Reseller {
 	 * The whole idea of the singleton design pattern is that there is a single
 	 * object therefore, we don't want the object to be cloned.
 	 *
-	 * @since 1.0.0
+	 * @since 0.0.1
 	 * @access protected
 	 * @return void
 	 */
 	public function __clone() {
 		// Cloning instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wordpress-plugin-boilerplate' ), $this->version );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'electrosuite-reseller' ), $this->version );
 	}
 
 	/**
 	 * Disable unserializing of the class
 	 *
-	 * @since 1.0.0
+	 * @since 0.0.1
 	 * @access protected
 	 * @return void
 	 */
 	public function __wakeup() {
 		// Unserializing instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wordpress-plugin-boilerplate' ), $this->version );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'electrosuite-reseller' ), $this->version );
 	}
 
 	/**
@@ -342,7 +334,7 @@ final class ElectroSuite_Reseller {
 		// List your action links
 		if( current_user_can( $this->manage_plugin ) ) {
 			$plugin_links = array(
-				'<a href="' . admin_url( 'admin.php?page=' . ELECTROSUITE_RESELLER_PAGE . '-settings' ) . '">' . __( 'Settings', 'wordpress-plugin-boilerplate' ) . '</a>',
+				'<a href="' . admin_url( 'admin.php?page=' . ELECTROSUITE_RESELLER_PAGE . '-settings' ) . '">' . __( 'Settings', 'electrosuite-reseller' ) . '</a>',
 			);
 			return array_merge( $links, $plugin_links );
 		}
@@ -366,9 +358,9 @@ final class ElectroSuite_Reseller {
 		}
 
 		$links = array(
-			'<a href="' . admin_url( 'index.php?page=' . ELECTROSUITE_RESELLER_PAGE . '-about' ) . '">' . esc_html( apply_filters( 'electrosuite_reseller_about_text_link', __( 'Getting Started', 'wordpress-plugin-boilerplate' ) ) ) . '</a>',
-			'<a href="' . admin_url( 'index.php?page=' . ELECTROSUITE_RESELLER_PAGE . '-credits' ) . '">' . esc_html( __( 'Credits', 'wordpress-plugin-boilerplate' ) ) . '</a>',
-			'<a href="' . esc_url( apply_filters( 'electrosuite_reseller_documentation_url', $this->doc_url ) ) . '">' . __( 'Documentation', 'wordpress-plugin-boilerplate' ) . '</a>',
+			'<a href="' . admin_url( 'index.php?page=' . ELECTROSUITE_RESELLER_PAGE . '-about' ) . '">' . esc_html( apply_filters( 'electrosuite_reseller_about_text_link', __( 'Getting Started', 'electrosuite-reseller' ) ) ) . '</a>',
+			'<a href="' . admin_url( 'index.php?page=' . ELECTROSUITE_RESELLER_PAGE . '-credits' ) . '">' . esc_html( __( 'Credits', 'electrosuite-reseller' ) ) . '</a>',
+			'<a href="' . esc_url( apply_filters( 'electrosuite_reseller_documentation_url', $this->doc_url ) ) . '">' . __( 'Documentation', 'electrosuite-reseller' ) . '</a>',
 		);
 
 		$input = array_merge( $input, $links );
@@ -469,7 +461,7 @@ final class ElectroSuite_Reseller {
 	 */
 	static function display_req_notice() {
 		echo '<div id="message" class="error"><p><strong>';
-		echo sprintf( __('Sorry, %s requires WordPress ' . ELECTROSUITE_RESELLER_WP_VERSION_REQUIRE . ' or higher. Please upgrade your WordPress setup', 'wordpress-plugin-boilerplate'), ELECTROSUITE_RESELLER );
+		echo sprintf( __('Sorry, %s requires WordPress ' . ELECTROSUITE_RESELLER_WP_VERSION_REQUIRE . ' or higher. Please upgrade your WordPress setup', 'electrosuite-reseller'), ELECTROSUITE_RESELLER );
 		echo '</strong></p></div>';
 	}
 
@@ -738,18 +730,18 @@ final class ElectroSuite_Reseller {
 			// Variables for Admin JavaScripts
 			wp_localize_script( $this->plugin_slug . '_admin_script', 'electrosuite_reseller_admin_params', apply_filters( 'electrosuite_reseller_admin_params', array(
 				'ajaxurl' 				=> admin_url('admin-ajax.php'),
-				'no_result' 			=> __( 'No results', 'wordpress-plugin-boilerplate' ),
+				'no_result' 			=> __( 'No results', 'electrosuite-reseller' ),
 				'plugin_url' 			=> $this->plugin_url(),
-				'i18n_nav_warning' 		=> __( 'The changes you made will be lost if you navigate away from this page.', 'wordpress-plugin-boilerplate' ),
+				'i18n_nav_warning' 		=> __( 'The changes you made will be lost if you navigate away from this page.', 'electrosuite-reseller' ),
 				'full_settings_menu' 	=> $this->full_settings_menu,
 				'plugin_menu_name' 		=> $this->menu_name,
 				'plugin_screen_id' 		=> ELECTROSUITE_RESELLER_SCREEN_ID,
-				'_tab_one' 		=> __( 'First Tab', 'wordpress-plugin-boilerplate' ),
-				'_tab_two' 		=> __( 'Second Tab', 'wordpress-plugin-boilerplate' ),
-				'system_status' 		=> __( 'System Status', 'wordpress-plugin-boilerplate' ),
-				'tools' 				=> __( 'Tools', 'wordpress-plugin-boilerplate' ),
-				'_import' 				=> __( 'Import', 'wordpress-plugin-boilerplate' ),
-				'_export' 				=> __( 'Export', 'wordpress-plugin-boilerplate' ),
+				'_tab_one' 		=> __( 'First Tab', 'electrosuite-reseller' ),
+				'_tab_two' 		=> __( 'Second Tab', 'electrosuite-reseller' ),
+				'system_status' 		=> __( 'System Status', 'electrosuite-reseller' ),
+				'tools' 				=> __( 'Tools', 'electrosuite-reseller' ),
+				'_import' 				=> __( 'Import', 'electrosuite-reseller' ),
+				'_export' 				=> __( 'Export', 'electrosuite-reseller' ),
 				)
 			) );
 

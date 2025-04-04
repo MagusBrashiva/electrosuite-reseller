@@ -27,8 +27,18 @@ jQuery(function($){
 		} // end if
 
 		// Second Tab
-		if( sActiveTab == 'tab_two' ) {
+		if (sActiveTab == 'tab_two') {
 			$('li.toplevel_page_' + electrosuite_reseller_admin_params.plugin_screen_id + ' ul.wp-submenu li a:contains(' + electrosuite_reseller_admin_params._tab_two + ')').parent().addClass('current');
+		} // end if
+
+		// API Tab
+		if (sActiveTab == 'tab_api') {
+			$('li.toplevel_page_' + electrosuite_reseller_admin_params.plugin_screen_id + ' ul.wp-submenu li a:contains(' + electrosuite_reseller_admin_params._tab_api + ')').parent().addClass('current');
+		} // end if
+
+		// General Tab
+		if (sActiveTab == 'tab_general') {
+			$('li.toplevel_page_' + electrosuite_reseller_admin_params.plugin_screen_id + ' ul.wp-submenu li a:contains(' + electrosuite_reseller_admin_params._tab_general + ')').parent().addClass('current');
 		} // end if
 
 		// Tools Tab

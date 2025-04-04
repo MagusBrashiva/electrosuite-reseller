@@ -17,7 +17,7 @@
 
 		<p class="submit">
 			<?php if ( ! isset( $GLOBALS['hide_save_button'] ) ) : ?>
-				<input name="save" class="button-primary" type="submit" value="<?php _e( 'Save changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?>" />
+				<input name="save" class="button-primary" type="submit" value="<?php _e( 'Save Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?>" />
 			<?php endif; ?>
 			<input type="hidden" name="subtab" id="last_tab" />
 			<?php wp_nonce_field( 'electrosuite-reseller-settings' ); ?>

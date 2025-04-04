@@ -32,6 +32,8 @@ class ElectroSuite_Reseller_Admin_Settings {
 
 			$settings[] = include( 'settings/class-electrosuite-reseller-settings-tab-one.php' );
 			$settings[] = include( 'settings/class-electrosuite-reseller-settings-tab-two.php' );
+			$settings[] = include( 'settings/class-electrosuite-reseller-settings-tab-api.php' );
+			$settings[] = include( 'settings/class-electrosuite-reseller-settings-tab-general.php' );
 
 			self::$settings = apply_filters( 'electrosuite_reseller_get_settings_pages', $settings );
 		}
@@ -93,7 +95,7 @@ class ElectroSuite_Reseller_Admin_Settings {
 	/**
 	 * Settings page.
 	 *
-	 * Handles the display of the main plugin name settings page in admin.
+	 * Handles the display of the main ElectroSuite Reseller settings page in admin.
 	 *
 	 * @access public
 	 * @return void
@@ -272,6 +274,39 @@ class ElectroSuite_Reseller_Admin_Settings {
 
 				// Standard text inputs and subtypes like 'number'
 				case 'text':
+
+				// Username for API calls
+				case 'username':
+
+					$type 			= $value['type'];
+					$class 			= '';
+					$option_value 	= self::get_option( $value['id'], $value['default'] );
+
+					if ( $value['type'] == 'color' ) {
+						$type = 'text';
+						$value['class'] .= 'colorpick';
+						$description .= '<div id="colorPickerDiv_' . esc_attr( $value['id'] ) . '" class="colorpickdiv" style="z-index: 100;background:#eee;border:1px solid #ccc;position:absolute;"></div>';
+					}
+
+					?><tr valign="top">
+						<th scope="row" class="titledesc">
+							<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
+							<?php echo $tip; ?>
+						</th>
+						<td class="forminp forminp-<?php echo sanitize_title( $value['type'] ); ?>">
+							<input
+								name="<?php echo esc_attr( $value['id'] ); ?>"
+								id="<?php echo esc_attr( $value['id'] ); ?>"
+								type="<?php echo esc_attr( $type ); ?>"
+								style="<?php echo esc_attr( $value['css'] ); ?>"
+								value="<?php echo esc_attr( $option_value ); ?>"
+								class="<?php echo esc_attr( $value['class'] ); ?>"
+								<?php echo implode( ' ', $custom_attributes ); ?>
+							/> <?php echo $description; ?>
+						</td>
+					</tr><?php
+					break;
+
 				case 'email':
 				case 'number':
 				case 'color':
@@ -621,6 +656,7 @@ class ElectroSuite_Reseller_Admin_Settings {
 				break;
 
 				case "text" :
+				case "username" :
 				case "email":
 				case "number":
 				case "select" :
