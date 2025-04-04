@@ -101,7 +101,7 @@ class ElectroSuite_Reseller_Settings_General_Tab extends ElectroSuite_Reseller_S
 			// Pricing Adjustment Value
 			array(
 				'title' 	=> __( 'Price Adjustment Value', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'desc' 		=> __( 'Enter the amount to adjust prices. (Percentages MUST be in whole number form! 15%=15)', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+				'desc' 		=> __( 'Enter the amount to adjust prices. (Percentages MUST be in non-decimal form! 12.5% -> 12.5)', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
 				'id' 		=> 'electrosuite_reseller_number_option',
 				'type' 		=> 'number',
 				'custom_attributes' => array(

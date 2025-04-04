@@ -88,7 +88,7 @@ class ElectroSuite_Reseller_Install {
 	}
 
 	/**
-	 * Install Plugin Name
+	 * Install ElectroSuite Reseller
 	 *
 	 * @TODO Change the 'page-slug' to the page slug 
 	 * of the main page this plugin needs.
@@ -278,7 +278,7 @@ class ElectroSuite_Reseller_Install {
 	}
 
 	/**
-	 * Get capabilities for Plugin Name.
+	 * Get capabilities for ElectroSuite Reseller.
 	 *
 	 * These are assigned to admin and any 
 	 * other role cap during installation 
