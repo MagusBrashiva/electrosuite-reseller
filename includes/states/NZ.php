@@ -1,32 +1,31 @@
 <?php
 /**
- * Plugin Name States: NZ
+ * ElectroSuite Reseller States: New Zealand
  *
- * @author 		Your Name / Your Company Name
+ * @author 		ElectroSuite
  * @category 	Core
- * @package 	Plugin Name/Library
- * @version 	1.0.0
+ * @package 	ElectroSuite Reseller/Library
+ * @version 	0.0.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 global $states;
 
-$states['NZ'] = array(
-	'NL' => __( 'Northland', PLUGIN_NAME_TEXT_DOMAIN ),
-	'AK' => __( 'Auckland', PLUGIN_NAME_TEXT_DOMAIN ),
-	'WA' => __( 'Waikato', PLUGIN_NAME_TEXT_DOMAIN ),
-	'BP' => __( 'Bay of Plenty', PLUGIN_NAME_TEXT_DOMAIN ),
-	'TK' => __( 'Taranaki', PLUGIN_NAME_TEXT_DOMAIN ),
-	'HB' => __( 'Hawke&rsquo;s Bay', PLUGIN_NAME_TEXT_DOMAIN ),
-	'MW' => __( 'Manawatu-Wanganui', PLUGIN_NAME_TEXT_DOMAIN ),
-	'WE' => __( 'Wellington', PLUGIN_NAME_TEXT_DOMAIN ),
-	'NS' => __( 'Nelson', PLUGIN_NAME_TEXT_DOMAIN ),
-	'MB' => __( 'Marlborough', PLUGIN_NAME_TEXT_DOMAIN ),
-	'TM' => __( 'Tasman', PLUGIN_NAME_TEXT_DOMAIN ),
-	'WC' => __( 'West Coast', PLUGIN_NAME_TEXT_DOMAIN ),
-	'CT' => __( 'Canterbury', PLUGIN_NAME_TEXT_DOMAIN ),
-	'OT' => __( 'Otago', PLUGIN_NAME_TEXT_DOMAIN ),
-	'SL' => __( 'Southland', PLUGIN_NAME_TEXT_DOMAIN)
+$states['HZ'] = array(
+	'AK' => __( 'Auckland', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'BP' => __( 'Bay of Plenty', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'CT' => __( 'Canterbury', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'HB' => __( 'Hawke&rsquo;s Bay', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'MW' => __( 'Manawatu-Wanganui', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'MB' => __( 'Marlborough', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'NS' => __( 'Nelson', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'NL' => __( 'Northland', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'OT' => __( 'Otago', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'SL' => __( 'Southland', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'TK' => __( 'Taranaki', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'TM' => __( 'Tasman', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'WA' => __( 'Waikato', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'WE' => __( 'Wellington', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'WC' => __( 'West Coast', ELECTROSUITE_RESELLER_TEXT_DOMAIN )
 );
-

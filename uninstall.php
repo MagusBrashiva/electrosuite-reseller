@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name Uninstall
+ * ElectroSuite Reseller Uninstall
  *
- * Uninstalling Plugin Name deletes e.g. user roles, options and pages.
+ * Uninstalling ElectroSuite Reseller deletes e.g. user roles, options and pages.
  *
  * @author 		Your Name / Your Company Name
  * @category 	Core
- * @package 	Plugin Name/Uninstaller
+ * @package 	ElectroSuite Reseller/Uninstaller
  * @version 	1.0.0
  */
 if( !defined('WP_UNINSTALL_PLUGIN') ) exit();
@@ -16,21 +16,21 @@ global $wpdb, $wp_roles;
 // For Single site
 if ( !is_multisite() ) {
 
-	$status_options = get_option( 'plugin_name_status_options', array() );
+	$status_options = get_option( 'electrosuite_reseller_status_options', array() );
 
 	if ( ! empty( $status_options['uninstall_data'] ) ) {
 
 		// Delete options
-		$wpdb->query("DELETE FROM $wpdb->options WHERE option_name LIKE 'plugin_name_%';");
+		$wpdb->query("DELETE FROM $wpdb->options WHERE option_name LIKE 'electrosuite_reseller_%';");
 
 		// Roles + caps
-		$installer = include( 'includes/admin/class-plugin-name-install.php' );
+		$installer = include( 'includes/admin/class-electrosuite-reseller-install.php' );
 		$installer->remove_roles();
 
 		// Pages
-		$get_pages = $installer->plugin_name_pages();
+		$get_pages = $installer->electrosuite_reseller_pages();
 		foreach( $get_pages as $key => $page ) {
-			wp_trash_post( get_option( 'plugin_name_' . $key . '_page_id' ) );
+			wp_trash_post( get_option( 'electrosuite_reseller_' . $key . '_page_id' ) );
 		}
 
 	}

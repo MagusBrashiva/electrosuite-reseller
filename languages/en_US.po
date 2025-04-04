@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Plugin Name\n"
+"Project-Id-Version: ElectroSuite Reseller\n"
 "POT-Creation-Date: 2014-08-25 01:18+0100\n"
 "PO-Revision-Date: 2014-08-25 01:19+0100\n"
 "Last-Translator: \n"
-"Language-Team:  <youremail@address.here>\n"
+"Language-Team:  ElectroSuite Affiliates <affiliates@electrosuite.org>\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,67 +16,67 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_n;_x\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: includes/admin/class-plugin-name-admin-help.php:38
-#: includes/admin/class-plugin-name-admin.php:122
+#: includes/admin/class-electrosuite-reseller-admin-help.php:38
+#: includes/admin/class-electrosuite-reseller-admin.php:122
 #: includes/admin/views/html-admin-page.php:12
-#: wordpress-plugin-boilerplate.php:365
+#: electrosuite-reseller.php:365
 msgid "Documentation"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-help.php:41
+#: includes/admin/class-electrosuite-reseller-admin-help.php:41
 #, php-format
 msgid ""
 "Thank you for using %s :) Should you need help using or extending %s please "
 "read the documentation."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-help.php:43
+#: includes/admin/class-electrosuite-reseller-admin-help.php:43
 #, php-format
 msgid "%s Documentation"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-help.php:43
+#: includes/admin/class-electrosuite-reseller-admin-help.php:43
 msgid "Restart Tour"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-help.php:49
+#: includes/admin/class-electrosuite-reseller-admin-help.php:49
 msgid "Support"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-help.php:52
+#: includes/admin/class-electrosuite-reseller-admin-help.php:52
 #, php-format
 msgid ""
 "After <a href=\"%s\">reading the documentation</a>, for further assistance "
 "you can use the <a href=\"%s\">community forum</a>."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-help.php:52
+#: includes/admin/class-electrosuite-reseller-admin-help.php:52
 msgid "Company Name"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-help.php:54
+#: includes/admin/class-electrosuite-reseller-admin-help.php:54
 msgid ""
 "Before asking for help we recommend checking the status page to identify any "
 "problems with your configuration."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-help.php:56
-#: includes/admin/class-plugin-name-admin-help.php:67
-#: includes/admin/class-plugin-name-admin-menus.php:113
+#: includes/admin/class-electrosuite-reseller-admin-help.php:56
+#: includes/admin/class-electrosuite-reseller-admin-help.php:67
+#: includes/admin/class-electrosuite-reseller-admin-menus.php:113
 #: includes/admin/views/html-admin-page-status.php:6
 #: wordpress-plugin-boilerplate.php:743
 msgid "System Status"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-help.php:56
+#: includes/admin/class-electrosuite-reseller-admin-help.php:56
 msgid "Community Support"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-help.php:62
+#: includes/admin/class-electrosuite-reseller-admin-help.php:62
 msgid "Found a bug?"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-help.php:65
+#: includes/admin/class-electrosuite-reseller-admin-help.php:65
 #, php-format
 msgid ""
 "If you find a bug within <strong>%s</strong> you can create a ticket via <a "
@@ -85,84 +85,84 @@ msgid ""
 "as possible and please include your <a href=\"%s\">system status report</a>."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-help.php:67
+#: includes/admin/class-electrosuite-reseller-admin-help.php:67
 msgid "Report a bug"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-help.php:72
+#: includes/admin/class-electrosuite-reseller-admin-help.php:72
 msgid "For more information:"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-help.php:73
+#: includes/admin/class-electrosuite-reseller-admin-help.php:73
 #, php-format
 msgid "About %s"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-help.php:74
+#: includes/admin/class-electrosuite-reseller-admin-help.php:74
 msgid "Project on WordPress.org"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-help.php:75
+#: includes/admin/class-electrosuite-reseller-admin-help.php:75
 msgid "Project on Github"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-menus.php:89
-#: includes/admin/class-plugin-name-admin-menus.php:93
-#: includes/admin/class-plugin-name-admin-menus.php:109
+#: includes/admin/class-electrosuite-reseller-admin-menus.php:89
+#: includes/admin/class-electrosuite-reseller-admin-menus.php:93
+#: includes/admin/class-electrosuite-reseller-admin-menus.php:109
 #, php-format
 msgid "%s Settings"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-menus.php:89
-#: includes/admin/class-plugin-name-admin-menus.php:93
-#: includes/admin/class-plugin-name-admin-welcome.php:215
+#: includes/admin/class-electrosuite-reseller-admin-menus.php:89
+#: includes/admin/class-electrosuite-reseller-admin-menus.php:93
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:215
 #: includes/admin/views/html-admin-page-status-report.php:273
 #: wordpress-plugin-boilerplate.php:339
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-menus.php:98
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:25
+#: includes/admin/class-electrosuite-reseller-admin-menus.php:98
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:25
 #: wordpress-plugin-boilerplate.php:741
 msgid "First Tab"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-menus.php:102
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:25
+#: includes/admin/class-electrosuite-reseller-admin-menus.php:102
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:25
 #: wordpress-plugin-boilerplate.php:742
 msgid "Second Tab"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-menus.php:113
+#: includes/admin/class-electrosuite-reseller-admin-menus.php:113
 #, php-format
 msgid "%s Status"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-menus.php:115
+#: includes/admin/class-electrosuite-reseller-admin-menus.php:115
 #, php-format
 msgid "%s Tools"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-menus.php:115
+#: includes/admin/class-electrosuite-reseller-admin-menus.php:115
 #: includes/admin/views/html-admin-page-status-tools.php:10
 #: includes/admin/views/html-admin-page-status.php:7
 #: wordpress-plugin-boilerplate.php:744
 msgid "Tools"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-pointers.php:77
+#: includes/admin/class-electrosuite-reseller-admin-pointers.php:77
 msgid "Congratulations"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-pointers.php:80
+#: includes/admin/class-electrosuite-reseller-admin-pointers.php:80
 msgid "Start Tour"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-pointers.php:94
+#: includes/admin/class-electrosuite-reseller-admin-pointers.php:94
 msgid "Dashboard"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-pointers.php:95
+#: includes/admin/class-electrosuite-reseller-admin-pointers.php:95
 msgid ""
 "This is were the boilerplate is located in the admin side-menu. It is here "
 "you will find the backend of the plugins functions, settings and system "
@@ -170,140 +170,140 @@ msgid ""
 "the next page of the tour. If you want to stop this tour, click \"Close\"."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-pointers.php:107
+#: includes/admin/class-electrosuite-reseller-admin-pointers.php:107
 msgid "Shortcuts"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-pointers.php:108
+#: includes/admin/class-electrosuite-reseller-admin-pointers.php:108
 msgid ""
 "Can be useful for creating shortcuts, linking to other areas of the plugin "
 "or to an external site."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-pointers.php:121
+#: includes/admin/class-electrosuite-reseller-admin-pointers.php:121
 msgid "Sections"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-pointers.php:122
+#: includes/admin/class-electrosuite-reseller-admin-pointers.php:122
 msgid ""
 "These sub-links allow you to display different content in there own sections."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-pointers.php:124
-#: includes/admin/class-plugin-name-admin-pointers.php:155
+#: includes/admin/class-electrosuite-reseller-admin-pointers.php:124
+#: includes/admin/class-electrosuite-reseller-admin-pointers.php:155
 msgid "Next"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-pointers.php:156
-#: includes/admin/class-plugin-name-admin-pointers.php:258
+#: includes/admin/class-electrosuite-reseller-admin-pointers.php:156
+#: includes/admin/class-electrosuite-reseller-admin-pointers.php:258
 msgid "Close"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-settings.php:48
+#: includes/admin/class-electrosuite-reseller-admin-settings.php:48
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-settings.php:56
+#: includes/admin/class-electrosuite-reseller-admin-settings.php:56
 msgid "Your settings have been saved."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-settings.php:109
+#: includes/admin/class-electrosuite-reseller-admin-settings.php:109
 #: wordpress-plugin-boilerplate.php:737
 msgid "The changes you made will be lost if you navigate away from this page."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-settings.php:474
+#: includes/admin/class-electrosuite-reseller-admin-settings.php:474
 msgid "Hard Crop?"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-settings.php:499
+#: includes/admin/class-electrosuite-reseller-admin-settings.php:499
 msgid "Select a page&hellip;"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-settings.php:523
+#: includes/admin/class-electrosuite-reseller-admin-settings.php:523
 msgid "Choose a country&hellip;"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-settings.php:549
+#: includes/admin/class-electrosuite-reseller-admin-settings.php:549
 msgid "Choose countries&hellip;"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-settings.php:557
+#: includes/admin/class-electrosuite-reseller-admin-settings.php:557
 msgid "Select all"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-settings.php:557
+#: includes/admin/class-electrosuite-reseller-admin-settings.php:557
 msgid "Select none"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-status.php:64
+#: includes/admin/class-electrosuite-reseller-admin-status.php:64
 #, php-format
 msgid "All missing %s pages was installed successfully."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-status.php:72
+#: includes/admin/class-electrosuite-reseller-admin-status.php:72
 msgid "Roles successfully reset"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-status.php:84
+#: includes/admin/class-electrosuite-reseller-admin-status.php:84
 msgid "All previous data has been removed and re-installed the defaults."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-status.php:95
+#: includes/admin/class-electrosuite-reseller-admin-status.php:95
 #, php-format
 msgid "There was an error calling %s::%s"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-status.php:98
+#: includes/admin/class-electrosuite-reseller-admin-status.php:98
 #, php-format
 msgid "There was an error calling %s"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-status.php:108
+#: includes/admin/class-electrosuite-reseller-admin-status.php:108
 msgid "Your changes have been saved."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-status.php:123
+#: includes/admin/class-electrosuite-reseller-admin-status.php:123
 #: includes/admin/views/html-notice-install.php:6
 #, php-format
 msgid "Install %s Pages"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-status.php:124
+#: includes/admin/class-electrosuite-reseller-admin-status.php:124
 msgid "Install pages"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-status.php:125
+#: includes/admin/class-electrosuite-reseller-admin-status.php:125
 #, php-format
 msgid ""
 "<strong class=\"red\">Note:</strong> This tool will install all the missing "
 "%s pages. Pages already defined and set up will not be replaced."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-status.php:129
+#: includes/admin/class-electrosuite-reseller-admin-status.php:129
 msgid "Capabilities"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-status.php:130
+#: includes/admin/class-electrosuite-reseller-admin-status.php:130
 msgid "Reset capabilities"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-status.php:131
+#: includes/admin/class-electrosuite-reseller-admin-status.php:131
 #, php-format
 msgid ""
 "This tool will reset the admin roles to default. Use this if your users "
 "cannot access all of the %s admin pages."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-status.php:135
+#: includes/admin/class-electrosuite-reseller-admin-status.php:135
 msgid "Start Over"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-status.php:136
+#: includes/admin/class-electrosuite-reseller-admin-status.php:136
 msgid "Restart"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-status.php:137
+#: includes/admin/class-electrosuite-reseller-admin-status.php:137
 #, php-format
 msgid ""
 "This tool will erase all settings, database tables (if any) and re-install "
@@ -311,86 +311,86 @@ msgid ""
 "lost and will not be recoverable."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:48
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:48
 #, php-format
 msgid "Welcome to %s"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:51
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:51
 #: wordpress-plugin-boilerplate.php:363
 msgid "Getting Started"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:55
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:55
 #, php-format
 msgid "%s Changelog"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:58
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:58
 msgid "Changelog"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:62
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:62
 #, php-format
 msgid "%s Credits"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:65
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:65
 #: wordpress-plugin-boilerplate.php:364
 msgid "Credits"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:69
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:69
 #, php-format
 msgid "%s Translations"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:72
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:72
 msgid "Translations"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:76
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:76
 #, php-format
 msgid "%s Freedoms"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:79
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:79
 msgid "Freedoms"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:182
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:182
 msgid "Thanks, all done!"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:185
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:185
 msgid "Thank you for updating to the latest version!"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:188
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:188
 msgid "Thanks for installing!"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:191
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:191
 #, php-format
 msgid ""
 "%s %s %s is a powerful, stable, and secure plugin boilerplate. I hope you "
 "enjoy it."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:197
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:197
 #, php-format
 msgid "Version %s"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:216
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:216
 msgid "Docs"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:217
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:217
 msgid "Your tweet message would be placed here."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:274
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:274
 msgid ""
 "Use this page to show what the plugin does or what features you have added "
 "since your first release. Replace the placeholder images with screenshots of "
@@ -399,188 +399,188 @@ msgid ""
 "you."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:277
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:277
 msgid "Three Columns with Screenshots"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:280
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:280
 msgid "Screenshot Title"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:281
-#: includes/admin/class-plugin-name-admin-welcome.php:286
-#: includes/admin/class-plugin-name-admin-welcome.php:291
-#: includes/admin/class-plugin-name-admin-welcome.php:302
-#: includes/admin/class-plugin-name-admin-welcome.php:307
-#: includes/admin/class-plugin-name-admin-welcome.php:318
-#: includes/admin/class-plugin-name-admin-welcome.php:322
-#: includes/admin/class-plugin-name-admin-welcome.php:373
-#: includes/admin/class-plugin-name-admin-welcome.php:378
-#: includes/admin/class-plugin-name-admin-welcome.php:383
-#: includes/admin/class-plugin-name-admin-welcome.php:391
-#: includes/admin/class-plugin-name-admin-welcome.php:396
-#: includes/admin/class-plugin-name-admin-welcome.php:401
-#: includes/admin/class-plugin-name-admin-welcome.php:409
-#: includes/admin/class-plugin-name-admin-welcome.php:414
-#: includes/admin/class-plugin-name-admin-welcome.php:419
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:281
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:286
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:291
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:302
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:307
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:318
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:322
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:373
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:378
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:383
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:391
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:396
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:401
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:409
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:414
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:419
 msgid "Title of Feature or New Changes"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:285
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:285
 msgid "You can add captions to your screenshots."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:290
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:290
 msgid "Or add captions on your videos."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:290
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:290
 msgid "Video Title"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:298
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:298
 msgid "Two Columns with Screenshots"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:314
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:314
 msgid "Two Columns with a Single Screenshot"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:329
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:329
 msgid "Callout Headline"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:334
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:334
 msgid "One Column centered with a Single Screenshot"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:343
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:343
 msgid "Two Columns, Content Left, Screenshot Right"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:345
-#: includes/admin/class-plugin-name-admin-welcome.php:362
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:345
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:362
 msgid "Sub-Title (H4)"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:360
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:360
 msgid "Two Columns, Content Right, Screenshot Left"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:369
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:369
 msgid "Three Columns with NO Screenshots"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:447
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:447
 msgid "Bulletpoint your changelog like so."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:450
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:450
 #: includes/admin/views/html-admin-page-status-report.php:256
 msgid "Version"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:477
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:477
 msgid "Project Lead &amp; Developer"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:484
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:484
 msgid "Translation Manager, CEO of WP-Translations.org"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:493
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:493
 msgid "Contributers"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:493
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:493
 msgid "These contributers are fetched from the GitHub repository."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:499
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:499
 msgid "Translators"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:510
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:510
 msgid "External Libraries"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:557
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:557
 msgid ""
 "WordPress Plugin Boilerplate is Free and open source software, built to help "
 "speed up plugin development and to be stable and secure for all WordPress "
 "versions. Below is a list explaining what you are allowed to do. Enjoy!"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:560
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:560
 msgid "You have the freedom to run the program, for any purpose."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:561
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:561
 msgid ""
 "You have access to the source code, the freedom to study how the program "
 "works, and the freedom to change it to make it do what you wish."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:562
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:562
 msgid ""
 "You have the freedom to redistribute copies of the original program so you "
 "can help your neighbor."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:563
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:563
 msgid ""
 "You have the freedom to distribute copies of your modified versions to "
 "others. By doing this you can give the whole community a chance to benefit "
 "from your changes."
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:591
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:591
 #, php-format
 msgid "View %s's GitHub Profile"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:597
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:597
 msgid "Name"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:600
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:600
 msgid "Username"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin-welcome.php:603
+#: includes/admin/class-electrosuite-reseller-admin-welcome.php:603
 msgid "View Website"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin.php:121
+#: includes/admin/class-electrosuite-reseller-admin.php:121
 #: includes/admin/views/html-admin-page.php:11
 msgid "Website"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin.php:157
+#: includes/admin/class-electrosuite-reseller-admin.php:157
 msgid "Contribute"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin.php:158
+#: includes/admin/class-electrosuite-reseller-admin.php:158
 msgid "Report Bugs"
 msgstr ""
 
-#: includes/admin/class-plugin-name-admin.php:167
+#: includes/admin/class-electrosuite-reseller-admin.php:167
 #: includes/admin/views/html-admin-page-status-report.php:25
 #, php-format
 msgid "%s Version"
 msgstr ""
 
-#: includes/admin/class-plugin-name-install.php:155
+#: includes/admin/class-electrosuite-reseller-install.php:155
 msgid "example"
 msgstr ""
 
-#: includes/admin/class-plugin-name-install.php:156
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:96
+#: includes/admin/class-electrosuite-reseller-install.php:156
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:96
 #: includes/admin/views/html-admin-page-status-report.php:299
 msgid "Example Page"
 msgstr ""
 
-#: includes/admin/class-plugin-name-install.php:157
+#: includes/admin/class-electrosuite-reseller-install.php:157
 msgid ""
 "This page was created as an example to show you the ability to creating "
 "pages automatically when the plugin is installed. You may if you wish create "
@@ -589,17 +589,17 @@ msgid ""
 "plugin requires."
 msgstr ""
 
-#: includes/admin/class-plugin-name-install.php:161
+#: includes/admin/class-electrosuite-reseller-install.php:161
 msgid "shortcode"
 msgstr ""
 
-#: includes/admin/class-plugin-name-install.php:162
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:107
+#: includes/admin/class-electrosuite-reseller-install.php:162
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:107
 #: includes/admin/views/html-admin-page-status-report.php:304
 msgid "Shortcode Example Page"
 msgstr ""
 
-#: includes/admin/class-plugin-name-install.php:163
+#: includes/admin/class-electrosuite-reseller-install.php:163
 msgid ""
 "[caption align=\"alignright\" width=\"300\"]<img src=\"http://placekitten."
 "com/300/205\" alt=\"Cat\" title=\"Cute Cat\" width=\"300\" height=\"205\" /> "
@@ -607,140 +607,140 @@ msgid ""
 "page."
 msgstr ""
 
-#: includes/admin/class-plugin-name-install.php:227
+#: includes/admin/class-electrosuite-reseller-install.php:227
 msgid "Custom Role"
 msgstr ""
 
-#: includes/admin/class-plugin-name-install.php:427
+#: includes/admin/class-electrosuite-reseller-install.php:427
 msgid "What's new:"
 msgstr ""
 
-#: includes/admin/class-plugin-name-transifex-api.php:56
+#: includes/admin/class-electrosuite-reseller-transifex-api.php:56
 msgid "No responses"
 msgstr ""
 
-#: includes/admin/class-plugin-name-transifex-stats.php:53
+#: includes/admin/class-electrosuite-reseller-transifex-stats.php:53
 #: wordpress-plugin-boilerplate.php:735
 msgid "No results"
 msgstr ""
 
-#: includes/admin/class-plugin-name-transifex-stats.php:167
+#: includes/admin/class-electrosuite-reseller-transifex-stats.php:167
 msgid "Translate"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:54
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:54
 msgid "Settings Title"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:61
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:61
 msgid "Subscriber Access"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:62
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:62
 msgid "Prevent users from accessing WordPress admin."
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:69
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:69
 msgid "Secure Content"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:70
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:70
 msgid ""
 "Keep your site secure by forcing SSL (HTTPS) on site (an SSL Certificate is "
 "required)."
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:77
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:77
 msgid "Select Country"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:78
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:78
 msgid "This gives you a list of countries. "
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:87
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:87
 msgid "Multi Select Countries"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:97
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:97
 msgid ""
 "You can set pages that the plugin requires by having them installed and "
 "selected automatically when the plugin is installed."
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:108
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:108
 msgid "This page has a shortcode applied when created by the plugin."
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:118
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:118
 msgid "Single Checkbox"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:119
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:119
 msgid "Can come in handy to display more options."
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:126
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:126
 msgid "Single Input (Text) "
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:129
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:129
 msgid "This admin setting can be hidden via the checkbox above."
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:136
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:136
 msgid "Single Textarea "
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-one.php:139
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-one.php:139
 msgid ""
 "You can allow the user to use this field to enter their own CSS or HTML code."
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:41
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:41
 msgid "Section One"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:42
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:42
 #: includes/admin/views/html-admin-page.php:29
 msgid "Section Two"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:82
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:82
 msgid "Section Two Options"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:89
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:241
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:89
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:241
 msgid "Select Page"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:90
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:242
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:90
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:242
 msgid "You can set a description here also."
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:96
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:248
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:96
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:248
 msgid "You can select or search for a page."
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:100
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:252
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:100
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:252
 msgid "Select"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:101
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:253
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:101
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:253
 msgid "This example shows you options from an array()."
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:108
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:123
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:145
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:260
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:275
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:297
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:108
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:123
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:145
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:260
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:275
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:297
 #: includes/admin/views/html-admin-page-status-report.php:49
 #: includes/admin/views/html-admin-page-status-report.php:106
 #: includes/admin/views/html-admin-page-status-report.php:131
@@ -748,12 +748,12 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:109
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:124
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:146
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:261
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:276
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:298
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:109
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:124
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:146
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:261
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:276
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:298
 #: includes/admin/views/html-admin-page-status-report.php:52
 #: includes/admin/views/html-admin-page-status-report.php:106
 #: includes/admin/views/html-admin-page-status-report.php:131
@@ -761,93 +761,93 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:115
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:267
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:115
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:267
 msgid "MultiSelect"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:116
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:268
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:116
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:268
 msgid ""
 "This example shows you the ability to select multi options from an array()."
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:130
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:282
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:130
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:282
 msgid "Checkbox"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:131
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:283
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:131
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:283
 msgid "Checkbox option"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:138
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:290
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:138
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:290
 msgid "Radio"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:139
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:291
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:139
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:291
 msgid "Radio option"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:151
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:303
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:151
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:303
 msgid "Number"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:152
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:304
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:152
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:304
 msgid "Use this field for numbered options."
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:165
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:317
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:165
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:317
 msgid "Color"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:166
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:318
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:166
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:318
 msgid "Use this field for color picking."
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:175
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:327
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:175
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:327
 msgid "Group Checkboxes"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:176
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:328
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:176
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:328
 msgid "Checkbox One"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:185
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:337
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:185
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:337
 msgid "Checkbox Two"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:194
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:346
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:194
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:346
 msgid "Email"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:203
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:355
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:203
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:355
 msgid "Password"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:212
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:364
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:212
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:364
 msgid "Image Size"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:213
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:365
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:213
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:365
 msgid "Use this field option to save multiple settings for an image size"
 msgstr ""
 
-#: includes/admin/settings/class-plugin-name-settings-tab-two.php:234
+#: includes/admin/settings/class-electrosuite-reseller-settings-tab-two.php:234
 msgid "Section One Options"
 msgstr ""
 
@@ -971,7 +971,7 @@ msgstr ""
 
 #: includes/admin/views/html-admin-page-status-report.php:140
 msgid ""
-"Log directory (<code>plugin-name/logs/</code>) is not writable. Logging will "
+"Log directory (<code>electrosuite-reseller/logs/</code>) is not writable. Logging will "
 "not be possible."
 msgstr ""
 
@@ -1171,984 +1171,984 @@ msgid ""
 "Are you sure you wish to run the updater now?"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:37
+#: includes/classes/class-electrosuite-reseller-countries.php:37
 msgid "Afghanistan"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:38
+#: includes/classes/class-electrosuite-reseller-countries.php:38
 msgid "&#197;land Islands"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:39
+#: includes/classes/class-electrosuite-reseller-countries.php:39
 msgid "Albania"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:40
+#: includes/classes/class-electrosuite-reseller-countries.php:40
 msgid "Algeria"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:41
+#: includes/classes/class-electrosuite-reseller-countries.php:41
 msgid "Andorra"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:42
+#: includes/classes/class-electrosuite-reseller-countries.php:42
 msgid "Angola"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:43
+#: includes/classes/class-electrosuite-reseller-countries.php:43
 msgid "Anguilla"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:44
+#: includes/classes/class-electrosuite-reseller-countries.php:44
 msgid "Antarctica"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:45
+#: includes/classes/class-electrosuite-reseller-countries.php:45
 msgid "Antigua and Barbuda"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:46
+#: includes/classes/class-electrosuite-reseller-countries.php:46
 msgid "Argentina"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:47
+#: includes/classes/class-electrosuite-reseller-countries.php:47
 msgid "Armenia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:48
+#: includes/classes/class-electrosuite-reseller-countries.php:48
 msgid "Aruba"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:49
+#: includes/classes/class-electrosuite-reseller-countries.php:49
 msgid "Australia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:50
+#: includes/classes/class-electrosuite-reseller-countries.php:50
 msgid "Austria"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:51
+#: includes/classes/class-electrosuite-reseller-countries.php:51
 msgid "Azerbaijan"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:52
+#: includes/classes/class-electrosuite-reseller-countries.php:52
 msgid "Bahamas"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:53
+#: includes/classes/class-electrosuite-reseller-countries.php:53
 msgid "Bahrain"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:54
+#: includes/classes/class-electrosuite-reseller-countries.php:54
 msgid "Bangladesh"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:55
+#: includes/classes/class-electrosuite-reseller-countries.php:55
 msgid "Barbados"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:56
+#: includes/classes/class-electrosuite-reseller-countries.php:56
 msgid "Belarus"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:57
+#: includes/classes/class-electrosuite-reseller-countries.php:57
 msgid "Belgium"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:58
+#: includes/classes/class-electrosuite-reseller-countries.php:58
 msgid "Belau"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:59
+#: includes/classes/class-electrosuite-reseller-countries.php:59
 msgid "Belize"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:60
+#: includes/classes/class-electrosuite-reseller-countries.php:60
 msgid "Benin"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:61
+#: includes/classes/class-electrosuite-reseller-countries.php:61
 msgid "Bermuda"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:62
+#: includes/classes/class-electrosuite-reseller-countries.php:62
 msgid "Bhutan"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:63
+#: includes/classes/class-electrosuite-reseller-countries.php:63
 msgid "Bolivia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:64
+#: includes/classes/class-electrosuite-reseller-countries.php:64
 msgid "Bonaire, Saint Eustatius and Saba"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:65
+#: includes/classes/class-electrosuite-reseller-countries.php:65
 msgid "Bosnia and Herzegovina"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:66
+#: includes/classes/class-electrosuite-reseller-countries.php:66
 msgid "Botswana"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:67
+#: includes/classes/class-electrosuite-reseller-countries.php:67
 msgid "Bouvet Island"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:68
+#: includes/classes/class-electrosuite-reseller-countries.php:68
 msgid "Brazil"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:69
+#: includes/classes/class-electrosuite-reseller-countries.php:69
 msgid "British Indian Ocean Territory"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:70
+#: includes/classes/class-electrosuite-reseller-countries.php:70
 msgid "British Virgin Islands"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:71
+#: includes/classes/class-electrosuite-reseller-countries.php:71
 msgid "Brunei"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:72
+#: includes/classes/class-electrosuite-reseller-countries.php:72
 msgid "Bulgaria"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:73
+#: includes/classes/class-electrosuite-reseller-countries.php:73
 msgid "Burkina Faso"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:74
+#: includes/classes/class-electrosuite-reseller-countries.php:74
 msgid "Burundi"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:75
+#: includes/classes/class-electrosuite-reseller-countries.php:75
 msgid "Cambodia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:76
+#: includes/classes/class-electrosuite-reseller-countries.php:76
 msgid "Cameroon"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:77
+#: includes/classes/class-electrosuite-reseller-countries.php:77
 msgid "Canada"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:78
+#: includes/classes/class-electrosuite-reseller-countries.php:78
 msgid "Cape Verde"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:79
+#: includes/classes/class-electrosuite-reseller-countries.php:79
 msgid "Cayman Islands"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:80
+#: includes/classes/class-electrosuite-reseller-countries.php:80
 msgid "Central African Republic"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:81
+#: includes/classes/class-electrosuite-reseller-countries.php:81
 msgid "Chad"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:82
+#: includes/classes/class-electrosuite-reseller-countries.php:82
 msgid "Chile"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:83
+#: includes/classes/class-electrosuite-reseller-countries.php:83
 msgid "China"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:84
+#: includes/classes/class-electrosuite-reseller-countries.php:84
 msgid "Christmas Island"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:85
+#: includes/classes/class-electrosuite-reseller-countries.php:85
 msgid "Cocos (Keeling) Islands"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:86
+#: includes/classes/class-electrosuite-reseller-countries.php:86
 msgid "Colombia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:87
+#: includes/classes/class-electrosuite-reseller-countries.php:87
 msgid "Comoros"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:88
+#: includes/classes/class-electrosuite-reseller-countries.php:88
 msgid "Congo (Brazzaville)"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:89
+#: includes/classes/class-electrosuite-reseller-countries.php:89
 msgid "Congo (Kinshasa)"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:90
+#: includes/classes/class-electrosuite-reseller-countries.php:90
 msgid "Cook Islands"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:91
+#: includes/classes/class-electrosuite-reseller-countries.php:91
 msgid "Costa Rica"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:92
+#: includes/classes/class-electrosuite-reseller-countries.php:92
 msgid "Croatia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:93
+#: includes/classes/class-electrosuite-reseller-countries.php:93
 msgid "Cuba"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:94
+#: includes/classes/class-electrosuite-reseller-countries.php:94
 msgid "Cura&Ccedil;ao"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:95
+#: includes/classes/class-electrosuite-reseller-countries.php:95
 msgid "Cyprus"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:96
+#: includes/classes/class-electrosuite-reseller-countries.php:96
 msgid "Czech Republic"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:97
+#: includes/classes/class-electrosuite-reseller-countries.php:97
 msgid "Denmark"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:98
+#: includes/classes/class-electrosuite-reseller-countries.php:98
 msgid "Djibouti"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:99
+#: includes/classes/class-electrosuite-reseller-countries.php:99
 msgid "Dominica"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:100
+#: includes/classes/class-electrosuite-reseller-countries.php:100
 msgid "Dominican Republic"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:101
+#: includes/classes/class-electrosuite-reseller-countries.php:101
 msgid "Ecuador"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:102
+#: includes/classes/class-electrosuite-reseller-countries.php:102
 msgid "Egypt"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:103
+#: includes/classes/class-electrosuite-reseller-countries.php:103
 msgid "El Salvador"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:104
+#: includes/classes/class-electrosuite-reseller-countries.php:104
 msgid "Equatorial Guinea"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:105
+#: includes/classes/class-electrosuite-reseller-countries.php:105
 msgid "Eritrea"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:106
+#: includes/classes/class-electrosuite-reseller-countries.php:106
 msgid "Estonia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:107
+#: includes/classes/class-electrosuite-reseller-countries.php:107
 msgid "Ethiopia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:108
+#: includes/classes/class-electrosuite-reseller-countries.php:108
 msgid "Falkland Islands"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:109
+#: includes/classes/class-electrosuite-reseller-countries.php:109
 msgid "Faroe Islands"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:110
+#: includes/classes/class-electrosuite-reseller-countries.php:110
 msgid "Fiji"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:111
+#: includes/classes/class-electrosuite-reseller-countries.php:111
 msgid "Finland"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:112
+#: includes/classes/class-electrosuite-reseller-countries.php:112
 msgid "France"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:113
+#: includes/classes/class-electrosuite-reseller-countries.php:113
 msgid "French Guiana"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:114
+#: includes/classes/class-electrosuite-reseller-countries.php:114
 msgid "French Polynesia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:115
+#: includes/classes/class-electrosuite-reseller-countries.php:115
 msgid "French Southern Territories"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:116
+#: includes/classes/class-electrosuite-reseller-countries.php:116
 msgid "Gabon"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:117
+#: includes/classes/class-electrosuite-reseller-countries.php:117
 msgid "Gambia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:118
+#: includes/classes/class-electrosuite-reseller-countries.php:118
 #: includes/states/US.php:26
 msgid "Georgia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:119
+#: includes/classes/class-electrosuite-reseller-countries.php:119
 msgid "Germany"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:120
+#: includes/classes/class-electrosuite-reseller-countries.php:120
 msgid "Ghana"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:121
+#: includes/classes/class-electrosuite-reseller-countries.php:121
 msgid "Gibraltar"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:122
+#: includes/classes/class-electrosuite-reseller-countries.php:122
 msgid "Greece"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:123
+#: includes/classes/class-electrosuite-reseller-countries.php:123
 msgid "Greenland"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:124
+#: includes/classes/class-electrosuite-reseller-countries.php:124
 msgid "Grenada"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:125
+#: includes/classes/class-electrosuite-reseller-countries.php:125
 msgid "Guadeloupe"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:126
+#: includes/classes/class-electrosuite-reseller-countries.php:126
 msgid "Guatemala"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:127
+#: includes/classes/class-electrosuite-reseller-countries.php:127
 msgid "Guernsey"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:128
+#: includes/classes/class-electrosuite-reseller-countries.php:128
 msgid "Guinea"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:129
+#: includes/classes/class-electrosuite-reseller-countries.php:129
 msgid "Guinea-Bissau"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:130
+#: includes/classes/class-electrosuite-reseller-countries.php:130
 msgid "Guyana"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:131
+#: includes/classes/class-electrosuite-reseller-countries.php:131
 msgid "Haiti"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:132
+#: includes/classes/class-electrosuite-reseller-countries.php:132
 msgid "Heard Island and McDonald Islands"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:133
+#: includes/classes/class-electrosuite-reseller-countries.php:133
 msgid "Honduras"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:134
+#: includes/classes/class-electrosuite-reseller-countries.php:134
 msgid "Hong Kong"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:135
+#: includes/classes/class-electrosuite-reseller-countries.php:135
 msgid "Hungary"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:136
+#: includes/classes/class-electrosuite-reseller-countries.php:136
 msgid "Iceland"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:137
+#: includes/classes/class-electrosuite-reseller-countries.php:137
 msgid "India"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:138
+#: includes/classes/class-electrosuite-reseller-countries.php:138
 msgid "Indonesia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:139
+#: includes/classes/class-electrosuite-reseller-countries.php:139
 msgid "Iran"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:140
+#: includes/classes/class-electrosuite-reseller-countries.php:140
 msgid "Iraq"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:141
+#: includes/classes/class-electrosuite-reseller-countries.php:141
 msgid "Republic of Ireland"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:142
+#: includes/classes/class-electrosuite-reseller-countries.php:142
 msgid "Isle of Man"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:143
+#: includes/classes/class-electrosuite-reseller-countries.php:143
 msgid "Israel"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:144
+#: includes/classes/class-electrosuite-reseller-countries.php:144
 msgid "Italy"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:145
+#: includes/classes/class-electrosuite-reseller-countries.php:145
 msgid "Ivory Coast"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:146
+#: includes/classes/class-electrosuite-reseller-countries.php:146
 msgid "Jamaica"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:147
+#: includes/classes/class-electrosuite-reseller-countries.php:147
 msgid "Japan"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:148
+#: includes/classes/class-electrosuite-reseller-countries.php:148
 msgid "Jersey"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:149
+#: includes/classes/class-electrosuite-reseller-countries.php:149
 msgid "Jordan"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:150
+#: includes/classes/class-electrosuite-reseller-countries.php:150
 msgid "Kazakhstan"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:151
+#: includes/classes/class-electrosuite-reseller-countries.php:151
 msgid "Kenya"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:152
+#: includes/classes/class-electrosuite-reseller-countries.php:152
 msgid "Kiribati"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:153
+#: includes/classes/class-electrosuite-reseller-countries.php:153
 msgid "Kuwait"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:154
+#: includes/classes/class-electrosuite-reseller-countries.php:154
 msgid "Kyrgyzstan"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:155
+#: includes/classes/class-electrosuite-reseller-countries.php:155
 msgid "Laos"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:156
+#: includes/classes/class-electrosuite-reseller-countries.php:156
 msgid "Latvia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:157
+#: includes/classes/class-electrosuite-reseller-countries.php:157
 msgid "Lebanon"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:158
+#: includes/classes/class-electrosuite-reseller-countries.php:158
 msgid "Lesotho"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:159
+#: includes/classes/class-electrosuite-reseller-countries.php:159
 msgid "Liberia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:160
+#: includes/classes/class-electrosuite-reseller-countries.php:160
 msgid "Libya"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:161
+#: includes/classes/class-electrosuite-reseller-countries.php:161
 msgid "Liechtenstein"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:162
+#: includes/classes/class-electrosuite-reseller-countries.php:162
 msgid "Lithuania"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:163
+#: includes/classes/class-electrosuite-reseller-countries.php:163
 msgid "Luxembourg"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:164
+#: includes/classes/class-electrosuite-reseller-countries.php:164
 msgid "Macao S.A.R., China"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:165
+#: includes/classes/class-electrosuite-reseller-countries.php:165
 msgid "Macedonia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:166
+#: includes/classes/class-electrosuite-reseller-countries.php:166
 msgid "Madagascar"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:167
+#: includes/classes/class-electrosuite-reseller-countries.php:167
 msgid "Malawi"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:168
+#: includes/classes/class-electrosuite-reseller-countries.php:168
 msgid "Malaysia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:169
+#: includes/classes/class-electrosuite-reseller-countries.php:169
 msgid "Maldives"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:170
+#: includes/classes/class-electrosuite-reseller-countries.php:170
 msgid "Mali"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:171
+#: includes/classes/class-electrosuite-reseller-countries.php:171
 msgid "Malta"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:172
+#: includes/classes/class-electrosuite-reseller-countries.php:172
 msgid "Marshall Islands"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:173
+#: includes/classes/class-electrosuite-reseller-countries.php:173
 msgid "Martinique"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:174
+#: includes/classes/class-electrosuite-reseller-countries.php:174
 msgid "Mauritania"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:175
+#: includes/classes/class-electrosuite-reseller-countries.php:175
 msgid "Mauritius"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:176
+#: includes/classes/class-electrosuite-reseller-countries.php:176
 msgid "Mayotte"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:177
+#: includes/classes/class-electrosuite-reseller-countries.php:177
 msgid "Mexico"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:178
+#: includes/classes/class-electrosuite-reseller-countries.php:178
 msgid "Micronesia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:179
+#: includes/classes/class-electrosuite-reseller-countries.php:179
 msgid "Moldova"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:180
+#: includes/classes/class-electrosuite-reseller-countries.php:180
 msgid "Monaco"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:181
+#: includes/classes/class-electrosuite-reseller-countries.php:181
 msgid "Mongolia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:182
+#: includes/classes/class-electrosuite-reseller-countries.php:182
 msgid "Montenegro"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:183
+#: includes/classes/class-electrosuite-reseller-countries.php:183
 msgid "Montserrat"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:184
+#: includes/classes/class-electrosuite-reseller-countries.php:184
 msgid "Morocco"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:185
+#: includes/classes/class-electrosuite-reseller-countries.php:185
 msgid "Mozambique"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:186
+#: includes/classes/class-electrosuite-reseller-countries.php:186
 msgid "Myanmar"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:187
+#: includes/classes/class-electrosuite-reseller-countries.php:187
 msgid "Namibia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:188
+#: includes/classes/class-electrosuite-reseller-countries.php:188
 msgid "Nauru"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:189
+#: includes/classes/class-electrosuite-reseller-countries.php:189
 msgid "Nepal"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:190
+#: includes/classes/class-electrosuite-reseller-countries.php:190
 msgid "Netherlands"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:191
+#: includes/classes/class-electrosuite-reseller-countries.php:191
 msgid "Netherlands Antilles"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:192
+#: includes/classes/class-electrosuite-reseller-countries.php:192
 msgid "New Caledonia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:193
+#: includes/classes/class-electrosuite-reseller-countries.php:193
 msgid "New Zealand"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:194
+#: includes/classes/class-electrosuite-reseller-countries.php:194
 msgid "Nicaragua"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:195
+#: includes/classes/class-electrosuite-reseller-countries.php:195
 msgid "Niger"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:196
+#: includes/classes/class-electrosuite-reseller-countries.php:196
 msgid "Nigeria"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:197
+#: includes/classes/class-electrosuite-reseller-countries.php:197
 msgid "Niue"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:198
+#: includes/classes/class-electrosuite-reseller-countries.php:198
 msgid "Norfolk Island"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:199
+#: includes/classes/class-electrosuite-reseller-countries.php:199
 msgid "North Korea"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:200
+#: includes/classes/class-electrosuite-reseller-countries.php:200
 msgid "Norway"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:201
+#: includes/classes/class-electrosuite-reseller-countries.php:201
 msgid "Oman"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:202
+#: includes/classes/class-electrosuite-reseller-countries.php:202
 msgid "Pakistan"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:203
+#: includes/classes/class-electrosuite-reseller-countries.php:203
 msgid "Palestinian Territory"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:204
+#: includes/classes/class-electrosuite-reseller-countries.php:204
 msgid "Panama"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:205
+#: includes/classes/class-electrosuite-reseller-countries.php:205
 msgid "Papua New Guinea"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:206
+#: includes/classes/class-electrosuite-reseller-countries.php:206
 msgid "Paraguay"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:207
+#: includes/classes/class-electrosuite-reseller-countries.php:207
 msgid "Peru"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:208
+#: includes/classes/class-electrosuite-reseller-countries.php:208
 msgid "Philippines"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:209
+#: includes/classes/class-electrosuite-reseller-countries.php:209
 msgid "Pitcairn"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:210
+#: includes/classes/class-electrosuite-reseller-countries.php:210
 msgid "Poland"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:211
+#: includes/classes/class-electrosuite-reseller-countries.php:211
 msgid "Portugal"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:212
+#: includes/classes/class-electrosuite-reseller-countries.php:212
 msgid "Qatar"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:213
+#: includes/classes/class-electrosuite-reseller-countries.php:213
 msgid "Reunion"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:214
+#: includes/classes/class-electrosuite-reseller-countries.php:214
 msgid "Romania"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:215
+#: includes/classes/class-electrosuite-reseller-countries.php:215
 msgid "Russia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:216
+#: includes/classes/class-electrosuite-reseller-countries.php:216
 msgid "Rwanda"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:217
+#: includes/classes/class-electrosuite-reseller-countries.php:217
 msgid "Saint Barth&eacute;lemy"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:218
+#: includes/classes/class-electrosuite-reseller-countries.php:218
 msgid "Saint Helena"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:219
+#: includes/classes/class-electrosuite-reseller-countries.php:219
 msgid "Saint Kitts and Nevis"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:220
+#: includes/classes/class-electrosuite-reseller-countries.php:220
 msgid "Saint Lucia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:221
+#: includes/classes/class-electrosuite-reseller-countries.php:221
 msgid "Saint Martin (French part)"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:222
+#: includes/classes/class-electrosuite-reseller-countries.php:222
 msgid "Saint Martin (Dutch part)"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:223
+#: includes/classes/class-electrosuite-reseller-countries.php:223
 msgid "Saint Pierre and Miquelon"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:224
+#: includes/classes/class-electrosuite-reseller-countries.php:224
 msgid "Saint Vincent and the Grenadines"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:225
+#: includes/classes/class-electrosuite-reseller-countries.php:225
 msgid "San Marino"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:226
+#: includes/classes/class-electrosuite-reseller-countries.php:226
 msgid "S&atilde;o Tom&eacute; and Pr&iacute;ncipe"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:227
+#: includes/classes/class-electrosuite-reseller-countries.php:227
 msgid "Saudi Arabia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:228
+#: includes/classes/class-electrosuite-reseller-countries.php:228
 msgid "Senegal"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:229
+#: includes/classes/class-electrosuite-reseller-countries.php:229
 msgid "Serbia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:230
+#: includes/classes/class-electrosuite-reseller-countries.php:230
 msgid "Seychelles"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:231
+#: includes/classes/class-electrosuite-reseller-countries.php:231
 msgid "Sierra Leone"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:232
+#: includes/classes/class-electrosuite-reseller-countries.php:232
 msgid "Singapore"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:233
+#: includes/classes/class-electrosuite-reseller-countries.php:233
 msgid "Slovakia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:234
+#: includes/classes/class-electrosuite-reseller-countries.php:234
 msgid "Slovenia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:235
+#: includes/classes/class-electrosuite-reseller-countries.php:235
 msgid "Solomon Islands"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:236
+#: includes/classes/class-electrosuite-reseller-countries.php:236
 msgid "Somalia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:237
+#: includes/classes/class-electrosuite-reseller-countries.php:237
 msgid "South Africa"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:238
+#: includes/classes/class-electrosuite-reseller-countries.php:238
 msgid "South Georgia/Sandwich Islands"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:239
+#: includes/classes/class-electrosuite-reseller-countries.php:239
 msgid "South Korea"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:240
+#: includes/classes/class-electrosuite-reseller-countries.php:240
 msgid "South Sudan"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:241
+#: includes/classes/class-electrosuite-reseller-countries.php:241
 msgid "Spain"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:242
+#: includes/classes/class-electrosuite-reseller-countries.php:242
 msgid "Sri Lanka"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:243
+#: includes/classes/class-electrosuite-reseller-countries.php:243
 msgid "Sudan"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:244
+#: includes/classes/class-electrosuite-reseller-countries.php:244
 msgid "Suriname"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:245
+#: includes/classes/class-electrosuite-reseller-countries.php:245
 msgid "Svalbard and Jan Mayen"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:246
+#: includes/classes/class-electrosuite-reseller-countries.php:246
 msgid "Swaziland"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:247
+#: includes/classes/class-electrosuite-reseller-countries.php:247
 msgid "Sweden"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:248
+#: includes/classes/class-electrosuite-reseller-countries.php:248
 msgid "Switzerland"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:249
+#: includes/classes/class-electrosuite-reseller-countries.php:249
 msgid "Syria"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:250
+#: includes/classes/class-electrosuite-reseller-countries.php:250
 msgid "Taiwan"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:251
+#: includes/classes/class-electrosuite-reseller-countries.php:251
 msgid "Tajikistan"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:252
+#: includes/classes/class-electrosuite-reseller-countries.php:252
 msgid "Tanzania"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:253
+#: includes/classes/class-electrosuite-reseller-countries.php:253
 msgid "Thailand"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:254
+#: includes/classes/class-electrosuite-reseller-countries.php:254
 msgid "Timor-Leste"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:255
+#: includes/classes/class-electrosuite-reseller-countries.php:255
 msgid "Togo"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:256
+#: includes/classes/class-electrosuite-reseller-countries.php:256
 msgid "Tokelau"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:257
+#: includes/classes/class-electrosuite-reseller-countries.php:257
 msgid "Tonga"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:258
+#: includes/classes/class-electrosuite-reseller-countries.php:258
 msgid "Trinidad and Tobago"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:259
+#: includes/classes/class-electrosuite-reseller-countries.php:259
 msgid "Tunisia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:260
+#: includes/classes/class-electrosuite-reseller-countries.php:260
 msgid "Turkey"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:261
+#: includes/classes/class-electrosuite-reseller-countries.php:261
 msgid "Turkmenistan"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:262
+#: includes/classes/class-electrosuite-reseller-countries.php:262
 msgid "Turks and Caicos Islands"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:263
+#: includes/classes/class-electrosuite-reseller-countries.php:263
 msgid "Tuvalu"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:264
+#: includes/classes/class-electrosuite-reseller-countries.php:264
 msgid "Uganda"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:265
+#: includes/classes/class-electrosuite-reseller-countries.php:265
 msgid "Ukraine"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:266
+#: includes/classes/class-electrosuite-reseller-countries.php:266
 msgid "United Arab Emirates"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:267
+#: includes/classes/class-electrosuite-reseller-countries.php:267
 msgid "United Kingdom (UK)"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:268
+#: includes/classes/class-electrosuite-reseller-countries.php:268
 msgid "United States (US)"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:269
+#: includes/classes/class-electrosuite-reseller-countries.php:269
 msgid "Uruguay"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:270
+#: includes/classes/class-electrosuite-reseller-countries.php:270
 msgid "Uzbekistan"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:271
+#: includes/classes/class-electrosuite-reseller-countries.php:271
 msgid "Vanuatu"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:272
+#: includes/classes/class-electrosuite-reseller-countries.php:272
 msgid "Vatican"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:273
+#: includes/classes/class-electrosuite-reseller-countries.php:273
 msgid "Venezuela"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:274
+#: includes/classes/class-electrosuite-reseller-countries.php:274
 msgid "Vietnam"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:275
+#: includes/classes/class-electrosuite-reseller-countries.php:275
 msgid "Wallis and Futuna"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:276
+#: includes/classes/class-electrosuite-reseller-countries.php:276
 msgid "Western Sahara"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:277
+#: includes/classes/class-electrosuite-reseller-countries.php:277
 msgid "Western Samoa"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:278
+#: includes/classes/class-electrosuite-reseller-countries.php:278
 msgid "Yemen"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:279
+#: includes/classes/class-electrosuite-reseller-countries.php:279
 msgid "Zambia"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:280
+#: includes/classes/class-electrosuite-reseller-countries.php:280
 msgid "Zimbabwe"
 msgstr ""
 
-#: includes/classes/class-plugin-name-countries.php:438
+#: includes/classes/class-electrosuite-reseller-countries.php:438
 msgid "the"
 msgstr ""
 

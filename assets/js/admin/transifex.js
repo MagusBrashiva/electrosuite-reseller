@@ -1,10 +1,10 @@
 (function($) {
 	$(document).ready( function(){
-		plugin_name_transifex_translations();
-		plugin_name_transifex_contributors();
+		electrosuite_reseller_transifex_translations();
+		electrosuite_reseller_transifex_contributors();
 	});
 
-	function plugin_name_transifex_translations() {
+	function electrosuite_reseller_transifex_translations() {
 
 		if ( 0 === $('.transifex-stats').length ) {
 			return;
@@ -15,7 +15,7 @@
 			var container = $(this).addClass('loading');
 
 			$.ajax({
-				url: plugin_name_admin_params.ajaxurl,
+				url: electrosuite_reseller_admin_params.ajaxurl,
 				data: {
 					action: 'transifex_project_stats',
 					project_slug: container.attr('data-project-slug'),
@@ -35,7 +35,7 @@
 		});
 	}
 
-	function plugin_name_transifex_contributors() {
+	function electrosuite_reseller_transifex_contributors() {
 
 		if ( 0 === $('.transifex-stats-contributors').length ) {
 			return;
@@ -46,7 +46,7 @@
 			var container = $(this).addClass('loading');
 
 			$.ajax({
-				url: plugin_name_admin_params.ajaxurl,
+				url: electrosuite_reseller_admin_params.ajaxurl,
 				data: {
 					action: 'transifex_contributor_stats',
 					project_slug: container.attr('data-project-slug')

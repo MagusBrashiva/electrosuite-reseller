@@ -1,7 +1,7 @@
 jQuery(window).load(function(){
 
 	// Countries
-	jQuery('select#plugin_name_multi_countries').change(function(){
+	jQuery('select#electrosuite_reseller_multi_countries').change(function(){
 		if (jQuery(this).val()=="specific") {
 			jQuery(this).parent().parent().next('tr').show();
 		}
@@ -44,7 +44,7 @@ jQuery(window).load(function(){
 		jQuery('.nav-tab-wrapper a').click(function(){
 			if (changed) {
 				window.onbeforeunload = function() {
-					return plugin_name_settings_params.i18n_nav_warning;
+					return electrosuite_reseller_settings_params.i18n_nav_warning;
 				}
 			}
 			else {

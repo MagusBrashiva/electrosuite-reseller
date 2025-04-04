@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name States: NG
+ * ElectroSuite Reseller States: NG
  *
- * @author 		Your Name / Your Company Name
+ * @author 		ElectroSuite
  * @category 	Core
- * @package 	Plugin Name/Library
- * @version 	1.0.0
+ * @package 	ElectroSuite Reseller/Library
+ * @version 	0.0.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -13,42 +13,42 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 global $states;
 
 $states ['NG' ] = array (
-	'AB' => 'Abia',
-	'FC' => 'Abuja',
-	'AD' => 'Adamawa',
-	'AK' => 'Akwa Ibom',
-	'AN' => 'Anambra',
-	'BA' => 'Bauchi',
-	'BY' => 'Bayelsa',
-	'BE' => 'Benue',
-	'BO' => 'Borno',
-	'CR' => 'Cross River',
-	'DE' => 'Delta',
-	'EB' => 'Ebonyi',
-	'ED' => 'Edo',
-	'EK' => 'Ekiti',
-	'EN' => 'Enugu',
-	'GO' => 'Gombe',
-	'IM' => 'Imo',
-	'JI' => 'Jigawa',
-	'KD' => 'Kaduna',
-	'KN' => 'Kano',
-	'KT' => 'Katsina',
-	'KE' => 'Kebbi',
-	'KO' => 'Kogi',
-	'KW' => 'Kwara',
-	'LA' => 'Lagos',
-	'NA' => 'Nasarawa',
-	'NI' => 'Niger',
-	'OG' => 'Ogun',
-	'ON' => 'Ondo',
-	'OS' => 'Osun',
-	'OY' => 'Oyo',
-	'PL' => 'Plateau',
-	'RI' => 'Rivers',
-	'SO' => 'Sokoto',
-	'TA' => 'Taraba',
-	'YO' => 'Yobe',
-	'ZA' => 'Zamfara',
+	'AB' => __( 'Abia', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'FC' => __( 'Abuja', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'AD' => __( 'Adamawa', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'AK' => __( 'Akwa Ibom', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'AN' => __( 'Anambra', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'BA' => __( 'Bauchi', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'BY' => __( 'Bayelsa', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'BE' => __( 'Benue', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'BO' => __( 'Borno', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'CR' => __( 'Cross River', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'DE' => __( 'Delta', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'EB' => __( 'Ebonyi', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'ED' => __( 'Edo', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'EK' => __( 'Ekiti', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'EN' => __( 'Enugu', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'GO' => __( 'Gombe', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'IM' => __( 'Imo', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'JI' => __( 'Jigawa', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'KD' => __( 'Kaduna', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'KN' => __( 'Kano', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'KT' => __( 'Katsina', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'KE' => __( 'Kebbi', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'KO' => __( 'Kogi', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'KW' => __( 'Kwara', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'LA' => __( 'Lagos', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'NA' => __( 'Nasarawa', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'NI' => __( 'Niger', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'OG' => __( 'Ogun', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'ON' => __( 'Ondo', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'OS' => __( 'Osun', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'OY' => __( 'Oyo', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'PL' => __( 'Plateau', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'RI' => __( 'Rivers', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'SO' => __( 'Sokoto', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'TA' => __( 'Taraba', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'YO' => __( 'Yobe', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+	'ZA' => __( 'Zamfara', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
 );
 

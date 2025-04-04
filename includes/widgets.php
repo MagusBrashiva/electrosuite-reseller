@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name Widgets
+ * ElectroSuite Reseller Widgets
  *
- * @author 		Your Name / Your Company Name
+ * @author 		ElectroSuite
  * @category 	Core
- * @package 	Plugin Name/Functions
- * @version 	1.0.0
+ * @package 	ElectroSuite Reseller/Functions
+ * @version 	0.0.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly

@@ -1,12 +1,12 @@
-.about-wrap .plugin-name-badge {
+.about-wrap .electrosuite-reseller-badge {
 	position: absolute;
 	top: 0;
 	right: 0;
 }
 
-.about-wrap .plugin-name-badge {
+.about-wrap .electrosuite-reseller-badge {
 	background-color: #1F56B8;
-	background-image: url('../../images/welcome/plugin-name-badge.png');
+	background-image: url('../../images/welcome/electrosuite-reseller-badge.png');
 	background-repeat: no-repeat;
 	text-rendering: optimizeLegibility;
 	padding-top: 138px;
@@ -21,30 +21,30 @@
 	box-shadow: 0 1px 3px rgba(0,0,0,.2);
 }
 
-.about-wrap .plugin-name-social-links a {
+.about-wrap .electrosuite-reseller-social-links a {
 	padding: 5px;
 	color: #fff;
 	text-decoration: none;
 }
 
-.about-wrap .plugin-name-social-links a:hover {
+.about-wrap .electrosuite-reseller-social-links a:hover {
 	text-decoration: none;
 	color: #F0F0F0;
 }
 
-.about-wrap .plugin-name-social-links a.facebook_link {
+.about-wrap .electrosuite-reseller-social-links a.facebook_link {
 	background: #3460A1;
 }
 
-.about-wrap .plugin-name-social-links a.twitter_link {
+.about-wrap .electrosuite-reseller-social-links a.twitter_link {
 	background: #29AAE3;
 }
 
-.about-wrap .plugin-name-social-links a.googleplus_link {
+.about-wrap .electrosuite-reseller-social-links a.googleplus_link {
 	background: #e83539;
 }
 
-.about-wrap .plugin-name-social-links a span.dashicons {
+.about-wrap .electrosuite-reseller-social-links a span.dashicons {
 	-webkit-font-smoothing: antialiased;
 	line-height: 1;
 	font-family: 'dashicons';
@@ -69,18 +69,18 @@
 	width: 100%;
 }
 
-.about-wrap .plugin-name-feature {
+.about-wrap .electrosuite-reseller-feature {
 	overflow: visible !important;
 	*zoom:1;
 }
 
-.about-wrap .plugin-name-feature:before,
-.about-wrap .plugin-name-feature:after {
+.about-wrap .electrosuite-reseller-feature:before,
+.about-wrap .electrosuite-reseller-feature:after {
 	content: " ";
 	display: table;
 }
 
-.about-wrap .plugin-name-feature:after {
+.about-wrap .electrosuite-reseller-feature:after {
 	clear: both;
 }
 
@@ -230,8 +230,8 @@
 }
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-	.about-wrap .plugin-name-badge {
-		background-image: url('../../images/welcome/plugin-name-badge@2x.png');
+	.about-wrap .electrosuite-reseller-badge {
+		background-image: url('../../images/welcome/electrosuite-reseller-badge@2x.png');
 		background-size: 173px 194px;
 	}
 }
