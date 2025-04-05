@@ -8,7 +8,7 @@ return array(
 		'version' => '0.1.0',
 		'title' => 'Domain Search',
 		'category' => 'widgets',
-		'icon' => 'smiley',
+		'icon' => 'database-view',
 		'description' => 'Example block scaffolded with Create Block tool.',
 		'example' => array(
 			
