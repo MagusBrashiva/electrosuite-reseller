@@ -85,24 +85,35 @@ class ElectroSuite_Reseller_Settings_APIs_Tab extends ElectroSuite_Reseller_Sett
 					'title' 	=> __( 'ResellerClub API Settings', ELECTROSUITE_RESELLER_TEXT_DOMAIN ), 
 					'type' 		=> 'title', 
 					'desc' 		=> '', 
-					'id' 		=> 'section_two_options'
+					'id' 		=> 'resellerclub_api_options'
 				),
 				
 				array(
 					'title' 		=> __( 'ResellerClub Username', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
 					'desc' 			=> __( 'Enter your ResellerClub account Username.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-					'id' 			=> 'electrosuite_reseller_resellerclub_api_username_option',
+					'id' 			=> 'electrosuite_reseller_resellerclub_api_username',
 					'css' 			=> 'min-width:300px;',
 					'type' 			=> 'username',
 					'default'		=> '',
 					'autoload' 		=> true,
 					'desc_tip'	=>  true
 				),
-
+				
 				array(
-					'title' 		=> __( 'ResellerClub API Key', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-					'desc' 			=> __( 'Enter your ResellerClub API Key.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-					'id' 			=> 'electrosuite_reseller_resellerclub_api_key_option',
+					'title' 		=> __( 'ResellerClub Test API Key', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+					'desc' 			=> __( 'Enter your ResellerClub API Key for the test server.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+					'id' 			=> 'electrosuite_reseller_resellerclub_test_api_key',
+					'css' 			=> 'min-width:450px;',
+					'type' 			=> 'password',
+					'default'		=> '',
+					'autoload' 		=> false,
+					'hidden' 		=> true,
+					'desc_tip'	=>  true
+				),
+				array(
+					'title' 		=> __( 'ResellerClub Live API Key', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+					'desc' 			=> __( 'Enter your ResellerClub API Key for live selling.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+					'id' 			=> 'electrosuite_reseller_resellerclub_live_api_key',
 					'css' 			=> 'min-width:450px;',
 					'type' 			=> 'password',
 					'default'		=> '',
@@ -150,24 +161,35 @@ class ElectroSuite_Reseller_Settings_APIs_Tab extends ElectroSuite_Reseller_Sett
 					'title' 	=> __( 'CentralNic API Settings', ELECTROSUITE_RESELLER_TEXT_DOMAIN ), 
 					'type' 		=> 'title', 
 					'desc' 		=> '', 
-					'id' 		=> 'section_three_options'
+					'id' 		=> 'centralnic_api_options'
 				),
 				
 				array(
 					'title' 		=> __( 'CentralNic Username', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
 					'desc' 			=> __( 'Enter your CentralNic account Username.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-					'id' 			=> 'electrosuite_reseller_centralnic_api_username_option',
+					'id' 			=> 'electrosuite_reseller_centralnic_api_username',
 					'css' 			=> 'min-width:300px;',
 					'type' 			=> 'username',
 					'default'		=> '',
 					'autoload' 		=> true,
 					'desc_tip'	=>  true
 				),
-
+				
 				array(
-					'title' 		=> __( 'CentralNic API Key', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-					'desc' 			=> __( 'Enter your CentralNic API Key.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-					'id' 			=> 'electrosuite_reseller_centralnic_api_key_option',
+					'title' 		=> __( 'CentralNic Test API Key', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+					'desc' 			=> __( 'Enter your CentralNic API Key for the test server.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+					'id' 			=> 'electrosuite_reseller_centralnic_test_api_key',
+					'css' 			=> 'min-width:450px;',
+					'type' 			=> 'password',
+					'default'		=> '',
+					'autoload' 		=> false,
+					'hidden' 		=> true,
+					'desc_tip'	=>  true
+				),
+				array(
+					'title' 		=> __( 'CentralNic Live API Key', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+					'desc' 			=> __( 'Enter your CentralNic API Key for live selling.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+					'id' 			=> 'electrosuite_reseller_centralnic_live_api_key',
 					'css' 			=> 'min-width:450px;',
 					'type' 			=> 'password',
 					'default'		=> '',
@@ -215,24 +237,35 @@ class ElectroSuite_Reseller_Settings_APIs_Tab extends ElectroSuite_Reseller_Sett
 					'title' 	=> __( 'eNom API Settings', ELECTROSUITE_RESELLER_TEXT_DOMAIN ), 
 					'type' 		=> 'title', 
 					'desc' 		=> '', 
-					'id' 		=> 'section_one_options'
+					'id' 		=> 'enom_api_options'
 				),
 
 				array(
 					'title' 		=> __( 'eNom Username', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
 					'desc' 			=> __( 'Enter your eNom account Username.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-					'id' 			=> 'electrosuite_reseller_enom_api_username_option',
+					'id' 			=> 'electrosuite_reseller_enom_api_username',
 					'css' 			=> 'min-width:300px;',
 					'type' 			=> 'username',
 					'default'		=> '',
 					'autoload' 		=> true,
 					'desc_tip'	=>  true
 				),
-
+				
 				array(
-					'title' 		=> __( 'eNom API Key', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-					'desc' 			=> __( 'Enter your eNom API Key.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-					'id' 			=> 'electrosuite_reseller_enom_api_key_option',
+					'title' 		=> __( 'eNom Test API Key', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+					'desc' 			=> __( 'Enter your eNom test account API Key for the test server (from logging into resellertest.enom.com). Ensure your IP is whitelisted in this account.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+					'id' 			=> 'electrosuite_reseller_enom_test_api_key',
+					'css' 			=> 'min-width:450px;',
+					'type' 			=> 'password',
+					'default'		=> '',
+					'autoload' 		=> false,
+					'hidden' 		=> true,
+					'desc_tip'	=>  true
+				),
+				array(
+					'title' 		=> __( 'eNom Live API Key', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+					'desc' 			=> __( 'Enter your eNom main account API Key for live selling (from logging into reseller.enom.com). Ensure your IP is whitelisted in this account.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+					'id' 			=> 'electrosuite_reseller_enom_live_api_key',
 					'css' 			=> 'min-width:450px;',
 					'type' 			=> 'password',
 					'default'		=> '',
@@ -273,107 +306,6 @@ class ElectroSuite_Reseller_Settings_APIs_Tab extends ElectroSuite_Reseller_Sett
 			));
 		}
 	}
-
-
-
-
-	/*
-	public function get_settings() {
-
-		return apply_filters( 'electrosuite_reseller_' . $this->id . '_settings', array(
-
-			array(
-				'title' 	=> __( 'API Settings', ELECTROSUITE_RESELLER_TEXT_DOMAIN ), 
-				'type' 		=> 'title', 
-				'desc' 		=> '', 
-				'id' 		=> $this->id . '_options'
-			),
-
-
-			// Select server API
-			array(
-				'title' 	=> __( 'Select API Server', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'desc' 		=> __( 'Select domain registrar to use.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'id' 		=> 'electrosuite_reseller_server_api',
-				'css' 		=> 'min-width:300px;',
-				'class' 	=> 'chosen_select',
-				'default'	=> 'enom',
-				'type' 		=> 'select',
-				'options' 	=> array(
-					'enom' => __( 'eNom', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-					'resellerclub'  => __( 'ResellerClub', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				),
-				'desc_tip'	=>  true
-			),
-			
-			
-			// enter registrar Username
-			array(
-				'title' 		=> __( 'Username', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'desc' 			=> __( 'Enter your reseller account Username for the selected registrar.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'id' 			=> 'electrosuite_reseller_api_username_option',
-				'css' 			=> 'min-width:300px;',
-				'type' 			=> 'username',
-				'default'		=> '',
-				'autoload' 		=> true,
-				'desc_tip'	=>  true
-			),
-
-
-			// Switch API key based on API server
-			switch(	get_option( 'electrosuite_reseller_server_api' ) ) {
-				case 'enom':
-					array(
-						'title' 		=> __( 'eNom API Key', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-						'desc' 			=> __( 'Enter your reseller account API key for the selected registrar.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-						'id' 			=> 'electrosuite_reseller_enom_api_key_option',
-						'css' 			=> 'min-width:450px;',
-						'type' 			=> 'password',
-						'default'		=> '',
-						'autoload' 		=> false,
-						'hidden' 		=> true,
-						'desc_tip'	=>  true
-					);
-					break;
-				case 'resellerclub':
-					array(
-						'title' 		=> __( 'ResellerClub API Key', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-						'desc' 			=> __( 'Enter your reseller account API key for the selected registrar.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-						'id' 			=> 'electrosuite_reseller_resellerclub_api_key_option',
-						'css' 			=> 'min-width:450px;',
-						'type' 			=> 'password',
-						'default'		=> '',
-						'autoload' 		=> false,
-						'hidden' 		=> true,
-						'desc_tip'	=>  true
-					);
-					break;
-				default:
-					// Add default case if needed
-					break;
-			},
-			
-
-			// enter registrar API key
-			array(
-				'title' 		=> __( 'API Key', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'desc' 			=> __( 'Enter your reseller account API key for the selected registrar.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'id' 			=> 'electrosuite_reseller_api_key_option',
-				'css' 			=> 'min-width:450px;',
-				'type' 			=> 'password',
-				'default'		=> '',
-				'autoload' 		=> false,
-				'hidden' 		=> true,
-				'desc_tip'	=>  true
-			),
-
-			array( 'type' => 'sectionend', 'id' => $this->id . '_options'),
-
-		)); // End general settings
-	}
-	*/
-
-
 }
 
 } // end if class exists

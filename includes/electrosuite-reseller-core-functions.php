@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 // Include core functions
 include( 'electrosuite-reseller-conditional-functions.php' );
 include( 'electrosuite-reseller-formatting-functions.php' );
+include( 'electrosuite-reseller-api-functions.php' );
 
 /**
  * Retrieve page ids. returns -1 if no page is found

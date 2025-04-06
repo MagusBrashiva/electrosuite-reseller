@@ -62,7 +62,7 @@ class ElectroSuite_Reseller_Settings_General_Tab extends ElectroSuite_Reseller_S
 			array(
 				'title' 	=> __( 'Test Mode', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
 				'desc' 		=> __( 'Send API calls to test server to verify setup before going live.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'id' 		=> 'electrosuite_reseller_checkbox',
+				'id' 		=> 'electrosuite_reseller_test_mode',
 				'default'	=> 'yes',
 				'type' 		=> 'checkbox',
 			),
@@ -89,7 +89,7 @@ class ElectroSuite_Reseller_Settings_General_Tab extends ElectroSuite_Reseller_S
 				'title' 	=> __( 'Price Adjustment Mode', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
 				'desc' 		=> __( 'Select whether to adjust prices by a fixed value or percentage.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
 				'desc_tip' 	=> true,
-				'id' 		=> 'electrosuite_reseller_radio',
+				'id' 		=> 'electrosuite_reseller_price_mode',
 				'default'	=> 'percentage',
 				'type' 		=> 'radio',
 				'options' => array(
@@ -102,7 +102,7 @@ class ElectroSuite_Reseller_Settings_General_Tab extends ElectroSuite_Reseller_S
 			array(
 				'title' 	=> __( 'Price Adjustment Value', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
 				'desc' 		=> __( 'Enter the amount to adjust prices. (Percentages MUST be in non-decimal form! 12.5% -> 12.5)', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'id' 		=> 'electrosuite_reseller_number_option',
+				'id' 		=> 'electrosuite_reseller_price_value',
 				'type' 		=> 'number',
 				'custom_attributes' => array(
 					'min' 	=> -20,
@@ -112,98 +112,6 @@ class ElectroSuite_Reseller_Settings_General_Tab extends ElectroSuite_Reseller_S
 				'default'	=> '03',
 				'autoload' 	=> false
 			),
-
-
-
-
-
-
-			/*
-			array(
-				'title' 	=> __( 'Subscriber Access', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'desc' 		=> __( 'Prevent users from accessing WordPress admin.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'id' 		=> 'electrosuite_reseller_lock_down_admin',
-				'default'	=> 'no',
-				'type' 		=> 'checkbox',
-			),
-
-			array(
-				'title' 	=> __( 'Secure Content', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'desc' 		=> __( 'Keep your site secure by forcing SSL (HTTPS) on site (an SSL Certificate is required).', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'id' 		=> 'electrosuite_reseller_force_ssl',
-				'default'	=> 'no',
-				'type' 		=> 'checkbox'
-			),
-
-			array(
-				'title' 	=> __( 'Select Country', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'desc' 		=> __( 'This gives you a list of countries. ', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'id' 		=> 'electrosuite_reseller_country_list',
-				'css' 		=> 'min-width:350px;',
-				'default'	=> 'GB',
-				'type' 		=> 'single_select_country',
-				'desc_tip'	=> true,
-			),
-
-			array(
-				'title' 	=> __( 'Multi Select Countries', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'desc' 		=> '',
-				'id' 		=> 'electrosuite_reseller_multi_countries',
-				'css' 		=> 'min-width: 350px;',
-				'default'	=> '',
-				'type' 		=> 'multi_select_countries'
-			),
-
-			array(
-				'title' 	=> __( 'Example Page', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'desc' 		=> __( 'You can set pages that the plugin requires by having them installed and selected automatically when the plugin is installed.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'id' 		=> 'electrosuite_reseller_example_page_id',
-				'type' 		=> 'single_select_page',
-				'default'	=> '',
-				'class'		=> 'chosen_select_nostd',
-				'css' 		=> 'min-width:300px;',
-				'desc_tip'	=> true,
-			),
-
-			array(
-				'title' 	=> __( 'Shortcode Example Page', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'desc' 		=> __( 'This page has a shortcode applied when created by the plugin.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'id' 		=> 'electrosuite_reseller_shortcode_page_id',
-				'type' 		=> 'single_select_page',
-				'default'	=> '',
-				'class'		=> 'chosen_select_nostd',
-				'css' 		=> 'min-width:300px;',
-				'desc_tip'	=> true,
-			),
-
-			array(
-				'title' 	=> __( 'Single Checkbox', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'desc' 		=> __( 'Can come in handy to display more options.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'id' 		=> 'electrosuite_reseller_checkbox',
-				'default'	=> 'no',
-				'type' 		=> 'checkbox'
-			),
-
-			array(
-				'title' 	=> __( 'Single Input (Text) ', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'desc' 		=> '',
-				'id' 		=> 'electrosuite_reseller_input_text',
-				'default'	=> __( 'This admin setting can be hidden via the checkbox above.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'type' 		=> 'text',
-				'css' 		=> 'min-width:300px;',
-				'autoload' 	=> false
-			),
-
-			array(
-				'title' 	=> __( 'Single Textarea ', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'desc' 		=> '',
-				'id' 		=> 'electrosuite_reseller_input_textarea',
-				'default'	=> __( 'You can allow the user to use this field to enter their own CSS or HTML code.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'type' 		=> 'textarea',
-				'css' 		=> 'min-width:300px;',
-				'autoload' 	=> false
-			),
-			*/
 
 			array( 'type' => 'sectionend', 'id' => $this->id . '_options'),
 

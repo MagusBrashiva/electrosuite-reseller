@@ -2,6 +2,8 @@
 /*!***********************************!*\
   !*** ./src/domain-search/view.js ***!
   \***********************************/
+console.error('<<<< VIEW.JS - LATEST VERSION LOADED >>>>'); // For deployment verification
+
 /**
  * Front-end JavaScript for the Domain Search Block.
  *
@@ -46,9 +48,11 @@ function initializeDomainSearchBlock(blockElement) {
 
     // --- Prepare API Request ---
     const formData = new FormData();
-    formData.append('action', 'domain_search_check'); // Not strictly needed for REST, but good practice if using admin-ajax fallback later
+    // 'action' is not typically used/needed for WP REST API calls like this
+    // formData.append('action', 'domain_search_check');
     formData.append('domain', domain);
-    formData.append('_wpnonce', domainSearchData.nonce); // Use the nonce passed from PHP
+    // Nonce is sent via header, but can be included in body too if needed/preferred by backend logic
+    // formData.append('_wpnonce', domainSearchData.nonce);
 
     try {
       // --- Make the Fetch Request ---
@@ -56,60 +60,112 @@ function initializeDomainSearchBlock(blockElement) {
         // Use the API URL from PHP
         method: 'POST',
         headers: {
-          // Content-Type is not needed for FormData with fetch; browser sets it with boundary
-          // 'Content-Type': 'application/x-www-form-urlencoded', // Use if sending data differently
+          // Let browser set Content-Type for FormData
           'X-WP-Nonce': domainSearchData.nonce // Standard header for REST API nonce
         },
-        body: formData // Send domain and nonce
+        body: formData // Send domain
       });
 
-      // --- Handle Non-OK HTTP Responses (e.g., 403 Forbidden, 404 Not Found, 500 Server Error) ---
+      // --- Get response as raw text first ---
+      const responseText = await response.text();
+      console.log("<<< RAW Response Text from Server >>>:", responseText); // Log the raw text
+
+      // --- Check if response was ok (status 200-299) ---
       if (!response.ok) {
         let errorMessage = `Error: ${response.status} ${response.statusText}`;
+        // Try to parse error message from the text, but catch if it's not JSON
         try {
-          // Try to get more specific error message from the API response body
-          const errorData = await response.json();
+          // Attempt to parse the text we already retrieved
+          const errorData = JSON.parse(responseText);
+          // Check specifically for a message property common in WP_Error JSON responses
           if (errorData.message) {
-            errorMessage = errorData.message;
+            errorMessage = errorData.message; // Use the specific message from backend
           }
         } catch (e) {
-          // Ignore if response body is not JSON or empty
+          console.warn('Could not parse error response body as JSON:', e);
+          // Optionally include raw text in error if short and not HTML
+          if (responseText && responseText.length < 100 && !responseText.trim().startsWith('<')) {
+            errorMessage += ` - Server response: ${responseText}`;
+          }
         }
-        throw new Error(errorMessage); // Trigger the catch block
+        // Throw the error to be caught by the outer catch block
+        throw new Error(errorMessage);
       }
 
-      // --- Process Successful Response ---
-      const data = await response.json(); // Parse the JSON body
+      // --- If response.ok, try to parse the text as JSON ---
+      let data;
+      try {
+        // Attempt to parse the text we already retrieved
+        data = JSON.parse(responseText);
+        console.log(">>> Parsed JSON data >>>:", data); // Log successfully parsed data
+      } catch (error) {
+        // If JSON parsing fails even on a 2xx response, log details and throw generic error
+        console.error("JSON Parse Error on successful response:", error);
+        console.error("Raw text that failed parsing:", responseText); // Log the text again for debug
+        throw new Error('Received an invalid format from the server.');
+      }
 
-      // --- Display Results ---
-      // This part depends heavily on the structure of the 'data' object
-      // returned by your handle_electrosuite_domain_search_request PHP function
+      // --- Display Results (Processing Array) ---
       let resultsHTML = '';
-      if (data.available === true) {
-        resultsHTML = `<p class="domain-search-success">Congratulations! <strong>${escapeHTML(data.domain)}</strong> is available!</p>`;
-        // TODO: Add purchase button/link if needed
-      } else if (data.available === false) {
-        resultsHTML = `<p class="domain-search-unavailable">Sorry, <strong>${escapeHTML(data.domain)}</strong> is not available.</p>`;
-        // TODO: Display suggestions if available in 'data.suggestions'
-        if (data.suggestions && data.suggestions.length > 0) {
-          resultsHTML += '<h4>Suggestions:</h4><ul>';
-          data.suggestions.forEach(suggestion => {
-            resultsHTML += `<li>${escapeHTML(suggestion)}</li>`; // Make sure suggestions are safe too
-          });
-          resultsHTML += '</ul>';
-        }
+
+      // Check if data is an array and has items
+      if (Array.isArray(data) && data.length > 0) {
+        resultsHTML = '<ul>'; // Start a list for the results
+
+        data.forEach(item => {
+          // Ensure item is an object before accessing properties
+          if (item && typeof item === 'object') {
+            resultsHTML += '<li>';
+            // Display domain name (escape it)
+            resultsHTML += `<strong>${escapeHTML(item.domain || '')}</strong>: `;
+
+            // Display status based on item.available
+            if (item.available === true) {
+              resultsHTML += '<span class="domain-search-success">Available</span>';
+              // Display price if available and valid
+              if (item.adjusted_price && item.adjusted_price !== 'N/A') {
+                // TODO: Add currency symbol from settings?
+                resultsHTML += ` - $${escapeHTML(item.adjusted_price)}`;
+                // TODO: Add Register button?
+              } else if (item.adjusted_price === 'N/A') {
+                resultsHTML += ' (Pricing N/A)';
+              } else {
+                resultsHTML += ' (Pricing unavailable)';
+              }
+            } else if (item.available === false) {
+              resultsHTML += '<span class="domain-search-unavailable">Unavailable</span>';
+            } else if (item.available === 'error') {
+              // Use the message returned from the backend for this specific error
+              resultsHTML += `<span class="domain-search-error">Error: ${escapeHTML(item.message || 'Could not check status.')}</span>`;
+            } else {
+              // Fallback for truly unexpected 'available' value
+              resultsHTML += `<span class="domain-search-error">Unknown status</span>`;
+              console.warn('Unexpected value for item.available in received data:', item.available);
+            }
+            resultsHTML += '</li>';
+          } else {
+            console.warn('Received invalid item in results array:', item);
+          }
+        }); // End forEach loop
+
+        resultsHTML += '</ul>'; // Close the list
+      } else if (Array.isArray(data) && data.length === 0) {
+        // Handle case where backend returned an empty array (e.g., no TLDs checked?)
+        resultsHTML = '<p>No results were returned for the requested TLDs.</p>';
       } else {
-        // Handle cases where availability is unknown or the API response was unexpected
-        resultsHTML = `<p class="domain-search-error">Could not determine availability for <strong>${escapeHTML(data.domain)}</strong>. Please try again.</p>`;
-        console.warn('Unexpected API response structure:', data);
+        // Handle case where 'data' wasn't an array after successful parsing
+        resultsHTML = '<p class="domain-search-error">Received an unexpected response format from the server.</p>';
+        console.error('Parsed data was not an array as expected:', data);
       }
-      resultsContainer.innerHTML = resultsHTML;
+      resultsContainer.innerHTML = resultsHTML; // Update the container with the generated list
     } catch (error) {
       // --- Handle Fetch Errors (Network issues, etc.) or Thrown Errors ---
-      console.error('Domain Search Error:', error);
+      console.error('Domain Search Error:', error); // Log the error object
+      // Display the specific error message property
       resultsContainer.innerHTML = `<p class="domain-search-error">An error occurred: ${escapeHTML(error.message)}. Please try again later.</p>`;
     } finally {
       // --- Always Re-enable Button/Input ---
+      // This block executes regardless of whether try succeeded or failed
       button.disabled = false;
       input.disabled = false;
     }
@@ -127,6 +183,10 @@ function initializeDomainSearchBlock(blockElement) {
 // --- Helper function to escape HTML to prevent XSS ---
 // Simple version; consider a more robust library for complex needs
 function escapeHTML(str) {
+  if (typeof str !== 'string') {
+    console.warn("escapeHTML called with non-string value:", str);
+    return ''; // Return empty string for non-strings
+  }
   const div = document.createElement('div');
   div.textContent = str;
   return div.innerHTML;
@@ -148,12 +208,19 @@ if (window.MutationObserver) {
         mutation.addedNodes.forEach(node => {
           // Check if the added node is the block itself
           if (node.nodeType === 1 && node.matches('.wp-block-create-block-domain-search')) {
-            initializeDomainSearchBlock(node);
+            // Check if it's already initialized (e.g., by DOMContentLoaded)
+            if (!node.dataset.domainSearchInitialized) {
+              initializeDomainSearchBlock(node);
+              node.dataset.domainSearchInitialized = 'true'; // Mark as initialized
+            }
           }
           // Check if the added node contains the block(s)
           else if (node.nodeType === 1 && node.querySelector) {
-            const blocksInside = node.querySelectorAll('.wp-block-create-block-domain-search');
-            blocksInside.forEach(initializeDomainSearchBlock);
+            const blocksInside = node.querySelectorAll('.wp-block-create-block-domain-search:not([data-domain-search-initialized])');
+            blocksInside.forEach(block => {
+              initializeDomainSearchBlock(block);
+              block.dataset.domainSearchInitialized = 'true'; // Mark as initialized
+            });
           }
         });
       }
