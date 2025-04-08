@@ -75,7 +75,9 @@ class ElectroSuite_Reseller_Admin_Status {
 				case "restart" :
 					$installer->remove_roles();
 					$installer->delete_options();
-
+					delete_transient('enom_tld_list_cache'); // Delete the eNom TLD cache
+                    // TODO: Add delete_transient for ResellerClub/CentralNic caches when implemented
+                    error_log("Admin Status Tool: Deleted TLD transients during restart."); // Optional log
 					/** TODO: Place your own functions here. */
 
 					$installer->create_options();

@@ -2,8 +2,6 @@
 /*!***********************************!*\
   !*** ./src/domain-search/view.js ***!
   \***********************************/
-console.error('<<<< VIEW.JS - LATEST VERSION LOADED >>>>'); // For deployment verification
-
 /**
  * Front-end JavaScript for the Domain Search Block.
  *
@@ -23,25 +21,104 @@ function initializeDomainSearchBlock(blockElement) {
     console.error('Domain Search Block: Missing required elements inside:', blockElement);
     return;
   }
+  const sldRegex = /^[a-z0-9-]+$/; // Allowed characters for SLD
+  // Regex for invalid hyphen use: starts/ends with -, or '--' unless preceded by 'xn--' (basic IDN check)
+  const invalidHyphenRegex = /(^-|-$|^.{0,1}-(?!--)|(?<!xn)-{2,})/;
+  function validateDomainInput() {
+    const domainValue = input.value.trim().toLowerCase();
+    let isValid = true;
+    let errorMessage = '';
+
+    // Clear previous visual error state from input field
+    input.classList.remove('domain-input-error');
+
+    // Find or create an element to display feedback message
+    let feedbackElement = blockElement.querySelector('.domain-input-feedback');
+    if (!feedbackElement) {
+      feedbackElement = document.createElement('p');
+      feedbackElement.className = 'domain-input-feedback domain-feedback-message'; // Add general class
+      // Insert after the input's wrapper if possible, or before results as fallback
+      const wrapper = input.closest('.domain-search-wrapper') || input.parentNode;
+      if (wrapper && wrapper.parentNode) {
+        wrapper.parentNode.insertBefore(feedbackElement, wrapper.nextSibling);
+      } else {
+        resultsContainer.parentNode.insertBefore(feedbackElement, resultsContainer);
+      }
+    }
+    feedbackElement.textContent = ''; // Clear previous message
+    feedbackElement.className = 'domain-input-feedback domain-feedback-message'; // Reset class
+
+    // Only validate non-empty input
+    if (domainValue) {
+      // Split input for basic SLD/TLD separation during validation
+      const parts = domainValue.split('.');
+      const potentialSld = parts.length > 1 ? parts.slice(0, -1).join('.') : domainValue;
+      const potentialTld = parts.length > 1 ? parts.pop() : '';
+
+      // --- Apply eNom SLD Rules ---
+      if (!sldRegex.test(potentialSld)) {
+        isValid = false;
+        errorMessage = 'Invalid characters (use only a-z, 0-9, -).';
+      } else if (invalidHyphenRegex.test(potentialSld)) {
+        isValid = false;
+        errorMessage = 'Cannot start/end with hyphen or use invalid "--".';
+      } else if (potentialSld.length < 2 || potentialSld.length > 63) {
+        isValid = false;
+        errorMessage = `Domain name part must be 2-63 characters (currently ${potentialSld.length}).`;
+      }
+      // --- Optional: Basic TLD check ---
+      // else if (potentialTld && potentialTld.length < 2) {
+      //    isValid = false;
+      //    errorMessage = 'TLD part seems too short.';
+      // }
+
+      // Apply visual feedback if invalid
+      if (!isValid) {
+        input.classList.add('domain-input-error'); // Add error class to input
+        feedbackElement.textContent = errorMessage; // Show error message
+        feedbackElement.classList.add('domain-feedback-error'); // Style as error
+      } else {
+        // Optional: Show valid state? Or just clear error.
+        // feedbackElement.textContent = 'Format OK';
+        // feedbackElement.classList.add('domain-feedback-ok');
+      }
+    } // End if (domainValue)
+  } // End validateDomainInput function
+
+  // --- Add event listener to trigger validation on input ---
+  input.addEventListener('input', validateDomainInput);
 
   // --- Event Listener for the Search Button ---
   button.addEventListener('click', async () => {
     const domain = input.value.trim().toLowerCase();
 
     // --- Basic Validation ---
+    /*
     if (!domain) {
-      resultsContainer.innerHTML = '<p class="domain-search-error">Please enter a domain name.</p>';
-      input.focus(); // Focus back on the input
-      return;
+    	resultsContainer.innerHTML = '<p class="domain-search-error">Please enter a domain name.</p>';
+    	input.focus(); // Focus back on the input
+    	return;
     }
     // Very basic domain format check (doesn't validate TLD)
     if (domain.indexOf('.') === -1 || domain.startsWith('.') || domain.endsWith('.')) {
-      resultsContainer.innerHTML = `<p class="domain-search-error">Please enter a valid domain format (e.g., example.com).</p>`;
-      input.focus();
-      return;
+    	resultsContainer.innerHTML = `<p class="domain-search-error">Please enter a valid domain format (e.g., example.com).</p>`;
+    	input.focus();
+    	return;
+    }
+    */
+
+    if (input.classList.contains('domain-input-error')) {
+      input.focus(); // Focus on the invalid input
+      // Optionally update the main results area too
+      // resultsContainer.innerHTML = '<p class="domain-search-error">Please correct the domain format above.</p>';
+      return; // Stop processing if input is currently marked invalid
     }
 
     // --- Show Loading State ---
+
+    // Clear validation message when starting a new search
+    let feedbackElement = blockElement.querySelector('.domain-input-feedback');
+    if (feedbackElement) feedbackElement.textContent = '';
     resultsContainer.innerHTML = '<p class="domain-search-loading">Checking availability...</p>';
     button.disabled = true; // Prevent multiple clicks
     input.disabled = true; // Optional: disable input during search
@@ -68,7 +145,6 @@ function initializeDomainSearchBlock(blockElement) {
 
       // --- Get response as raw text first ---
       const responseText = await response.text();
-      console.log("<<< RAW Response Text from Server >>>:", responseText); // Log the raw text
 
       // --- Check if response was ok (status 200-299) ---
       if (!response.ok) {
@@ -97,11 +173,9 @@ function initializeDomainSearchBlock(blockElement) {
       try {
         // Attempt to parse the text we already retrieved
         data = JSON.parse(responseText);
-        console.log(">>> Parsed JSON data >>>:", data); // Log successfully parsed data
       } catch (error) {
         // If JSON parsing fails even on a 2xx response, log details and throw generic error
         console.error("JSON Parse Error on successful response:", error);
-        console.error("Raw text that failed parsing:", responseText); // Log the text again for debug
         throw new Error('Received an invalid format from the server.');
       }
 
@@ -140,12 +214,9 @@ function initializeDomainSearchBlock(blockElement) {
             } else {
               // Fallback for truly unexpected 'available' value
               resultsHTML += `<span class="domain-search-error">Unknown status</span>`;
-              console.warn('Unexpected value for item.available in received data:', item.available);
             }
             resultsHTML += '</li>';
-          } else {
-            console.warn('Received invalid item in results array:', item);
-          }
+          } else {}
         }); // End forEach loop
 
         resultsHTML += '</ul>'; // Close the list
@@ -155,7 +226,6 @@ function initializeDomainSearchBlock(blockElement) {
       } else {
         // Handle case where 'data' wasn't an array after successful parsing
         resultsHTML = '<p class="domain-search-error">Received an unexpected response format from the server.</p>';
-        console.error('Parsed data was not an array as expected:', data);
       }
       resultsContainer.innerHTML = resultsHTML; // Update the container with the generated list
     } catch (error) {

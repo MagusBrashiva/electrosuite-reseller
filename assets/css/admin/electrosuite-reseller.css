@@ -891,3 +891,160 @@ img.help_tip{
 	left:50%;
 	margin:-1em 0 0 -3px;
 }
+
+
+/* ==========================================================================
+   TLD Checkbox Multi-Column Layout
+   ========================================================================== */
+
+/* Target the table body containing the TLD checkbox rows */
+/* We need a way to identify this specific table body. Let's assume
+   the preceding 'title' field with ID 'enom_tld_selection_title'
+   can help us target the following table's body, or we add a class/id. */
+
+/* --- Option A: Target based on proximity to title (Less Robust) --- */
+/* This targets the tbody directly following the row containing the title field */
+/* Adjust if your title field structure is different */
+/* tr:has(h2#enom_tld_selection_title) + table.form-table > tbody,  */ /* Might work depending on H2 placement */
+/* table.form-table tr:has(#enom_tld_selection_title) + tbody */ /* Might work if title is in a TD */
+
+/* --- Option B: Target using a specific class on the table/tbody (More Robust) --- */
+/* This requires adding a class in the PHP later */
+table.form-table.enom-tld-settings-table > tbody,
+tbody.enom-tld-settings-tbody {
+	/* --- Core Multi-Column Properties --- */
+	/* Suggest a column width, browser fits as many as possible */
+	column-width: 150px; /* Adjust minimum width as needed */
+	/* OR, suggest a fixed number of columns (less flexible) */
+	/* column-count: 4; */
+	/* Gap between columns */
+	column-gap: 20px;
+	/* Prevent elements from breaking weirdly across columns */
+	-webkit-column-break-inside: avoid;
+	page-break-inside: avoid;
+	break-inside: avoid;
+}
+
+	/* Style the rows/items within the columns for clarity */
+	table.form-table.enom-tld-settings-table > tbody > tr,
+	tbody.enom-tld-settings-tbody > tr {
+		display: inline-block; /* Needed for break-inside */
+		width: 100%; /* Ensure rows take full column width */
+		padding: 2px 0; /* Adjust spacing */
+		box-sizing: border-box;
+		border-bottom: none; /* Remove default row borders if they interfere */
+		vertical-align: top; /* Align items nicely */
+	}
+	/* Remove alternating row background if it looks odd with columns */
+	table.form-table.enom-tld-settings-table tr:nth-child(2n) th,
+	table.form-table.enom-tld-settings-table tr:nth-child(2n) td,
+	tbody.enom-tld-settings-tbody tr:nth-child(2n) th,
+	tbody.enom-tld-settings-tbody tr:nth-child(2n) td {
+		background: none;
+	}
+
+
+	/* Ensure the label and checkbox align well */
+	table.form-table.enom-tld-settings-table > tbody > tr td.forminp-checkbox label,
+	tbody.enom-tld-settings-tbody > tr td.forminp-checkbox label {
+		display: flex;
+		align-items: center;
+		white-space: nowrap;
+	}
+
+	table.form-table.enom-tld-settings-table > tbody > tr td.forminp-checkbox input[type="checkbox"],
+	tbody.enom-tld-settings-tbody > tr td.forminp-checkbox input[type="checkbox"] {
+		margin-right: 8px;
+		margin-top: 0;
+	}
+
+	/* Hide the first column (title column) for the checkbox rows if it's empty */
+	table.form-table.enom-tld-settings-table > tbody > tr th.titledesc,
+	tbody.enom-tld-settings-tbody > tr th.titledesc {
+		display: none; /* Hide the empty first column */
+	}
+
+	table.form-table.enom-tld-settings-table > tbody > tr td.forminp-checkbox,
+	tbody.enom-tld-settings-tbody > tr td.forminp-checkbox {
+		padding-left: 5px; /* Adjust padding since first column is hidden */
+		display: block; /* Ensure TD takes full width */
+	}
+
+
+/* --- TLD Limit Message Styles (if using JS counter later) --- */
+/* These remain the same as before, targeting the IDs */
+#enom-tld-limit-message-row td {
+	padding-top: 5px !important;
+	padding-bottom: 10px !important;
+	border: none !important;
+	line-height: 1.4;
+	/* Ensure message row is NOT part of the columns */
+	column-span: all; /* Span across all columns */
+	display: table-row; /* Override display: inline-block if inherited */
+}
+
+#enom-tld-limit-message {
+	margin: 0;
+	padding: 2px 0;
+	font-weight: bold;
+	font-size: 0.95em;
+}
+
+/* ==========================================================================
+   Checkbox Grid Multi-Column Layout
+   ========================================================================== */
+
+/* Target the container div for the checkbox grid */
+.checkbox-grid {
+	/* --- Core Multi-Column Properties --- */
+	column-width: 150px; /* Suggest minimum column width */
+	column-gap: 20px; /* Space between columns */
+	/* Prevent items breaking across columns */
+	-webkit-column-break-inside: avoid;
+	page-break-inside: avoid;
+	break-inside: avoid;
+}
+
+/* Style the items within the columns */
+.checkbox-grid-item {
+	display: inline-block; /* Needed for break-inside */
+	width: 100%; /* Ensure item takes full column width */
+	padding: 2px 0;
+	box-sizing: border-box;
+	vertical-align: top;
+}
+
+	/* Style the label for alignment */
+	.checkbox-grid-item label {
+		display: flex;
+		align-items: center;
+		white-space: nowrap;
+		cursor: pointer;
+	}
+
+	/* Style the checkbox input */
+	.checkbox-grid-item input[type="checkbox"].checkbox-grid-input {
+		margin-top: 0;
+		margin-right: 8px;
+	}
+
+	/* Style the label text */
+	.checkbox-grid-item .checkbox-grid-label {
+		font-size: 0.95em;
+	}
+
+/* Styles for the JS counter message (if used later) */
+#enom-tld-limit-message-row td {
+	padding-top: 5px !important;
+	padding-bottom: 10px !important;
+	border: none !important;
+	line-height: 1.4;
+	column-span: all; /* Span message row across all columns */
+}
+
+#enom-tld-limit-message {
+	margin: 0;
+	padding: 2px 0;
+	font-weight: bold;
+	font-size: 0.95em;
+}

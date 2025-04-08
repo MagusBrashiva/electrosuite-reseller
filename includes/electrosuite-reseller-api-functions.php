@@ -21,52 +21,296 @@ add_action( 'rest_api_init', function () {
         'methods' => 'POST',
         'callback' => 'handle_electrosuite_domain_search_request',
         'permission_callback' => function ( WP_REST_Request $request ) {
-            // Verify nonce sent in header or POST data
+            // 1. Nonce Check (Keep this first)
             $nonce = $request->get_header('X-WP-Nonce');
-            if ( !$nonce ) {
-                 // Fallback to checking POST data if header not present
-                 $nonce = isset( $_REQUEST['_wpnonce'] ) ? $_REQUEST['_wpnonce'] : '';
+            if ( !$nonce ) { $nonce = isset( $_REQUEST['_wpnonce'] ) ? $_REQUEST['_wpnonce'] : ''; }
+            if ( ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
+                 error_log("ElectroSuite Reseller REST API: Nonce verification failed.");
+                 return new WP_Error( /* ... nonce error ... */ );
             }
 
-            if ( ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
-                 error_log("ElectroSuite Reseller REST API: Nonce verification failed."); // Log failure
-                 return new WP_Error( 'rest_forbidden', esc_html__( 'Invalid nonce.', 'electrosuite-reseller' ), array( 'status' => 403 ) );
+            // 2. Rate Limit Check (Add this)
+            $limit_check = check_rate_limit('domain_search', 15, 60); // Example: 15 requests per 60 seconds
+            if (is_wp_error($limit_check)) {
+                // If rate limit returns an error, return it directly
+                return $limit_check;
             }
+            // If $limit_check was true, proceed
+
+            // 3. Add any other permission checks if needed (e.g., user capabilities)
+
+            // If all checks pass
             return true;
-        },
+        }, // End permission_callback
         'args' => array(
             'domain' => array(
                 'required' => true,
                 'sanitize_callback' => 'sanitize_text_field',
+                // Update validation callback
                 'validate_callback' => function($param, $request, $key) {
-                     if ( !is_string($param) || empty(trim($param)) || strpos($param, '.') === false || preg_match('/\s/', $param) ) {
-                         return new WP_Error( 'rest_invalid_param', esc_html__( 'Invalid domain format provided.', 'electrosuite-reseller' ), array( 'status' => 400 ) );
-                     }
-                     return true;
+                    $domain_input = trim($param);
+                    if ( empty($domain_input) ) {
+                        return new WP_Error( 'rest_invalid_param', esc_html__( 'Domain name cannot be empty.', 'electrosuite-reseller' ), array( 'status' => 400 ) );
+                    }
+                    // Basic check for forbidden characters (anything not letter, digit, hyphen, dot)
+                    // Allows for IDNs potentially, detailed check happens in extract_sld_tld
+                    if (preg_match('/[^a-z0-9\-\.]/i', $domain_input)) {
+                         return new WP_Error( 'rest_invalid_param', esc_html__( 'Domain name contains invalid characters.', 'electrosuite-reseller' ), array( 'status' => 400 ) );
+                    }
+                    // Check for starting/ending dot or hyphen which is always invalid
+                    if (str_starts_with($domain_input, '.') || str_ends_with($domain_input, '.') || str_starts_with($domain_input, '-') || str_ends_with($domain_input, '-')) {
+                         return new WP_Error( 'rest_invalid_param', esc_html__( 'Domain name cannot start or end with dot or hyphen.', 'electrosuite-reseller' ), array( 'status' => 400 ) );
+                    }
+                    // Further specific SLD/TLD validation is handled inside handle_request via extract_sld_tld
+                    return true;
                 }
             ),
         ),
+
     ) );
 } );
 
 
+
+
 /**
- * Extracts the SLD and TLD from a domain name.
+ * Fetches the list of TLDs available for registration via the eNom API.
+ * Parses the nested XML structure returned by GetTLDList.
+ *
+ * @param string $username    eNom Username.
+ * @param string $api_key     eNom API Key (Live or Test).
+ * @param bool   $is_test_mode Whether to use the test API endpoint.
+ * @return array|WP_Error Array of TLD strings on success, WP_Error on failure.
+ */
+function get_enom_tld_list( $username, $api_key, $is_test_mode ) {
+    error_log("--- get_enom_tld_list: Fetching from API ---"); // Log fetch attempt
+
+    // Define URLs
+    $live_url = 'https://reseller.enom.com/interface.asp';
+    $test_url = 'https://resellertest.enom.com/interface.asp';
+    $base_url = $is_test_mode ? $test_url : $live_url;
+
+    // Construct API URL (Verify Command Name - Assuming GetTLDList)
+    $api_url = add_query_arg( array(
+        'command' => 'GetTLDList', // Assuming this is correct
+        'uid' => $username,
+        'pw' => $api_key,
+        'responsetype' => 'XML', // We know XML works
+    ), $base_url );
+
+    $response = wp_remote_get( $api_url, ['timeout' => 20] );
+
+    // Handle WP HTTP Errors
+    if ( is_wp_error( $response ) ) {
+        error_log("ElectroSuite Reseller eNom API Error: wp_remote_get failed (GetTLDList). Error: " . $response->get_error_message());
+        return new WP_Error('http_error_tldlist', __('Could not connect to registrar to get TLD list.', 'electrosuite-reseller'), ['status' => 503]);
+    }
+
+    $http_code = wp_remote_retrieve_response_code( $response );
+    $body = wp_remote_retrieve_body( $response );
+
+    // Handle non-200 HTTP status or empty body
+    if ( $http_code !== 200 || empty($body) ) {
+        $error_message = __('eNom API communication error (GetTLDList).', 'electrosuite-reseller');
+        $log_message = "ElectroSuite Reseller eNom API Error: Critical error processing GetTLDList response.";
+        if ($http_code !== 200) { $log_message .= " HTTP status {$http_code}."; }
+        if (empty($body)) { $log_message .= " Empty response body.";}
+        error_log($log_message . " Raw Body Length: " . strlen($body));
+        return new WP_Error( 'enom_api_tldlist_critical_error', $error_message, array( 'status' => 502 ) );
+    }
+
+    // Parse XML Response
+    libxml_use_internal_errors(true);
+    $xml = simplexml_load_string($body);
+
+    if ($xml === false) {
+        // ... handle XML parse error ...
+        return new WP_Error('xml_parse_error_tldlist', __('Failed to understand TLD list from registrar.', 'electrosuite-reseller'), ['status' => 502]);
+    }
+
+    // Determine root node
+    $response_node = isset($xml->{'interface-response'}) ? $xml->{'interface-response'} : $xml;
+
+    // Check for eNom application-level errors
+    if (isset($response_node->ErrCount) && intval((string)$response_node->ErrCount) > 0) {
+        // ... handle app error, return WP_Error ...
+        return new WP_Error('enom_api_tldlist_app_error', /* ... error message ... */ );
+    }
+
+    // --- Extract TLD list from the NESTED structure ---
+    $tlds = [];
+    // Check if the expected path exists
+    if (isset($response_node->tldlist->tld)) {
+        // Loop through each outer <tld> node
+        foreach ($response_node->tldlist->tld as $outer_tld_node) {
+            // Access the INNER <tld> node's value
+            $tld = strtolower((string)$outer_tld_node->tld); // Access nested tag
+            if (!empty($tld)) {
+                $tlds[] = $tld;
+            }
+        }
+    } else {
+        error_log("eNom GetTLDList Error: Could not find <tldlist><tld> structure in response. Body Length: " . strlen($body));
+        // Consider returning error or empty array? Return error for now.
+        return new WP_Error('tldlist_structure', __('Could not parse TLD list structure from registrar.', 'electrosuite-reseller'));
+    }
+
+    if (empty($tlds)) {
+         error_log("eNom GetTLDList Warning: API call successful but parsed an empty TLD list.");
+    } else {
+         error_log("DEBUG get_enom_tld_list: Successfully parsed " . count($tlds) . " TLDs.");
+    }
+
+    return $tlds; // Return array of TLD strings
+}
+
+
+/**
+ * Fetches the list of TLDs available for registration via the ResellerClub API.
+ * Parses the nested XML structure returned by GetTLDList.
+ *
+ * @param string $username    ResellerClub Username.
+ * @param string $api_key     ResellerClub API Key (Live or Test).
+ * @param bool   $is_test_mode Whether to use the test API endpoint.
+ * @return array|WP_Error Array of TLD strings on success, WP_Error on failure.
+ */
+function get_resellerclub_tld_list( $username, $api_key, $is_test_mode ) {
+}
+
+
+/**
+ * Fetches the list of TLDs available for registration via the CentralNic API.
+ * Parses the nested XML structure returned by GetTLDList.
+ *
+ * @param string $username    CentralNic Username.
+ * @param string $api_key     CentralNic API Key (Live or Test).
+ * @param bool   $is_test_mode Whether to use the test API endpoint.
+ * @return array|WP_Error Array of TLD strings on success, WP_Error on failure.
+ */
+function get_centralnic_tld_list( $username, $api_key, $is_test_mode ) {
+}
+
+
+/**
+ * Extracts and validates the SLD and TLD from a domain name based on eNom rules.
  * Returns an array ['sld' => ..., 'tld' => ...] or false on failure.
  */
 function extract_sld_tld($domain_name) {
     $domain_name = strtolower(trim($domain_name));
-    if (strpos($domain_name, '.') === false) {
-        return false;
-    }
+
+    // Basic structure check
+    if (strpos($domain_name, '.') === false) return false; // Need at least one dot
+    if (preg_match('/\s/', $domain_name)) return false;   // No spaces allowed
+
     $parts = explode('.', $domain_name);
-    if (count($parts) < 2) { return false; }
+    if (count($parts) < 2) return false;
+
     $tld = array_pop($parts);
-    $sld = implode('.', $parts);
-    if (empty($sld) || empty($tld)) { return false; }
+    $sld = implode('.', $parts); // Handles potential multiple dots in SLD (less common)
+
+    // Validate TLD (basic) - eNom validation focuses on SLD
+    if (empty($tld) || strlen($tld) < 2) { // TLDs are usually at least 2 chars
+         error_log("Validation Error: Invalid TLD extracted: " . $tld);
+         return false;
+    }
+
+    // Validate SLD based on eNom Rules
+    if (empty($sld)) {
+         error_log("Validation Error: Empty SLD extracted.");
+         return false;
+    }
+    // Rule: a-z, 0-9, hyphen ONLY
+    if (!preg_match('/^[a-z0-9-]+$/', $sld)) {
+         error_log("Validation Error: SLD '{$sld}' contains invalid characters.");
+         return false;
+    }
+    // Rule: Not begin or end with hyphen
+    if (str_starts_with($sld, '-') || str_ends_with($sld, '-')) { // PHP 8+ needed for str_starts/ends_with
+    // if (substr($sld, 0, 1) === '-' || substr($sld, -1) === '-') { // PHP < 8 compatibility
+         error_log("Validation Error: SLD '{$sld}' starts or ends with hyphen.");
+         return false;
+    }
+    // Rule: 3rd and 4th chars not both hyphens (unless IDN - skip IDN check for now)
+    if (strlen($sld) >= 4 && substr($sld, 2, 2) === '--') {
+        // Basic check - Doesn't account for valid Punycode IDNs starting xn--
+        if (!str_starts_with($sld, 'xn--')) {
+        // if (substr($sld, 0, 4) !== 'xn--') { // PHP < 8 compatibility
+             error_log("Validation Error: SLD '{$sld}' has hyphens at 3rd/4th position (non-IDN).");
+             return false;
+        }
+    }
+    // Rule: 2-63 characters (Note: some sources say 1 character is allowed, but eNom says 2)
+    if (strlen($sld) < 2 || strlen($sld) > 63) {
+         error_log("Validation Error: SLD '{$sld}' length (" . strlen($sld) . ") is outside 2-63 chars.");
+         return false;
+    }
+
+    // If all checks pass
     return ['sld' => $sld, 'tld' => $tld];
 }
 
+
+
+/**
+ * Checks and enforces basic rate limiting based on IP address using Transients.
+ *
+ * @param string $limit_key A unique key for this specific limit type (e.g., 'domain_search').
+ * @param int    $limit     Maximum number of allowed requests.
+ * @param int    $period    Time period in seconds.
+ * @return bool|WP_Error True if request is allowed, WP_Error if limit exceeded.
+ */
+function check_rate_limit($limit_key = 'domain_search', $limit = 10, $period = 60) {
+    // Try to get user's IP address reliably
+    $ip_address = '';
+    if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
+        $ip_address = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+        $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else {
+        $ip_address = isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : 'unknown';
+    }
+
+    // Sanitize IP just in case, though usually handled by server vars
+    $ip_address = preg_replace( '/[^0-9a-fA-F:., ]/', '', $ip_address ); // Allow IPv4, IPv6, commas, spaces (X-Forwarded-For)
+    // Take only the first IP if multiple are present
+     if (strpos($ip_address, ',') !== false) {
+        $ip_address = explode(',', $ip_address)[0];
+     }
+     $ip_address = trim($ip_address);
+
+
+    if (empty($ip_address) || $ip_address === 'unknown') {
+        // Cannot determine IP, maybe allow request but log warning? Or block? Let's allow for now.
+        error_log("Rate Limit Warning: Could not determine IP address for key '{$limit_key}'. Allowing request.");
+        return true;
+    }
+
+    // Create a unique transient key combining the limit key and the IP address
+    $transient_key = 'rate_limit_' . $limit_key . '_' . md5($ip_address);
+
+    // Get the current count for this IP from the transient
+    $current_count = get_transient( $transient_key );
+
+    if ( false === $current_count ) {
+        // Transient doesn't exist or expired, start count at 1
+        set_transient( $transient_key, 1, $period );
+        return true; // Allow first request
+    } elseif ( intval($current_count) < $limit ) {
+        // Count is below limit, increment it
+        set_transient( $transient_key, intval($current_count) + 1, $period );
+        return true; // Allow request
+    } else {
+        // Limit exceeded
+        // Optionally log the blocked IP/key
+        // error_log("Rate Limit Exceeded for key '{$limit_key}', IP: {$ip_address}");
+        // Return WP_Error with 429 status code
+        return new WP_Error(
+            'rest_rate_limit_exceeded',
+            __( 'Too many requests. Please wait a minute and try again.', 'electrosuite-reseller' ),
+            array( 'status' => 429 ) // HTTP 429 Too Many Requests
+        );
+    }
+}
 
 
 
@@ -94,17 +338,12 @@ function handle_electrosuite_domain_search_request( WP_REST_Request $request ) {
     }
 
     // --- Determine TLDs to Check ---
-    $tlds_to_check = [];
-    // Add TLDs from settings (using eNom options as example)
-    if (get_option('electrosuite_reseller_enom_tlds_option_one') === 'yes') $tlds_to_check[] = 'com';
-    if (get_option('electrosuite_reseller_enom_tlds_option_two') === 'yes') $tlds_to_check[] = 'org';
-    if (get_option('electrosuite_reseller_enom_tlds_option_three') === 'yes') $tlds_to_check[] = 'net';
-    // TODO: Add more TLDs? Get from API?
+    $selected_tlds = get_option('electrosuite_reseller_enom_checked_tlds', ['com', 'net', 'org']);
+    $tlds_to_check = is_array($selected_tlds) ? $selected_tlds : [];
 
     if (empty($tlds_to_check)) {
-         return new WP_Error('no_tlds', __('No TLDs configured for checking.', 'electrosuite-reseller'), ['status' => 500]);
+         return new WP_Error('no_tlds_selected', __('No TLDs selected in eNom settings for checking.', 'electrosuite-reseller'), ['status' => 500]);
     }
-    $tlds_to_check = array_unique($tlds_to_check); // Ensure unique
 
     // --- Get Credentials & Settings ---
     $active_api_provider = get_option( 'electrosuite_reseller_server_api', 'enom' );
@@ -140,7 +379,7 @@ function handle_electrosuite_domain_search_request( WP_REST_Request $request ) {
         return $availability_results; // Return the WP_Error object
     }
 
-    // --- STEP B: Loop through requested TLDs & Get Prices for AVAILABLE ones ---
+        // --- STEP B: Loop through requested TLDs & Get Prices for AVAILABLE ones ---
     $results_list = [];
     foreach ($tlds_to_check as $tld) {
         $current_domain = $sld . '.' . $tld;
@@ -157,37 +396,33 @@ function handle_electrosuite_domain_search_request( WP_REST_Request $request ) {
              $result_item['available'] = $is_available;
              unset($result_item['message']); // Clear default error message
 
-             // If it's available according to the first check, make a SECOND call to get the price
+             // If it's available according to the first check, attempt to get the price and apply markup
              if ($is_available === true) {
-                  // Ensure the function name matches the one for single TLD price check
                   $price_result = call_enom_check_single_v2_price($username, $api_key_to_use, $sld, $tld, $is_test_mode);
 
                   if (is_wp_error($price_result)) {
-                       // Log error getting price, set price indicator to 'Error'
                        error_log("API Price Warning: Failed to get price for available domain {$current_domain}: " . $price_result->get_error_message());
-                       $result_item['adjusted_price'] = 'Error';
+                       $result_item['adjusted_price'] = 'Error'; // Indicate price retrieval error
                   } elseif (is_array($price_result) && isset($price_result['cost']) && is_numeric($price_result['cost']) && $price_result['cost'] >= 0) {
-                       // Successfully got cost price, now apply markup
+                       // Got a valid cost, apply markup
                        $base_cost = floatval($price_result['cost']);
                        $adjusted_price = $base_cost;
                        if ($price_mode === 'fixed') {
                            $adjusted_price += $price_value;
                        } elseif ($price_mode === 'percentage') {
-                           // Ensure calculation is correct: markup based on cost
-                           $markup = $base_cost * ($price_value / 100.0);
+                           $markup = $base_cost * ($price_value / 100.0); // Calculate markup based on cost
                            $adjusted_price += $markup;
                        }
-                       // Format the final selling price
-                       $result_item['adjusted_price'] = number_format(max(0, $adjusted_price), 2, '.', '');
+                       $result_item['adjusted_price'] = number_format(max(0, $adjusted_price), 2, '.', ''); // Format final price
                   } else {
                        // Price call succeeded but didn't return a valid cost value
                        error_log("API Price Warning: No valid cost price returned by single check for available domain {$current_domain}");
-                       $result_item['adjusted_price'] = 'N/A';
+                       $result_item['adjusted_price'] = 'N/A'; // Indicate price not available
                   }
-             } // End if ($is_available === true)
+             } // End if ($is_available === true) - No price needed if not available
 
         } else {
-             // TLD wasn't found in the availability results array - this shouldn't happen if the first call worked
+             // TLD wasn't found in the availability results array
              error_log("API Availability Warning: TLD {$tld} missing from multi-check response array.");
              $result_item['message'] = __('Status not returned by registrar.', 'electrosuite-reseller');
         }
@@ -195,7 +430,6 @@ function handle_electrosuite_domain_search_request( WP_REST_Request $request ) {
     } // End TLD loop
 
     // --- Return Final Results ---
-    // error_log("API Debug: Returning results list: " . print_r($results_list, true)); // Optional final check
     return new WP_REST_Response( $results_list, 200 );
 }
 
@@ -231,8 +465,6 @@ function call_enom_check_v2_availability( $username, $api_key, $sld, $tld_array,
     $api_url = add_query_arg( array(
         'command' => 'Check',
         'Version' => '2',
-        // IncludePrice=1 doesn't seem to work reliably for multi-TLD test, but leave it for now? Or remove? Let's remove for just availability check.
-        // 'IncludePrice' => '1',
         'uid' => $username,
         'pw' => $api_key,
         'SLD' => $sld,
@@ -333,6 +565,7 @@ function call_enom_check_v2_availability( $username, $api_key, $sld, $tld_array,
     } elseif (isset($response_node->ErrCount) && intval((string)$response_node->ErrCount) == 0) {
          // Handle case where ErrCount is 0 but expected data arrays are missing or DomainCount is 0
          error_log("eNom V2 Avail Check Warning: ErrCount is 0 but DomainCount is 0 or Domain arrays missing. Raw Body Length: " . strlen($body));
+         // Currently does nothing else - returns empty $results implicitly
     } else {
         // Handle case where ErrCount is missing but DomainCount might be 0 or other structure issues
          error_log("eNom V2 Avail Check Warning: Unexpected XML structure or DomainCount=0. Raw Body Length: " . strlen($body));
@@ -450,7 +683,6 @@ function call_enom_check_single_v2_price( $username, $api_key, $sld, $tld, $is_t
          // Extract Registration Price from the specific structure for single domain responses
          if (isset($domain_node->Prices->Registration) && is_numeric((string)$domain_node->Prices->Registration)) {
              $result_data['cost'] = floatval((string)$domain_node->Prices->Registration);
-             error_log("DEBUG eNom Single Price Check: Price found for {$sld}.{$tld}: " . $result_data['cost']); // Log successful price retrieval
          } elseif ($result_data['available']) {
               error_log("ElectroSuite Reseller eNom API Warning: Registration price missing or invalid in single check XML for available domain {$sld}.{$tld}");
          }

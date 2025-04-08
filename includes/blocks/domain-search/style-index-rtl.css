@@ -12,3 +12,60 @@
   color: #fff;
   padding: 2px;
 }
+
+/* Add to src/style.scss */
+.wp-block-create-block-domain-search .domain-input-error {
+  border-color: red;
+  outline-color: red; /* Optional focus outline */
+}
+
+.wp-block-create-block-domain-search .domain-input-feedback {
+  margin-top: 0.25em;
+  margin-bottom: 0.5em;
+}
+
+.wp-block-create-block-domain-search .domain-feedback-message {
+  /* General style for the message paragraph */
+}
+
+.wp-block-create-block-domain-search .domain-feedback-error {
+  color: #D63638; /* Example error color */
+  font-size: 0.9em;
+}
+
+.wp-block-create-block-domain-search .domain-feedback-ok {
+  color: green; /* Example OK color */
+  font-size: 0.9em;
+}
+
+/* Style the results list */
+.wp-block-create-block-domain-search .domain-search-results ul {
+  list-style: none;
+  padding-right: 0;
+  margin-top: 0.5em;
+}
+
+.wp-block-create-block-domain-search .domain-search-results li {
+  margin-bottom: 0.3em;
+  padding: 0.2em 0;
+  border-bottom: 1px solid #eee;
+}
+
+.wp-block-create-block-domain-search .domain-search-success {
+  color: #468847; /* Bootstrap success green */
+  font-weight: bold;
+}
+
+.wp-block-create-block-domain-search .domain-search-unavailable {
+  color: #999;
+}
+
+/* Inherit error color from feedback */
+.wp-block-create-block-domain-search .domain-search-error {
+  color: #D63638;
+}
+
+.wp-block-create-block-domain-search .domain-search-loading {
+  color: #666;
+  font-style: italic;
+}
