@@ -64,7 +64,7 @@ class ElectroSuite_Reseller_Settings_First_Tab extends ElectroSuite_Reseller_Set
 				'default'	=> 'no',
 				'type' 		=> 'checkbox',
 			),
-
+			/*
 			array(
 				'title' 	=> __( 'Secure Content', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
 				'desc' 		=> __( 'Keep your site secure by forcing SSL (HTTPS) on site (an SSL Certificate is required).', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
@@ -72,7 +72,7 @@ class ElectroSuite_Reseller_Settings_First_Tab extends ElectroSuite_Reseller_Set
 				'default'	=> 'no',
 				'type' 		=> 'checkbox'
 			),
-
+			*/
 			array(
 				'title' 	=> __( 'Select Country', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
 				'desc' 		=> __( 'This gives you a list of countries. ', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),

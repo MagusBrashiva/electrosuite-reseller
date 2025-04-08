@@ -15,29 +15,63 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /**
  * Register the REST API route for domain checks.
+ * Includes permission checks for SSL, Nonce, and Rate Limiting.
  */
 add_action( 'rest_api_init', function () {
     register_rest_route( 'domain-search/v1', '/check', array(
         'methods' => 'POST',
         'callback' => 'handle_electrosuite_domain_search_request',
         'permission_callback' => function ( WP_REST_Request $request ) {
-            // 1. Nonce Check (Keep this first)
+
+            // --- NEW: 1. SSL Check (Add this first) ---
+            if ( ! is_ssl() ) {
+                error_log("ElectroSuite Reseller REST API Error: Domain search request blocked over non-HTTPS connection.");
+                return new WP_Error(
+                    'rest_ssl_required',
+                    __( 'SSL (HTTPS) is required for domain searches.', 'electrosuite-reseller' ),
+                    array( 'status' => 400 ) // 400 Bad Request as the request doesn't meet security requirements
+                );
+            }
+            // --- End NEW SSL Check ---
+
+
+            // --- Existing: 2. Nonce Check (Was 1) ---
             $nonce = $request->get_header('X-WP-Nonce');
-            if ( !$nonce ) { $nonce = isset( $_REQUEST['_wpnonce'] ) ? $_REQUEST['_wpnonce'] : ''; }
-            if ( ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
-                 error_log("ElectroSuite Reseller REST API: Nonce verification failed.");
-                 return new WP_Error( /* ... nonce error ... */ );
+            if ( !$nonce ) {
+                // Fallback to checking POST/GET data for _wpnonce if header not present
+                 $nonce = isset( $_REQUEST['_wpnonce'] ) ? sanitize_key( $_REQUEST['_wpnonce'] ) : '';
             }
-
-            // 2. Rate Limit Check (Add this)
-            $limit_check = check_rate_limit('domain_search', 15, 60); // Example: 15 requests per 60 seconds
-            if (is_wp_error($limit_check)) {
-                // If rate limit returns an error, return it directly
-                return $limit_check;
+             if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
+                 error_log("ElectroSuite Reseller REST API Error: Nonce verification failed.");
+                 return new WP_Error(
+                     'rest_cookie_invalid', // Keep WP standard code for nonce failure
+                     __( 'Nonce check failed. Please refresh the page and try again.', 'electrosuite-reseller' ),
+                     array( 'status' => 403 ) // 403 Forbidden is standard for auth/nonce failures
+                 );
             }
-            // If $limit_check was true, proceed
+            // --- End Nonce Check ---
 
-            // 3. Add any other permission checks if needed (e.g., user capabilities)
+
+            // --- Existing: 3. Rate Limit Check (Was 2) ---
+            // Assuming check_rate_limit function exists and is defined elsewhere
+            if ( function_exists('check_rate_limit') ) {
+                $limit_check = check_rate_limit('domain_search', 15, 60); // Example: 15 requests per 60 seconds
+                if (is_wp_error($limit_check)) {
+                    // If rate limit returns an error, return it directly
+                    // Ensure the error from check_rate_limit includes a status code (e.g., 429)
+                    return $limit_check;
+                }
+                // If $limit_check was true, proceed
+            } else {
+                 // Optional: Log if rate limit function is missing but don't block necessarily
+                 error_log("ElectroSuite Reseller REST API Warning: Rate limit function 'check_rate_limit' not found.");
+            }
+            // --- End Rate Limit Check ---
+
+
+            // --- Existing: 4. Other Checks (Was 3) ---
+            // Add any other permission checks if needed (e.g., user capabilities)
+
 
             // If all checks pass
             return true;
@@ -46,8 +80,8 @@ add_action( 'rest_api_init', function () {
             'domain' => array(
                 'required' => true,
                 'sanitize_callback' => 'sanitize_text_field',
-                // Update validation callback
                 'validate_callback' => function($param, $request, $key) {
+                    // Keep existing validation logic for the domain parameter
                     $domain_input = trim($param);
                     if ( empty($domain_input) ) {
                         return new WP_Error( 'rest_invalid_param', esc_html__( 'Domain name cannot be empty.', 'electrosuite-reseller' ), array( 'status' => 400 ) );
@@ -65,10 +99,18 @@ add_action( 'rest_api_init', function () {
                     return true;
                 }
             ),
+            // Include nonce in args if accepting it via query/body instead of header
+            /*
+            '_wpnonce' => array(
+                'description' => __('WordPress nonce.', 'electrosuite-reseller'),
+                'type' => 'string',
+                'required' => false, // Nonce might be in header
+            ),
+            */
         ),
 
     ) );
-} );
+} ); // End add_action 'rest_api_init'
 
 
 
@@ -316,114 +358,195 @@ function check_rate_limit($limit_key = 'domain_search', $limit = 10, $period = 6
 
 /**
  * Handle the domain search REST API request (Multi-TLD Avail + Single TLD Price).
+ * Retrieves credentials, decrypts Live API key, calls eNom functions, applies markup.
  *
  * @param WP_REST_Request $request The incoming request object.
  * @return WP_REST_Response|WP_Error A response object on success, or WP_Error on failure.
  */
 function handle_electrosuite_domain_search_request( WP_REST_Request $request ) {
-    $domain_input = $request['domain'];
+    $domain_input = $request['domain']; // Already sanitized by 'sanitize_callback' and validated by 'validate_callback' in register_rest_route
 
     // --- Extract SLD ---
     $sld = null; // Initialize $sld
+    // Use helper function to extract SLD and TLD if possible
     $domain_parts = extract_sld_tld($domain_input);
-    if ($domain_parts === false && !empty($domain_input) && strpos($domain_input, '.') === false) {
-        $sld = $domain_input; // Assume input was just the SLD
-    } elseif ($domain_parts !== false) {
+
+    // Handle cases:
+    // 1. Input is 'example.com' -> extract_sld_tld returns ['sld'=>'example', 'tld'=>'com']
+    // 2. Input is just 'example' -> extract_sld_tld returns false, but we can use the input as SLD
+    // 3. Input is invalid (e.g., '.example', 'example.') -> extract_sld_tld returns false, handled below
+    if ($domain_parts !== false) {
         $sld = $domain_parts['sld']; // Use SLD from parsed input
+    } elseif (strpos($domain_input, '.') === false && !empty($domain_input)) {
+        // If no dot and not empty, assume input was just the SLD.
+        // Perform basic SLD validation similar to extract_sld_tld's checks
+        $temp_sld = strtolower(trim($domain_input));
+        if (
+            !preg_match('/^[a-z0-9-]+$/', $temp_sld) || // Rule: a-z, 0-9, hyphen ONLY
+            str_starts_with($temp_sld, '-') || str_ends_with($temp_sld, '-') || // Rule: Not begin or end with hyphen
+            (strlen($temp_sld) >= 4 && substr($temp_sld, 2, 2) === '--' && !str_starts_with($temp_sld, 'xn--')) || // Rule: 3rd/4th not '--' (basic non-IDN check)
+            strlen($temp_sld) < 2 || strlen($temp_sld) > 63 // Rule: 2-63 characters
+         ) {
+             // Invalid SLD format even if no TLD was provided
+             // Keep $sld as null, will trigger error below
+             error_log("Domain Search Handler: Invalid SLD format provided directly: " . $domain_input);
+         } else {
+             $sld = $temp_sld; // Assume input was a valid SLD
+         }
     }
 
-    // Check if SLD extraction was successful
+    // Check if SLD extraction/validation was successful
     if ( $sld === null ) {
-         return new WP_Error('invalid_sld', __('Invalid domain or SLD provided.', 'electrosuite-reseller'), ['status' => 400]);
+         // Return error based on more specific validation failure if possible (from validate_callback or above checks)
+         // For simplicity here, return a general error.
+         return new WP_Error('invalid_sld_or_domain', __('Invalid domain name or SLD provided.', 'electrosuite-reseller'), ['status' => 400]);
     }
 
     // --- Determine TLDs to Check ---
-    $selected_tlds = get_option('electrosuite_reseller_enom_checked_tlds', ['com', 'net', 'org']);
-    $tlds_to_check = is_array($selected_tlds) ? $selected_tlds : [];
-
-    if (empty($tlds_to_check)) {
-         return new WP_Error('no_tlds_selected', __('No TLDs selected in eNom settings for checking.', 'electrosuite-reseller'), ['status' => 500]);
-    }
-
-    // --- Get Credentials & Settings ---
+    // Get selected TLDs based on the *active* provider. Default to eNom if provider setting missing.
     $active_api_provider = get_option( 'electrosuite_reseller_server_api', 'enom' );
+    $tld_option_key = 'electrosuite_reseller_' . $active_api_provider . '_checked_tlds';
+    // Provide a sensible default TLD list if the option is empty or not set
+    $default_tlds = ['com', 'net', 'org'];
+    $selected_tlds = get_option($tld_option_key, $default_tlds);
+    // Ensure $selected_tlds is a non-empty array
+    $tlds_to_check = (is_array($selected_tlds) && !empty($selected_tlds)) ? $selected_tlds : $default_tlds;
+
+
+    // --- Get Credentials & Settings for the Active Provider ---
+    // For now, we only handle eNom completely. Add logic for other providers later.
     if ($active_api_provider !== 'enom') {
+        // TODO: Implement logic for ResellerClub, CentralNic
         return new WP_Error('provider_not_supported', __('Domain check only implemented for eNom currently.', 'electrosuite-reseller'), ['status' => 501]);
     }
+
     $is_test_mode = ( get_option( 'electrosuite_reseller_test_mode', 'no' ) === 'yes' );
     $username = get_option( 'electrosuite_reseller_enom_api_username' );
     $option_key_name = $is_test_mode ? 'electrosuite_reseller_enom_test_api_key' : 'electrosuite_reseller_enom_live_api_key';
-    $api_key_to_use = get_option( $option_key_name );
+    $retrieved_api_key = get_option( $option_key_name ); // This is plaintext test key OR encrypted live key
     $key_type_for_error = $is_test_mode ? 'Test' : 'Live';
 
-    // Validate credentials
-    if ( empty( $username ) || empty( $api_key_to_use ) ) {
+
+    // --- Validate Base Credentials Exist ---
+    if ( empty( $username ) || empty( $retrieved_api_key ) ) {
          $error_detail = empty($username) ? __('Username missing.', 'electrosuite-reseller') : sprintf(__('%s API key missing.', 'electrosuite-reseller'), $key_type_for_error);
-         $error_message = sprintf( __( 'API credentials (%s) for eNom are not configured.', 'electrosuite-reseller' ), $error_detail );
+         $error_message = sprintf( __( 'API credentials (%1$s) for %2$s are not configured.', 'electrosuite-reseller' ), $error_detail, 'eNom' );
          error_log("ElectroSuite Reseller API Error: " . $error_message);
-         return new WP_Error('config_error', $error_message, array( 'status' => 500 ));
+         return new WP_Error('config_error_credentials', $error_message, array( 'status' => 500 ));
     }
+
+
+    // --- Decrypt Live API Key If Necessary ---
+    $api_key_for_calls = $retrieved_api_key; // Initialize with the retrieved value
+
+    if ( false === $is_test_mode ) { // Only decrypt if in Live mode
+        if ( class_exists('ElectroSuite_Reseller_Security') ) {
+            $decrypted_key = ElectroSuite_Reseller_Security::decrypt( $retrieved_api_key );
+
+            if ( false === $decrypted_key ) {
+                // Decryption failed
+                $error_message = __('Could not use the Live API key for eNom. Decryption failed. Check WP salts and saved key.', 'electrosuite-reseller');
+                error_log("ElectroSuite Reseller API Error: " . $error_message);
+                // Return 500 Internal Server Error as it's a server config issue
+                return new WP_Error('enom_live_key_decrypt_failed_handler', $error_message, ['status' => 500]);
+            }
+            // Use the decrypted key for API calls
+            $api_key_for_calls = $decrypted_key;
+            unset($decrypted_key); // Clear sensitive data from memory
+
+        } else {
+            // Security class is missing - critical failure
+            $error_message = __('Security component is missing. Cannot process Live API request for eNom.', 'electrosuite-reseller');
+            error_log("ElectroSuite Reseller API Error: " . $error_message);
+            return new WP_Error('enom_security_class_missing_handler', $error_message, ['status' => 500]);
+        }
+    }
+    // If in test mode, $api_key_for_calls remains the plaintext test key.
+    // --- End Decryption ---
+
 
     // --- Get Pricing Adjustment Settings ---
     $price_mode = get_option('electrosuite_reseller_price_mode', 'percentage');
-    $price_value_raw = get_option('electrosuite_reseller_price_value', '0');
+    $price_value_raw = get_option('electrosuite_reseller_price_value', '0'); // Default to 0
     $price_value = is_numeric($price_value_raw) ? floatval($price_value_raw) : 0.0;
 
+
     // --- STEP A: Call Multi-TLD Availability Check ---
-    // Ensure the function name matches the one defined for multi-TLD check
-    $availability_results = call_enom_check_v2_availability($username, $api_key_to_use, $sld, $tlds_to_check, $is_test_mode);
+    // Pass the ready-to-use key ($api_key_for_calls)
+    $availability_results = call_enom_check_v2_availability($username, $api_key_for_calls, $sld, $tlds_to_check, $is_test_mode);
 
     // Handle potential errors from the availability check immediately
     if (is_wp_error($availability_results)) {
         error_log("API Error during multi-TLD availability check: " . $availability_results->get_error_message());
+        // Ensure the error has a status code before returning
+        $status = $availability_results->get_error_data();
+        if ( !is_array($status) || !isset($status['status']) ) {
+             $availability_results->add_data(['status' => 502]); // Default to 502 Bad Gateway if status missing
+        }
         return $availability_results; // Return the WP_Error object
     }
 
-        // --- STEP B: Loop through requested TLDs & Get Prices for AVAILABLE ones ---
+
+    // --- STEP B: Loop through requested TLDs & Get Prices for AVAILABLE ones ---
     $results_list = [];
     foreach ($tlds_to_check as $tld) {
         $current_domain = $sld . '.' . $tld;
         $result_item = [
             'domain' => $current_domain,
-            'available' => 'error', // Default state
+            'available' => 'error', // Default state if not found in results
             'adjusted_price' => null,
             'message' => __('Status could not be determined.', 'electrosuite-reseller')
         ];
 
-        // Check availability status from the first API call's results
+        // Check availability status from the first API call's results array
         if (isset($availability_results[$tld])) {
-             $is_available = $availability_results[$tld]['available']; // Should be true or false
-             $result_item['available'] = $is_available;
-             unset($result_item['message']); // Clear default error message
+             // Check if the result for this TLD indicates an error from the availability call itself
+             if ( $availability_results[$tld]['available'] === 'error' ) {
+                  $result_item['available'] = 'error';
+                  $result_item['message'] = isset($availability_results[$tld]['message']) ? $availability_results[$tld]['message'] : __('Status not returned by registrar.', 'electrosuite-reseller');
+                  error_log("API Availability Error for {$current_domain}: Status was 'error'. Message: " . $result_item['message']);
+             } else {
+                 // Availability is either true or false
+                 $is_available = $availability_results[$tld]['available']; // Should be bool true or false
+                 $result_item['available'] = $is_available;
+                 unset($result_item['message']); // Clear default error message
 
-             // If it's available according to the first check, attempt to get the price and apply markup
-             if ($is_available === true) {
-                  $price_result = call_enom_check_single_v2_price($username, $api_key_to_use, $sld, $tld, $is_test_mode);
+                 // If it's available, attempt to get the price and apply markup
+                 if ($is_available === true) {
+                      // Pass the ready-to-use key ($api_key_for_calls)
+                      $price_result = call_enom_check_single_v2_price($username, $api_key_for_calls, $sld, $tld, $is_test_mode);
 
-                  if (is_wp_error($price_result)) {
-                       error_log("API Price Warning: Failed to get price for available domain {$current_domain}: " . $price_result->get_error_message());
-                       $result_item['adjusted_price'] = 'Error'; // Indicate price retrieval error
-                  } elseif (is_array($price_result) && isset($price_result['cost']) && is_numeric($price_result['cost']) && $price_result['cost'] >= 0) {
-                       // Got a valid cost, apply markup
-                       $base_cost = floatval($price_result['cost']);
-                       $adjusted_price = $base_cost;
-                       if ($price_mode === 'fixed') {
-                           $adjusted_price += $price_value;
-                       } elseif ($price_mode === 'percentage') {
-                           $markup = $base_cost * ($price_value / 100.0); // Calculate markup based on cost
-                           $adjusted_price += $markup;
-                       }
-                       $result_item['adjusted_price'] = number_format(max(0, $adjusted_price), 2, '.', ''); // Format final price
-                  } else {
-                       // Price call succeeded but didn't return a valid cost value
-                       error_log("API Price Warning: No valid cost price returned by single check for available domain {$current_domain}");
-                       $result_item['adjusted_price'] = 'N/A'; // Indicate price not available
-                  }
-             } // End if ($is_available === true) - No price needed if not available
+                      if (is_wp_error($price_result)) {
+                           // Log the error from the price check, but still return the TLD as available
+                           error_log("API Price Warning: Failed to get price for available domain {$current_domain}: " . $price_result->get_error_message());
+                           $result_item['adjusted_price'] = 'Error'; // Indicate price retrieval error specifically
+                           $result_item['message'] = __('Could not retrieve price.', 'electrosuite-reseller');
+                      } elseif (is_array($price_result) && isset($price_result['cost']) && is_numeric($price_result['cost']) && $price_result['cost'] >= 0) {
+                           // Got a valid base cost, apply markup/adjustment
+                           $base_cost = floatval($price_result['cost']);
+                           $adjusted_price = $base_cost; // Start with base cost
+
+                           if ($price_mode === 'fixed') {
+                               $adjusted_price += $price_value; // Add fixed amount
+                           } elseif ($price_mode === 'percentage' && $price_value != 0) {
+                               $markup_amount = $base_cost * ($price_value / 100.0); // Calculate percentage markup based on cost
+                               $adjusted_price += $markup_amount; // Add markup
+                           }
+                           // Ensure price is not negative, format to 2 decimal places
+                           $result_item['adjusted_price'] = number_format(max(0, $adjusted_price), 2, '.', '');
+                      } else {
+                           // Price call succeeded (not WP_Error) but didn't return a valid numeric cost
+                           error_log("API Price Warning: No valid cost price returned by single check for available domain {$current_domain}. Price Result: " . print_r($price_result, true));
+                           $result_item['adjusted_price'] = 'N/A'; // Indicate price not available from registrar
+                           $result_item['message'] = __('Price not available.', 'electrosuite-reseller');
+                      }
+                 } // End if ($is_available === true) - No price needed if not available
+             }
 
         } else {
-             // TLD wasn't found in the availability results array
-             error_log("API Availability Warning: TLD {$tld} missing from multi-check response array.");
+             // TLD wasn't found in the availability results array (should not happen if checks in call_enom_check_v2_availability work)
+             error_log("API Availability Warning: TLD {$tld} missing from multi-check response array for SLD {$sld}.");
+             // Keep default error state from initialization
              $result_item['message'] = __('Status not returned by registrar.', 'electrosuite-reseller');
         }
         $results_list[] = $result_item;

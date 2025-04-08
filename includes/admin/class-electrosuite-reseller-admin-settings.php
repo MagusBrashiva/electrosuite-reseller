@@ -184,10 +184,11 @@ class ElectroSuite_Reseller_Admin_Settings {
 		return $option_value === null ? $default : $option_value;
 	}
 
-	/**
+		/**
 	 * Output admin fields.
 	 *
 	 * Loops though the plugin name options array and outputs each field.
+	 * Displays placeholders for Live API keys instead of actual values.
 	 *
 	 * @access public
 	 * @param array $options Opens array to output
@@ -213,8 +214,9 @@ class ElectroSuite_Reseller_Admin_Settings {
 			}
 
 			// Description handling
+			$description = '';
+			$tip = '';
 			if ( $value['desc_tip'] === true ) {
-				$description = '';
 				$tip = $value['desc'];
 			}
 			elseif ( ! empty( $value['desc_tip'] ) ) {
@@ -223,10 +225,6 @@ class ElectroSuite_Reseller_Admin_Settings {
 			}
 			elseif ( ! empty( $value['desc'] ) ) {
 				$description = $value['desc'];
-				$tip = '';
-			}
-			else {
-				$description = $tip = '';
 			}
 
 			if ( $description && in_array( $value['type'], array( 'textarea', 'radio' ) ) ) {
@@ -240,7 +238,7 @@ class ElectroSuite_Reseller_Admin_Settings {
 				$tip = '<p class="description">' . $tip . '</p>';
 			}
 			elseif ( $tip ) {
-				$tip = '<img class="help_tip" data-tip="' . esc_attr( $tip ) . '" src="' . ElectroSuite_Reseller()->plugin_url() . '/assets/images/help.png" height="16" width="16" />';
+				$tip = '<img class="help_tip" data-tip="' . esc_attr( $tip ) . '" src="' . esc_url( ElectroSuite_Reseller()->plugin_url() . '/assets/images/help.png' ) . '" height="16" width="16" />';
 			}
 
 			// Switch based on type
@@ -275,51 +273,17 @@ class ElectroSuite_Reseller_Admin_Settings {
 
 				// Standard text inputs and subtypes like 'number'
 				case 'text':
-
-				// Username for API calls
-				/*case 'username':
-				
-					$type 			= $value['type'];
-					$class 			= '';
-					$option_value 	= self::get_option( $value['id'], $value['default'] );
-
-					if ( $value['type'] == 'color' ) {
-						$type = 'text';
-						$value['class'] .= 'colorpick';
-						$description .= '<div id="colorPickerDiv_' . esc_attr( $value['id'] ) . '" class="colorpickdiv" style="z-index: 100;background:#eee;border:1px solid #ccc;position:absolute;"></div>';
-					}
-
-					?><tr valign="top">
-						<th scope="row" class="titledesc">
-							<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-							<?php echo $tip; ?>
-						</th>
-						<td class="forminp forminp-<?php echo sanitize_title( $value['type'] ); ?>">
-							<input
-								name="<?php echo esc_attr( $value['id'] ); ?>"
-								id="<?php echo esc_attr( $value['id'] ); ?>"
-								type="<?php echo esc_attr( $type ); ?>"
-								style="<?php echo esc_attr( $value['css'] ); ?>"
-								value="<?php echo esc_attr( $option_value ); ?>"
-								class="<?php echo esc_attr( $value['class'] ); ?>"
-								<?php echo implode( ' ', $custom_attributes ); ?>
-							/> <?php echo $description; ?>
-						</td>
-					</tr><?php
-					break;
-					*/
 				case 'email':
 				case 'number':
 				case 'color':
-				case 'password':
+				// case 'password': // Handled below
 
 					$type 			= $value['type'];
-					$class 			= '';
 					$option_value 	= self::get_option( $value['id'], $value['default'] );
 
 					if ( $value['type'] == 'color' ) {
 						$type = 'text';
-						$value['class'] .= 'colorpick';
+						$value['class'] .= ' colorpick'; // Add space before class name
 						$description .= '<div id="colorPickerDiv_' . esc_attr( $value['id'] ) . '" class="colorpickdiv" style="z-index: 100;background:#eee;border:1px solid #ccc;position:absolute;display:none;"></div>';
 					}
 
@@ -334,8 +298,56 @@ class ElectroSuite_Reseller_Admin_Settings {
 								id="<?php echo esc_attr( $value['id'] ); ?>"
 								type="<?php echo esc_attr( $type ); ?>"
 								style="<?php echo esc_attr( $value['css'] ); ?>"
-								value="<?php echo esc_attr( $option_value ); ?>"
+								value="<?php echo esc_attr( $option_value ); ?>" <?php // Standard value output for non-password ?>
 								class="<?php echo esc_attr( $value['class'] ); ?>"
+								<?php echo implode( ' ', $custom_attributes ); ?>
+							/> <?php echo $description; ?>
+						</td>
+					</tr><?php
+					break;
+
+				// Password Field Output Logic
+				case 'password':
+					$option_value   = self::get_option( $value['id'], $value['default'] );
+					$display_value  = ''; // Initialize display value
+					$placeholder_text = ''; // Initialize placeholder
+
+					// Define Live API Key Option IDs
+					$live_api_key_ids = [
+						'electrosuite_reseller_enom_live_api_key',
+						'electrosuite_reseller_resellerclub_live_api_key',
+						'electrosuite_reseller_centralnic_live_api_key',
+					];
+
+					// Check if this is a Live API key
+					if ( in_array( $value['id'], $live_api_key_ids ) ) {
+						// For Live keys, show placeholder if a value exists (is saved/encrypted)
+						if ( ! empty( $option_value ) ) {
+							$display_value = '************************************************';
+							$placeholder_text = __( 'Saved - Enter new key to change', 'electrosuite-reseller' );
+						} else {
+							$display_value = '';
+							// No specific placeholder needed if empty
+						}
+					} else {
+						// For other password fields (e.g., Test Keys), show the actual saved value (plaintext)
+						$display_value = $option_value;
+					}
+
+					?><tr valign="top">
+						<th scope="row" class="titledesc">
+							<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
+							<?php echo $tip; ?>
+						</th>
+						<td class="forminp forminp-<?php echo sanitize_title( $value['type'] ); ?>">
+							<input
+								name="<?php echo esc_attr( $value['id'] ); ?>"
+								id="<?php echo esc_attr( $value['id'] ); ?>"
+								type="password" <?php // Always type="password" for masking ?>
+								style="<?php echo esc_attr( $value['css'] ); ?>"
+								value="<?php echo esc_attr( $display_value ); ?>" <?php // Use controlled display value ?>
+								class="<?php echo esc_attr( $value['class'] ); ?>"
+								placeholder="<?php echo esc_attr( $placeholder_text ); ?>" <?php // Add placeholder hint ?>
 								<?php echo implode( ' ', $custom_attributes ); ?>
 							/> <?php echo $description; ?>
 						</td>
@@ -344,9 +356,7 @@ class ElectroSuite_Reseller_Admin_Settings {
 
 				// Textarea
 				case 'textarea':
-
 					$option_value = self::get_option( $value['id'], $value['default'] );
-
 					?><tr valign="top">
 						<th scope="row" class="titledesc">
 							<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
@@ -354,7 +364,6 @@ class ElectroSuite_Reseller_Admin_Settings {
 						</th>
 						<td class="forminp forminp-<?php echo sanitize_title( $value['type'] ); ?>">
 						<?php echo $description; ?>
-
 						<textarea
 								name="<?php echo esc_attr( $value['id'] ); ?>"
 								id="<?php echo esc_attr( $value['id'] ); ?>"
@@ -369,69 +378,76 @@ class ElectroSuite_Reseller_Admin_Settings {
 				// Select boxes
 				case 'select':
 				case 'multiselect':
-
-				$option_value = self::get_option( $value['id'], $value['default'] );
-
-				?><tr valign="top">
-						<th scope="row" class="titledesc">
-							<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-							<?php echo $tip; ?>
-						</th>
-						<td class="forminp forminp-<?php echo sanitize_title( $value['type'] ); ?>">
-						<select
-								name="<?php echo esc_attr( $value['id'] ); ?><?php if ( $value['type'] == 'multiselect' ) echo '[]'; ?>"
-								id="<?php echo esc_attr( $value['id'] ); ?>"
-								style="<?php echo esc_attr( $value['css'] ); ?>"
-								class="<?php echo esc_attr( $value['class'] ); ?>"
-								<?php echo implode( ' ', $custom_attributes ); ?>
-								<?php if ( $value['type'] == 'multiselect' ) echo 'multiple="multiple"'; ?>>
-
-								<?php foreach ( $value['options'] as $key => $val ) { ?>
-										<option value="<?php echo esc_attr( $key ); ?>" <?php
-											if ( is_array( $option_value ) ) {
-												selected( in_array( $key, $option_value ), true );
-											}
-											else {
-												selected( $option_value, $key );
-											}
-
-										?>><?php echo $val ?></option>
-										<?php
-									}
-								?>
-							</select> <?php echo $description; ?>
-						</td>
-					</tr><?php
-					break;
+                    $option_value = self::get_option( $value['id'], $value['default'] );
+                    ?><tr valign="top">
+                        <th scope="row" class="titledesc">
+                            <label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
+                            <?php echo $tip; ?>
+                        </th>
+                        <td class="forminp forminp-<?php echo sanitize_title( $value['type'] ); ?>">
+                            <select
+                                name="<?php echo esc_attr( $value['id'] ); ?><?php if ( $value['type'] == 'multiselect' ) echo '[]'; ?>"
+                                id="<?php echo esc_attr( $value['id'] ); ?>"
+                                style="<?php echo esc_attr( $value['css'] ); ?>"
+                                class="<?php echo esc_attr( $value['class'] ); ?>"
+                                <?php echo implode( ' ', $custom_attributes ); ?>
+                                <?php if ( $value['type'] == 'multiselect' ) echo 'multiple="multiple"'; ?>>
+                                <?php
+                                if ( ! empty( $value['options'] ) && is_array( $value['options'] ) ) {
+                                    foreach ( $value['options'] as $key => $val ) {
+                                        ?>
+                                        <option value="<?php echo esc_attr( $key ); ?>" <?php
+                                            if ( is_array( $option_value ) ) {
+                                                selected( in_array( (string) $key, array_map('strval', $option_value), true ), true );
+                                            } else {
+                                                selected( (string) $option_value, (string) $key );
+                                            }
+                                        ?>><?php echo esc_html( $val ); ?></option>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                            </select> <?php echo $description; ?>
+                        </td>
+                    </tr><?php
+                    break;
 
 				// Radio inputs
 				case 'radio':
-
 					$option_value = self::get_option( $value['id'], $value['default'] );
-
 					?><tr valign="top">
 						<th scope="row" class="titledesc">
-							<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
+							<label><?php echo esc_html( $value['title'] ); ?></label> <?php // No 'for' needed for radio group title ?>
 							<?php echo $tip; ?>
 						</th>
 						<td class="forminp forminp-<?php echo sanitize_title( $value['type'] ); ?>">
 							<fieldset>
 								<?php echo $description; ?>
-							<ul>
-							<?php foreach ( $value['options'] as $key => $val ) { ?>
-								<li>
-									<label><input
-												name="<?php echo esc_attr( $value['id'] ); ?>"
-												value="<?php echo $key; ?>"
-												type="radio"
-												style="<?php echo esc_attr( $value['css'] ); ?>"
-												class="<?php echo esc_attr( $value['class'] ); ?>"
-												<?php echo implode( ' ', $custom_attributes ); ?>
-												<?php checked( $key, $option_value ); ?>
-												/> <?php echo $val ?></label>
-								</li>
-							<?php } ?>
-							</ul>
+								<ul>
+								<?php
+								if ( ! empty( $value['options'] ) && is_array( $value['options'] ) ) {
+									foreach ( $value['options'] as $key => $val ) {
+										$radio_id = esc_attr( $value['id'] . '_' . $key );
+										?>
+										<li>
+											<label for="<?php echo $radio_id; ?>">
+												<input
+													name="<?php echo esc_attr( $value['id'] ); ?>"
+													id="<?php echo $radio_id; ?>"
+													value="<?php echo esc_attr( $key ); ?>"
+													type="radio"
+													style="<?php echo esc_attr( $value['css'] ); ?>"
+													class="<?php echo esc_attr( $value['class'] ); ?>"
+													<?php echo implode( ' ', $custom_attributes ); ?>
+													<?php checked( (string) $key, (string) $option_value ); ?>
+												/> <?php echo esc_html( $val ); ?>
+											</label>
+										</li>
+										<?php
+									}
+								}
+								?>
+								</ul>
 							</fieldset>
 						</td>
 					</tr><?php
@@ -439,46 +455,41 @@ class ElectroSuite_Reseller_Admin_Settings {
 
 				// Checkbox input
 				case 'checkbox':
-
 					$option_value = self::get_option( $value['id'], $value['default'] );
+                    // Ensure default is handled correctly for 'yes'/'no' checkboxes
+                    $checked_value = ($option_value === 'yes');
 
 					if ( ! isset( $value['hide_if_checked'] ) ) $value['hide_if_checked'] = false;
 					if ( ! isset( $value['show_if_checked'] ) ) $value['show_if_checked'] = false;
+                    $tr_class = '';
+                    if ( $value['hide_if_checked'] == 'yes' || $value['show_if_checked']=='yes') $tr_class .= ' hidden_option';
+                    if ( $value['hide_if_checked'] == 'option' ) $tr_class .= ' hide_options_if_checked';
+                    if ( $value['show_if_checked'] == 'option' ) $tr_class .= ' show_options_if_checked';
 
 					if ( ! isset( $value['checkboxgroup'] ) || ( isset( $value['checkboxgroup'] ) && $value['checkboxgroup'] == 'start' ) ) {
 					?>
-						<tr valign="top" class="<?php
-							if ( $value['hide_if_checked'] == 'yes' || $value['show_if_checked']=='yes') echo 'hidden_option';
-							if ( $value['hide_if_checked'] == 'option' ) echo 'hide_options_if_checked';
-							if ( $value['show_if_checked'] == 'option' ) echo 'show_options_if_checked';
-						?>">
+						<tr valign="top" class="<?php echo esc_attr(trim($tr_class)); ?>">
 						<th scope="row" class="titledesc"><?php echo esc_html( $value['title'] ); ?></th>
 						<td class="forminp forminp-checkbox">
 							<fieldset>
-						<?php
-					}
-					else {
+					<?php
+					} else { // Middle or end of a group
 						?>
-						<fieldset class="<?php
-							if ( $value['hide_if_checked'] == 'yes' || $value['show_if_checked'] == 'yes') echo 'hidden_option';
-							if ( $value['hide_if_checked'] == 'option') echo 'hide_options_if_checked';
-							if ( $value['show_if_checked'] == 'option') echo 'show_options_if_checked';
-						?>">
+						<fieldset class="<?php echo esc_attr(trim($tr_class)); ?>">
 					<?php
 					}
-
 					?>
 						<legend class="screen-reader-text"><span><?php echo esc_html( $value['title'] ); ?></span></legend>
-
-						<label for="<?php echo $value['id'] ?>">
-						<input
-							name="<?php echo esc_attr( $value['id'] ); ?>"
-							id="<?php echo esc_attr( $value['id'] ); ?>"
-							type="checkbox"
-							value="1"
-							<?php checked( $option_value, 'yes'); ?>
-							<?php echo implode( ' ', $custom_attributes ); ?>
-						/> <?php echo wp_kses_post( $value['desc'] ) ?></label> <?php echo $tip; ?>
+						<label for="<?php echo esc_attr( $value['id'] ); ?>">
+							<input
+								name="<?php echo esc_attr( $value['id'] ); ?>"
+								id="<?php echo esc_attr( $value['id'] ); ?>"
+								type="checkbox"
+								value="yes" <?php // Value when checked should be 'yes' for consistency with save logic ?>
+								<?php checked( $checked_value ); ?>
+								<?php echo implode( ' ', $custom_attributes ); ?>
+							/> <?php echo wp_kses_post( $value['desc'] ); // Use 'desc' for label text if provided ?>
+						</label> <?php echo $tip; ?>
 					<?php
 					if ( ! isset( $value['checkboxgroup'] ) || ( isset( $value['checkboxgroup'] ) && $value['checkboxgroup'] == 'end' ) ) {
 						?>
@@ -486,8 +497,7 @@ class ElectroSuite_Reseller_Admin_Settings {
 						</td>
 						</tr>
 						<?php
-					}
-					else {
+					} else {
 						?>
 						</fieldset>
 						<?php
@@ -496,68 +506,80 @@ class ElectroSuite_Reseller_Admin_Settings {
 
 				// Image width settings
 				case 'image_width':
-
-					$width 	= self::get_option( $value['id'] . '[width]', $value['default']['width'] );
-					$height = self::get_option( $value['id'] . '[height]', $value['default']['height'] );
-					$crop 	= checked( 1, self::get_option( $value['id'] . '[crop]', $value['default']['crop'] ), false );
+					// Retrieve array value, then access keys with defaults
+                    $image_size = self::get_option( $value['id'], $value['default'] );
+                    $width  = isset( $image_size['width'] ) ? $image_size['width'] : ( isset($value['default']['width']) ? $value['default']['width'] : '' );
+                    $height = isset( $image_size['height'] ) ? $image_size['height'] : ( isset($value['default']['height']) ? $value['default']['height'] : '' );
+                    $crop   = isset( $image_size['crop'] ) ? $image_size['crop'] : ( isset($value['default']['crop']) ? $value['default']['crop'] : 0 );
 
 					?><tr valign="top">
 						<th scope="row" class="titledesc"><?php echo esc_html( $value['title'] ); ?> <?php echo $tip; ?></th>
 						<td class="forminp image_width_settings">
-
-							<input name="<?php echo esc_attr( $value['id'] ); ?>[width]" id="<?php echo esc_attr( $value['id'] ); ?>-width" type="text" size="3" value="<?php echo $width; ?>" /> &times; <input name="<?php echo esc_attr( $value['id'] ); ?>[height]" id="<?php echo esc_attr( $value['id'] ); ?>-height" type="text" size="3" value="<?php echo $height; ?>" />px
-
-						<label><input name="<?php echo esc_attr( $value['id'] ); ?>[crop]" id="<?php echo esc_attr( $value['id'] ); ?>-crop" type="checkbox" <?php echo $crop; ?> /> <?php _e( 'Hard Crop?', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></label>
-
+							<label for="<?php echo esc_attr( $value['id'] ); ?>-width"><?php esc_html_e( 'Width', 'electrosuite-reseller' ); ?></label>
+							<input name="<?php echo esc_attr( $value['id'] ); ?>[width]" id="<?php echo esc_attr( $value['id'] ); ?>-width" type="text" size="3" value="<?php echo esc_attr( $width ); ?>" />
+							<label for="<?php echo esc_attr( $value['id'] ); ?>-height"><?php esc_html_e( 'Height', 'electrosuite-reseller' ); ?></label>
+							<input name="<?php echo esc_attr( $value['id'] ); ?>[height]" id="<?php echo esc_attr( $value['id'] ); ?>-height" type="text" size="3" value="<?php echo esc_attr( $height ); ?>" />px
+                            <span class="description">
+							    <label for="<?php echo esc_attr( $value['id'] ); ?>-crop"><input name="<?php echo esc_attr( $value['id'] ); ?>[crop]" id="<?php echo esc_attr( $value['id'] ); ?>-crop" type="checkbox" value="1" <?php checked( 1, $crop ); ?> /> <?php esc_html_e( 'Hard Crop?', 'electrosuite-reseller' ); ?></label>
+                            </span>
 						</td>
 					</tr><?php
 					break;
 
 				// Single page selects
 				case 'single_select_page':
+					$page_id = self::get_option( $value['id'], $value['default'] );
+					$args = array(
+                        'name'				=> $value['id'],
+                        'id'				=> $value['id'],
+                        'sort_column' 		=> 'menu_order',
+                        'sort_order'		=> 'ASC',
+                        'show_option_none' 	=> ' ', // Allows placeholder to work
+                        'class'				=> $value['class'],
+                        'echo' 				=> false,
+                        'selected'			=> absint( $page_id )
+					);
 
-					$args = array( 'name'				=> $value['id'],
-								   'id'					=> $value['id'],
-								   'sort_column' 		=> 'menu_order',
-								   'sort_order'			=> 'ASC',
-								   'show_option_none' 	=> ' ',
-								   'class'				=> $value['class'],
-								   'echo' 				=> false,
-								   'selected'			=> absint( self::get_option( $value['id'] ) )
-							);
-
-					if( isset( $value['args'] ) )
+					if( isset( $value['args'] ) ) {
 						$args = wp_parse_args( $value['args'], $args );
+                    }
 
 					?><tr valign="top" class="single_select_page">
-						<th scope="row" class="titledesc"><?php echo esc_html( $value['title'] ); ?> <?php echo $tip; ?></th>
+						<th scope="row" class="titledesc">
+                            <label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
+                            <?php echo $tip; ?>
+                        </th>
 						<td class="forminp">
-							<?php echo str_replace(' id=', " data-placeholder='" . __( 'Select a page&hellip;', ELECTROSUITE_RESELLER_TEXT_DOMAIN ) .  "' style='" . $value['css'] . "' class='" . $value['class'] . "' id=", wp_dropdown_pages( $args ) ); ?> <?php echo $description; ?>
+							<?php echo str_replace(
+                                ' id=',
+                                " data-placeholder='" . esc_attr__( 'Select a page…', 'electrosuite-reseller' ) .  "' style='" . esc_attr($value['css']) . "' class='" . esc_attr($value['class']) . "' id=",
+                                wp_dropdown_pages( $args )
+                            ); ?> <?php echo $description; ?>
 						</td>
 					</tr><?php
 					break;
 
-				// Single country selects
+				// Single country selects (assuming ElectroSuite_Reseller()->countries exists)
 				case 'single_select_country':
-					$country_setting = (string) self::get_option( $value['id'] );
-					$countries 		 = ElectroSuite_Reseller()->countries->countries;
-
-					if ( strstr( $country_setting, ':' ) ) {
-						$country_setting 	= explode( ':', $country_setting );
-						$country 			= current( $country_setting );
-						$state 				= end( $country_setting );
-					}
-					else {
-						$country 	= $country_setting;
-						$state 		= '*';
-					}
+                    $country_setting = (string) self::get_option( $value['id'], $value['default'] );
+                    $countries = is_object(ElectroSuite_Reseller()->countries) ? ElectroSuite_Reseller()->countries->countries : array();
+                    $country = $country_setting; // Assuming format doesn't include state here
 					?><tr valign="top">
 						<th scope="row" class="titledesc">
 							<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
 							<?php echo $tip; ?>
 						</th>
-						<td class="forminp"><select name="<?php echo esc_attr( $value['id'] ); ?>" style="<?php echo esc_attr( $value['css'] ); ?>" data-placeholder="<?php _e( 'Choose a country&hellip;', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?>" title="Country" class="chosen_select">
-							<?php ElectroSuite_Reseller()->countries->country_dropdown_options( $country, $state ); ?>
+						<td class="forminp"><select name="<?php echo esc_attr( $value['id'] ); ?>" id="<?php echo esc_attr( $value['id'] ); ?>" style="<?php echo esc_attr( $value['css'] ); ?>" class="<?php echo esc_attr($value['class']); ?>" data-placeholder="<?php esc_attr_e( 'Choose a country…', 'electrosuite-reseller' ); ?>" title="<?php esc_attr_e( 'Country', 'electrosuite-reseller' ); ?>">
+							<option value=""><?php esc_html_e( 'Choose a country…', 'electrosuite-reseller' ); ?></option>
+							<?php
+                            if (is_object(ElectroSuite_Reseller()->countries)) {
+                                // Assuming a method exists like country_dropdown_options
+                                // Let's simplify if the structure is just Key => Value
+                                foreach ($countries as $ckey => $cvalue) {
+                                    echo '<option value="' . esc_attr($ckey) . '" ' . selected($country, $ckey, false) . '>' . esc_html($cvalue) . '</option>';
+                                }
+                            }
+                            ?>
 						</select> <?php echo $description; ?>
 						</td>
 					</tr><?php
@@ -565,93 +587,84 @@ class ElectroSuite_Reseller_Admin_Settings {
 
 				// Country multiselects
 				case 'multi_select_countries':
+                    $selections = (array) self::get_option( $value['id'], $value['default'] );
+                    if (!is_array($selections)) $selections = []; // Ensure it's an array
 
-					$selections = (array) self::get_option( $value['id'] );
+                    if ( ! empty( $value['options'] ) && is_array( $value['options'] ) ) {
+                        $countries = $value['options'];
+                    } else {
+                        $countries = is_object(ElectroSuite_Reseller()->countries) ? ElectroSuite_Reseller()->countries->countries : array();
+                    }
 
-					if ( ! empty( $value['options'] ) ) {
-						$countries = $value['options'];
-					}
-					else {
-						$countries = ElectroSuite_Reseller()->countries->countries;
-					}
+                    asort( $countries );
+                    ?><tr valign="top">
+                        <th scope="row" class="titledesc">
+                            <label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
+                            <?php echo $tip; ?>
+                        </th>
+                        <td class="forminp">
+                            <select multiple="multiple" name="<?php echo esc_attr( $value['id'] ); ?>[]" id="<?php echo esc_attr( $value['id'] ); ?>" style="width:350px; <?php echo esc_attr($value['css']); ?>" data-placeholder="<?php esc_attr_e( 'Choose countries…', 'electrosuite-reseller' ); ?>" title="<?php esc_attr_e( 'Country', 'electrosuite-reseller' ); ?>" class="<?php echo esc_attr($value['class']); ?>">
+                                <?php
+                                if ( !empty($countries) ) {
+                                    foreach ( $countries as $key => $val ) {
+                                        echo '<option value="' . esc_attr( $key ) . '" ' . selected( in_array( (string) $key, array_map('strval', $selections), true ), true, false ).'>' . esc_html( $val ) . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select> <?php echo $description; ?>
+                            <br/><a class="select_all button" href="#"><?php esc_html_e( 'Select all', 'electrosuite-reseller' ); ?></a> <a class="select_none button" href="#"><?php esc_html_e( 'Select none', 'electrosuite-reseller' ); ?></a>
+                        </td>
+                    </tr><?php
+                    break;
 
-					asort( $countries );
-					?><tr valign="top">
-						<th scope="row" class="titledesc">
-							<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-							<?php echo $tip; ?>
-						</th>
-						<td class="forminp">
-							<select multiple="multiple" name="<?php echo esc_attr( $value['id'] ); ?>[]" style="width:350px" data-placeholder="<?php _e( 'Choose countries&hellip;', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?>" title="Country" class="chosen_select">
-								<?php
-								if ( $countries ) {
-									foreach ( $countries as $key => $val ) {
-										echo '<option value="' . esc_attr( $key ) . '" ' . selected( in_array( $key, $selections ), true, false ).'>' . $val . '</option>';
-									}
-								}
-								?>
-							</select> <?php if ( $description ) { echo $description; } ?> </br><a class="select_all button" href="#"><?php _e( 'Select all', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></a> <a class="select_none button" href="#"><?php _e( 'Select none', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></a>
-						</td>
-					</tr><?php
-					break;
-
-					case 'checkbox_grid':
-                    // Get Title, Description, Tip - reuse logic from start of output_fields
-                    // Note: $description and $tip variables are already calculated earlier in the loop.
-                    // Use $value['title'] directly for the label in <th>.
+                // Generic Checkbox Grid Field
+                case 'checkbox_grid':
                     ?>
                     <tr valign="top">
                         <th scope="row" class="titledesc">
-                            <?php // Output title in TH like other fields ?>
                             <label><?php echo esc_html( $value['title'] ); ?></label>
-                            <?php // Placeholder for JS counter ?>
+                            <?php // --- Re-inserted TLD Counter Placeholder --- ?>
                             <p class="tld-limit-message" style="font-weight: normal; font-size: 0.9em; margin: 5px 0 0 0; padding: 0; color: #666;"></p>
-                            <?php // Tooltip icon ?>
+                            <?php // --- End Re-inserted Element --- ?>
                             <?php echo $tip; ?>
                         </th>
                         <td class="forminp forminp-checkbox_grid <?php echo esc_attr( $value['class'] ); ?>" style="<?php echo esc_attr( $value['css'] ); ?>">
                             <?php
-                            // --- Prepare Reset Link HTML conditionally ---
+                            // Prepare Reset Link HTML conditionally
                             $reset_link_html = '';
                             if ( isset( $value['default_tlds_list'] ) && ! empty( $value['default_tlds_list'] ) && is_array( $value['default_tlds_list'] ) ) {
                                 $reset_link_html = '<a href="#" class="reset-tld-defaults" style="white-space: nowrap;">' . esc_html__( 'Reset Default TLDs', 'electrosuite-reseller' ) . '</a>';
                             }
-                            // --- End Prepare Reset Link ---
                             ?>
-
-                            <?php // --- Output Description and Reset Link Inline --- ?>
-                            <p style="margin-bottom: 10px;"> <?php // Add paragraph wrapper for spacing ?>
+                            <p style="margin-bottom: 10px;"> <?php // Description and Reset link ?>
                                 <?php echo $description; // Echo the pre-formatted description HTML ?>
                                 <?php
-                                // Append the reset link if it exists, with a separator
                                 if ( ! empty( $reset_link_html ) ) {
-                                    echo ' | '; // Use regular spaces instead of  
+                                    echo ' | '; // Separator
                                     echo $reset_link_html;
                                 }
                                 ?>
                             </p>
-                            <?php // --- End Output --- ?>
-
-                            <?php // Call the rendering method for the grid itself ?>
-                            <?php self::output_checkbox_grid( $value ); // Pass the full $value array ?>
+                            <?php self::output_checkbox_grid( $value ); // Call the rendering method ?>
                         </td>
                     </tr>
                     <?php
                     break;
 
-				// Default: run an action
+
+				// Default: run an action for custom field types
 				default:
 					do_action( 'electrosuite_reseller_admin_field_' . $value['type'], $value );
-
 					break;
 			} // end switch
-		}
-	}
+		} // end foreach
+	} // end output_fields
 
 	
 	/**
 	 * Save admin fields.
 	 * Handles saving the settings array and checkbox groups like TLDs.
+	 * Encrypts Live API keys before saving.
 	 *
 	 * @param array $options Array of option definitions for the current view.
 	 * @param string $current_tab Current tab ID.
@@ -668,134 +681,182 @@ class ElectroSuite_Reseller_Admin_Settings {
 		// Store all defined option IDs for this view to help process checkbox groups
 		$defined_option_ids = [];
 
+        // Define Live API Key Option IDs
+        $live_api_key_ids = [
+            'electrosuite_reseller_enom_live_api_key',
+            'electrosuite_reseller_resellerclub_live_api_key',
+            'electrosuite_reseller_centralnic_live_api_key',
+        ];
+
 		// First pass: Identify all defined options and process non-checkbox-group types
 		foreach ( $options as $value ) {
-			if ( ! isset( $value['id'] ) || empty( $value['id'] ) || $value['type'] === 'title' || $value['type'] === 'sectionend' || $value['type'] === 'tld_checkbox_title' ) {
-				continue; // Skip titles, section ends, dummy types, or fields without ID
+			if ( ! isset( $value['id'] ) || empty( $value['id'] ) || !isset($value['type']) || $value['type'] === 'title' || $value['type'] === 'sectionend' || $value['type'] === 'checkbox_grid' ) { // Skip checkbox_grid fields here, handled later
+				continue; // Skip titles, section ends, grid containers, or fields without ID/type
 			}
 
             $option_id = $value['id'];
             $defined_option_ids[] = $option_id; // Store the ID
 
-			// Skip processing checkbox array items here, handle them later
+			// Skip processing checkbox array items here, handle them later in checkbox_grid specific logic if needed
 			if ( $value['type'] === 'checkbox' && strpos( $option_id, '[' ) !== false ) {
 				continue;
 			}
 
 			// Process standard types
-			$type = isset( $value['type'] ) ? sanitize_title( $value['type'] ) : '';
-			$option_value = null;
+			$type = sanitize_title( $value['type'] );
+			$option_value = null; // Initialize
+            $raw_post_value = isset( $_POST[ $option_id ] ) ? stripslashes( $_POST[ $option_id ] ) : null; // Get raw value once
 
 			switch ( $type ) {
 				case "checkbox": // Single checkbox
-					$option_value = isset( $_POST[ $option_id ] ) ? 'yes' : 'no';
+					$option_value = isset( $_POST[ $option_id ] ) ? 'yes' : 'no'; // Uses $_POST directly
 					break;
 
 				case "textarea":
-					$option_value = isset( $_POST[ $option_id ] ) ? wp_kses_post( trim( stripslashes( $_POST[ $option_id ] ) ) ) : '';
+					$option_value = !is_null( $raw_post_value ) ? wp_kses_post( trim( $raw_post_value ) ) : '';
 					break;
 
 				case "text":
-				case "username":
+				case "username": // Usernames are plaintext
 				case "email":
 				case "number":
 				case "select":
 				case "color":
-				case "password":
+				// case "password": // Password handling moved below switch
 				case "single_select_page":
 				case "single_select_country":
 				case "radio":
-                    // Assumes electrosuite_reseller_clean exists and sanitizes appropriately
+                    // Use default sanitization or electrosuite_reseller_clean if available
                     if (function_exists('electrosuite_reseller_clean')) {
-                         $option_value = isset( $_POST[ $option_id ] ) ? electrosuite_reseller_clean( stripslashes( $_POST[ $option_id ] ) ) : '';
+                         $option_value = !is_null( $raw_post_value ) ? electrosuite_reseller_clean( $raw_post_value ) : '';
                     } else {
-                         // Fallback to basic sanitization if clean function missing
-                         $option_value = isset( $_POST[ $option_id ] ) ? sanitize_text_field( stripslashes( $_POST[ $option_id ] ) ) : '';
+                         $option_value = !is_null( $raw_post_value ) ? sanitize_text_field( $raw_post_value ) : '';
                     }
 					break;
+
+                case "password":
+                    // Check if this is a Live API Key
+                    if ( in_array( $option_id, $live_api_key_ids ) ) {
+                        if ( !is_null( $raw_post_value ) && $raw_post_value !== '' ) {
+                            // Only encrypt if the value is not the placeholder and Security class exists
+                            if ( $raw_post_value !== '********' ) { // Don't re-encrypt the placeholder
+                                if ( class_exists('ElectroSuite_Reseller_Security') ) {
+                                    $encrypted_value = ElectroSuite_Reseller_Security::encrypt( $raw_post_value );
+                                    if ( $encrypted_value !== false ) {
+                                        $option_value = $encrypted_value;
+                                    } else {
+                                        self::add_error( sprintf( __( 'Failed to encrypt API key for %s. Setting was not saved.', 'electrosuite-reseller' ), $value['title'] ) );
+                                        $option_value = null; // Prevent update if encryption fails
+                                    }
+                                } else {
+                                    self::add_error( __( 'Security class not found. API key was not saved.', 'electrosuite-reseller' ) );
+                                    $option_value = null; // Prevent update if class missing
+                                }
+                            } else {
+                                // User saved without changing the placeholder, so keep the existing encrypted value.
+                                // We achieve this by setting $option_value to null here, so it doesn't get added
+                                // to $update_options unless explicitly handled below.
+                                // However, it's simpler to just *not* update the option if the placeholder is submitted.
+                                // So, we just don't assign anything to $option_value here if it's the placeholder.
+                                // We need to ensure $option_value remains null or is handled appropriately outside the switch.
+                                continue 2; // Skip to next option in the main foreach loop
+                            }
+                        } else {
+                            // User submitted an empty value (cleared the field), save empty string
+                            $option_value = '';
+                        }
+                    } else {
+                        // It's a password field, but NOT a Live API Key (e.g., Test Key)
+                        // Save as plaintext using appropriate sanitization
+                        if (function_exists('electrosuite_reseller_clean')) {
+                             $option_value = !is_null( $raw_post_value ) ? electrosuite_reseller_clean( $raw_post_value ) : '';
+                        } else {
+                             $option_value = !is_null( $raw_post_value ) ? sanitize_text_field( $raw_post_value ) : '';
+                        }
+                    }
+                    break;
+
 
 				case "multiselect":
 				case "multi_select_countries":
                     $selected_values = [];
-					if ( isset( $_POST[ $option_id ] ) && is_array( $_POST[ $option_id ] ) ) {
+                    // Use $raw_post_value which is already available and unslashed
+					if ( !is_null( $raw_post_value ) && is_array( $raw_post_value ) ) {
+                        // Sanitize each value in the array
                         if (function_exists('electrosuite_reseller_clean')) {
-                             $selected_values = array_map( 'electrosuite_reseller_clean', array_map( 'stripslashes', (array) $_POST[ $option_id ] ) );
+                             $selected_values = array_map( 'electrosuite_reseller_clean', $raw_post_value );
                         } else {
-                             // Fallback sanitization
-                             $selected_values = array_map( 'sanitize_text_field', array_map( 'stripslashes', (array) $_POST[ $option_id ] ) );
+                             $selected_values = array_map( 'sanitize_text_field', $raw_post_value );
                         }
 					}
 					$option_value = $selected_values;
 					break;
 
 				case "image_width":
-                    // This saves as an array under a single option ID like 'setting_id' => ['width'=> W, 'height'=> H, 'crop'=> C]
-                    $width = isset( $_POST[$option_id]['width'] ) ? sanitize_text_field( stripslashes( $_POST[$option_id]['width'] ) ) : (isset($value['default']['width']) ? $value['default']['width'] : '');
-                    $height = isset( $_POST[$option_id]['height'] ) ? sanitize_text_field( stripslashes( $_POST[$option_id]['height'] ) ) : (isset($value['default']['height']) ? $value['default']['height'] : '');
-                    $crop = isset( $_POST[$option_id]['crop'] ) ? 1 : 0;
+                    // image_width saves as an array under a single option ID
+                    $image_width_value = isset( $_POST[ $option_id ] ) && is_array( $_POST[ $option_id ] ) ? $_POST[ $option_id ] : [];
+                    $width = isset( $image_width_value['width'] ) ? sanitize_text_field( stripslashes( $image_width_value['width'] ) ) : (isset($value['default']['width']) ? $value['default']['width'] : '');
+                    $height = isset( $image_width_value['height'] ) ? sanitize_text_field( stripslashes( $image_width_value['height'] ) ) : (isset($value['default']['height']) ? $value['default']['height'] : '');
+                    $crop = isset( $image_width_value['crop'] ) ? 1 : 0; // Checkbox value '1' or not set
                     $option_value = ['width' => $width, 'height' => $height, 'crop' => $crop];
 					break;
 
 				default:
-					// Allow extensions to handle custom types
-					do_action( 'electrosuite_reseller_update_option_' . $type, $value );
-                    // Retrieve value potentially set by the action
-                    $option_value = apply_filters( 'electrosuite_reseller_admin_settings_sanitize_option_' . $option_id, null, $value );
+					// Allow extensions to handle custom types via action hooks
+                    // Use apply_filters to allow modification/sanitization of the value based on type or id
+                    $option_value = apply_filters( 'electrosuite_reseller_admin_settings_sanitize_option', $raw_post_value, $option_id, $value );
+                    // Also apply type-specific filter if needed
+                    $option_value = apply_filters( 'electrosuite_reseller_admin_settings_sanitize_option_' . $type, $option_value, $value );
 					break;
 			}
 
-			if ( ! is_null( $option_value ) ) {
-                // This condition might be overly complex if image_width is the only array type saved this way
-                // Check if ID contains '[' but IS NOT an image_width type (which already created its array)
-				if ( strstr( $option_id, '[' ) && $type !== 'image_width' ) {
-					parse_str( $option_id, $option_array );
-					$option_name_base = current( array_keys( $option_array ) );
-					if ( ! isset( $update_options[ $option_name_base ] ) ) {
-						$update_options[ $option_name_base ] = get_option( $option_name_base, array() );
-					}
-					if ( ! is_array( $update_options[ $option_name_base ] ) ) {
-						$update_options[ $option_name_base ] = array();
-					}
-					$key = key( $option_array[ $option_name_base ] );
-					$update_options[ $option_name_base ][ $key ] = $option_value;
+			// If $option_value was set (i.e., not null from encryption failure or handled 'continue'), add it to the update array.
+            if ( ! is_null( $option_value ) ) {
+                // Handle complex IDs like arrays (e.g., image_width, although it's handled above now)
+				if ( strstr( $option_id, '[' ) && $type !== 'image_width' && $type !== 'password' /* Password handled above */ ) {
+					// This logic might need review if other complex fields exist
+                    parse_str( $option_id, $option_array );
+                    $option_name_base = current( array_keys( $option_array ) );
+                    if ( ! isset( $update_options[ $option_name_base ] ) ) {
+                        // Initialize with existing value if merging into an array option
+                        $update_options[ $option_name_base ] = get_option( $option_name_base, array() );
+                    }
+                    if ( ! is_array( $update_options[ $option_name_base ] ) ) {
+                        // Ensure it's an array if we're treating it like one
+                        $update_options[ $option_name_base ] = array();
+                    }
+                    $key = key( $option_array[ $option_name_base ] );
+                    $update_options[ $option_name_base ][ $key ] = $option_value;
 				} else {
-                    // Assign value for simple options or options handled entirely by type switch (like image_width)
+                    // Assign value for simple options or options whose value was fully prepared in the switch case
 					$update_options[ $option_id ] = $option_value;
 				}
 			}
-            // Allow further modification of the specific option
-			do_action( 'electrosuite_reseller_update_option', $value );
+            // Allow final modification via action hook if needed (less common for saving)
+			do_action( 'electrosuite_reseller_update_option', $value, $option_value );
 
 		} // End foreach $options
 
-        // --- Process TLD Checkbox Group ---
-        // This assumes the ID structure 'base_option_key[tld_value]' was used
-        $tld_option_key_enom = 'electrosuite_reseller_enom_checked_tlds';
-        // Check if any checkbox fields for this group were defined in the options array
-        $enom_tlds_were_present = false;
-        foreach($defined_option_ids as $defined_id) {
-            if (strpos($defined_id, $tld_option_key_enom . '[') === 0) {
-                $enom_tlds_were_present = true;
-                break;
-            }
-        }
-
-        if ($enom_tlds_were_present) {
-            $selected_tlds_enom = [];
-            // The submitted data for checkboxes with array names comes directly under the base key
-            if (isset($_POST[$tld_option_key_enom]) && is_array($_POST[$tld_option_key_enom])) {
-                // The keys of the submitted array are the TLDs that were checked
-                foreach (array_keys($_POST[$tld_option_key_enom]) as $tld) {
-                    // Sanitize the TLD string before saving
-                    $selected_tlds_enom[] = sanitize_key($tld); // sanitize_key is good for slugs/keys
+        // --- Process TLD Checkbox Group Separately ---
+        // Find the checkbox_grid definitions in the original $options array
+        foreach ($options as $value) {
+            if (isset($value['type']) && $value['type'] === 'checkbox_grid' && isset($value['id'])) {
+                $grid_option_key = $value['id'];
+                $selected_items = [];
+                // Checkbox grids submit data as option_name[item_key] = 'yes' (or similar value)
+                if (isset($_POST[$grid_option_key]) && is_array($_POST[$grid_option_key])) {
+                    // The keys of the submitted array are the items that were checked
+                    foreach (array_keys($_POST[$grid_option_key]) as $item_key) {
+                        // Sanitize the item key (e.g., TLD string) before saving
+                        $selected_items[] = sanitize_key($item_key); // sanitize_key is good for slugs/keys like TLDs
+                    }
                 }
+                // Add the array of selected items to the update list
+                $update_options[$grid_option_key] = $selected_items;
+                // error_log("Debug Save: Saving selected items for grid {$grid_option_key}: " . print_r($selected_items, true));
             }
-            // Update the single option with the array of selected TLDs
-            $update_options[$tld_option_key_enom] = $selected_tlds_enom;
-             error_log("Debug Save: Saving selected eNom TLDs: " . print_r($selected_tlds_enom, true)); // Optional log
         }
-        // --- TODO: Add similar processing block for ResellerClub/CentralNic TLD checkboxes ---
-        // $tld_option_key_rc = 'electrosuite_reseller_resellerclub_checked_tlds'; etc.
+        // --- End TLD Checkbox Group Processing ---
 
 
 		// Now save all collected options to the database
@@ -803,17 +864,7 @@ class ElectroSuite_Reseller_Admin_Settings {
 			update_option( $name, $value );
 		}
 
-		// This part saving ALL options for a tab/section into another single option seems redundant
-        // if the individual options are already being saved by update_option above.
-        // Consider removing unless used for export feature.
-        /*
-		if( empty( $current_section ) ) {
-			update_option( 'electrosuite_reseller_options_' . $current_tab, $update_options );
-		}
-		else{
-			update_option( 'electrosuite_reseller_options_' . $current_tab . '_' . $current_section, $update_options );
-		}
-        */
+		// Deprecated grouped option saving removed
 
 		return true;
 	} // End save_fields

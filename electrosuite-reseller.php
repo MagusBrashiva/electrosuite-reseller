@@ -474,16 +474,19 @@ final class ElectroSuite_Reseller {
 	 */
 	public function includes() {
 		include_once( 'includes/electrosuite-reseller-core-functions.php' ); // Contains core functions for the front/back end.
+		include_once( 'includes/electrosuite-reseller-api-functions.php' ); // Contains api functions for the front/back end.
+		
+		include_once( $this->plugin_path() . '/includes/classes/class-electrosuite-reseller-security.php' );
 
 		if ( is_admin() ) {
 			$this->admin_includes();
 		}
 
-		if ( defined('DOING_AJAX') ) {
+		if ( defined('DOING_AJAX') && DOING_AJAX ) { // More specific check for AJAX requests
 			$this->ajax_includes();
 		}
 
-		if ( ! is_admin() || defined('DOING_AJAX') ) {
+		if ( ! is_admin() || ( defined('DOING_AJAX') && DOING_AJAX ) ) {
 			$this->frontend_includes();
 		}
 
