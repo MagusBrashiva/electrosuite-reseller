@@ -1,65 +1,82 @@
-<div class="wrap electrosuite_reseller"> 
-	<div class="icon32 icon32-electrosuite-reseller" id="icon-electrosuite-reseller"><br /></div>
-	<h2>
-		<?php echo ElectroSuite_Reseller()->name; ?>
+
+<div class="wrap electrosuite_reseller about-wrap"> <?php // Added about-wrap class for potential style reuse ?>
+
+	<?php // --- START: Common Header Elements (Moved from Welcome::intro) --- ?>
+    <h1><?php echo esc_html( ElectroSuite_Reseller()->title_name ); /* Use main title */ ?></h1>
+
+    <div class="about-text electrosuite-reseller-about-text">
+        <?php
+            // Optional: Add a general welcome message or description here if needed
+            // Example: esc_html_e( 'Manage your ElectroSuite Reseller settings and view system status.', 'electrosuite-reseller' );
+        ?>
+    </div>
+
+    <div class="electrosuite-reseller-badge"><?php printf( __( 'Version %s', 'electrosuite-reseller' ), esc_html( ElectroSuite_Reseller()->version ) ); ?></div>
+
+    <div class="electrosuite-reseller-social-links">
+        <?php if ( ! empty( ElectroSuite_Reseller()->facebook_page ) ) : ?>
+        <a class="facebook_link" href="https://www.facebook.com/<?php echo esc_attr( ElectroSuite_Reseller()->facebook_page ); ?>" target="_blank" rel="noopener noreferrer">
+            <span class="dashicons dashicons-facebook-alt"></span>
+        </a>
+        <?php endif; ?>
+
+        <?php if ( ! empty( ElectroSuite_Reseller()->twitter_username ) ) : ?>
+        <a class="twitter_link" href="https://twitter.com/<?php echo esc_attr( ElectroSuite_Reseller()->twitter_username ); ?>" target="_blank" rel="noopener noreferrer">
+            <span class="dashicons dashicons-twitter"></span>
+        </a>
+        <?php endif; ?>
+
+        <?php /* Add other social links like Google+ if needed and property exists */ ?>
+        <?php /* if ( ! empty( ElectroSuite_Reseller()->google_plus_id ) ) : ?>
+        <a class="googleplus_link" href="https://plus.google.com/<?php echo esc_attr( ElectroSuite_Reseller()->google_plus_id ); ?>" target="_blank" rel="noopener noreferrer">
+            <span class="dashicons dashicons-googleplus"></span>
+        </a>
+        <?php endif; */ ?>
+    </div><!-- .electrosuite-reseller-social-links -->
+
+    <?php // Removed social sharing buttons block from intro - can be added back within specific tabs if desired ?>
+
+	<?php // --- END: Common Header Elements --- ?>
+
+
+	<?php // --- START: Tab Navigation --- ?>
+	<h2 class="nav-tab-wrapper">
 		<?php
-		/**
-		 * These header links do not have to be external.
-		 * You may change the links to an internal link connected with the plugin.
-		 */
-		$links = apply_filters( 'electrosuite_reseller_admin_header_links', array(
-			ElectroSuite_Reseller()->web_url . '?utm_source=wpadmin&utm_campaign=header' => __( 'Website', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-			ElectroSuite_Reseller()->doc_url . '?utm_source=wpadmin&utm_campaign=header' => __( 'Documentation', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-		) );
-
-		$text = '';
-
-		foreach( $links as $key => $value ) {
-			$text .= '<a class="add-new-h2" href="' . $key . '">' . $value . '</a>';
-		}
-
-		echo $text;
+        if ( ! empty( $tabs ) && is_array( $tabs ) ) {
+            foreach ( $tabs as $tab_id => $tab_label ) {
+                $tab_url = admin_url( 'admin.php?page=' . rawurlencode( ELECTROSUITE_RESELLER_PAGE ) . '&tab=' . rawurlencode( $tab_id ) );
+                $active_class = ( $current_tab === $tab_id ) ? ' nav-tab-active' : '';
+                echo '<a href="' . esc_url( $tab_url ) . '" class="nav-tab' . esc_attr( $active_class ) . '">' . esc_html( $tab_label ) . '</a>';
+            }
+        }
 		?>
 	</h2>
+	<?php // --- END: Tab Navigation --- ?>
 
-	<ul class="subsubsub">
-		<?php
-			$links = apply_filters('electrosuite_reseller_section_links', array(
-				'' 			=> __( 'Default', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'two' 		=> __( 'Section Two', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-				'three' 	=> __( 'Section Three', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
-			) );
 
-			$i = 0;
+    <?php // --- START: Main Content Area --- ?>
+    <div class="electrosuite-reseller-main-content">
+	    <?php do_action('electrosuite_reseller_page_header'); // General hook before tab content ?>
 
-			foreach ( $links as $link => $name ) {
-				$i ++;
-				?><li><a class="<?php if ( $view == $link ) { echo 'current'; } ?>" href="<?php echo admin_url( 'admin.php?page=' . ELECTROSUITE_RESELLER_SLUG . '&view=' . esc_attr( $link ) ); ?>"><?php echo $name; ?></a><?php if ( $i != sizeof( $links ) ) { echo '|'; } ?></li><?php
-			}
-		?>
-	</ul>
-	<br class="clear" />
+        <?php do_action( 'electrosuite_reseller_main_page_tab_' . $current_tab ); // Hook for specific tab content ?>
 
-	<?php do_action('electrosuite_reseller_page_header'); ?>
+	    <?php do_action('electrosuite_reseller_page_footer'); // General hook after tab content ?>
+    </div>
+    <?php // --- END: Main Content Area --- ?>
 
-	<?php do_action('electrosuite_reseller_page_' . $view . '_header'); ?>
 
-	<?php 
-	/**
-	 * The paragraphs below were added just as an example and to explain what this page can do.
-	 * You may remove it but leave the hooks in place if you still want to use them.
-	 */
-	if( empty($view) ) $view = 'default'; echo '<h3>You are viewing section ' . $view . '</h3>';
-	?>
-
-	<p class="about-description"><?php _e( 'You can use this page to place the main back feature of your plugin. Place links at the end of your header and set the page into sections.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></p> 
-	<p><?php _e( 'These sections can then display different content based on the section the user is viewing.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></p> 
-	<p><?php _e( 'There are many actions and filters in place to allow you to add and display anything you need.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></p> 
-
-	<?php echo $page_content; ?>
-
-	<?php do_action('electrosuite_reseller_page_' . $view . '_footer'); ?>
-
-	<?php do_action('electrosuite_reseller_page_footer'); ?>
+    <?php // --- START: Old View/Section Logic Removed --- ?>
+    <?php /*
+	<ul class="subsubsub"> Removed </ul>
+	<br class="clear" /> Removed
+	<?php do_action('electrosuite_reseller_page_' . $view . '_header'); ?> Removed
+	<?php if( empty($view) ) $view = 'default'; echo '<h3>You are viewing section ' . $view . '</h3>'; ?> Removed
+	<p class="about-description">...</p> Removed
+	<p>...</p> Removed
+	<p>...</p> Removed
+	<?php echo $page_content; ?> Removed
+	<?php do_action('electrosuite_reseller_page_' . $view . '_footer'); ?> Removed
+    */ ?>
+	<?php // --- END: Old View/Section Logic Removed --- ?>
 
 </div>

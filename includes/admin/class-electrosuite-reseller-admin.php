@@ -31,32 +31,68 @@ class ElectroSuite_Reseller_Admin {
 		add_filter( 'update_footer', array( $this, 'update_footer' ), 15 );
 	}
 
+	
 	/**
 	 * Include any classes we need within admin.
 	 */
 	public function includes() {
-		// Functions
-		include_once( 'electrosuite-reseller-admin-functions.php' ); // Use include_once for safety
+		// Functions - Check if file exists before including
+        $functions_file = plugin_dir_path( __FILE__ ) . 'electrosuite-reseller-admin-functions.php';
+        if ( file_exists( $functions_file ) ) {
+		    include_once( $functions_file );
+        }
 
 		// Use this action to register custom post types, user roles and anything else
 		do_action( 'electrosuite_reseller_admin_include' );
 
 		// Classes we only need if the ajax is not-ajax
-		// Note: is_ajax() is deprecated, better check is defined('DOING_AJAX') && DOING_AJAX
 		if ( ! ( defined('DOING_AJAX') && DOING_AJAX ) ) {
-			// Transifex Stats
-			include_once( 'class-electrosuite-reseller-transifex-api.php' );
-			include_once( 'class-electrosuite-reseller-transifex-stats.php' );
 
-			// Main Plugin Admin Classes (Menus, Settings, etc.)
-			include_once( 'class-electrosuite-reseller-admin-menus.php' );
-			include_once( 'class-electrosuite-reseller-admin-settings.php' ); // Ensure settings class is included
-			include_once( 'class-electrosuite-reseller-admin-welcome.php' );
-			include_once( 'class-electrosuite-reseller-admin-notices.php' ); // General notices class (if used elsewhere)
+            // Helper function to include class files safely
+            $include_class = function( $filename ) {
+                $filepath = plugin_dir_path( __FILE__ ) . $filename;
+                if ( file_exists( $filepath ) ) {
+                    include_once( $filepath );
+                    return true; // Indicate success
+                } else {
+                    // Optional: Log error if a critical class file is missing
+                    error_log("ElectroSuite Reseller Warning: Admin class file not found: " . $filepath);
+                    return false; // Indicate failure
+                }
+            };
 
-			// Plugin Help
+			// Transifex Stats (Keep if used)
+			$include_class( 'class-electrosuite-reseller-transifex-api.php' );
+			$include_class( 'class-electrosuite-reseller-transifex-stats.php' );
+
+			// Main Plugin Admin Classes
+			$include_class( 'class-electrosuite-reseller-admin-menus.php' );
+            $include_class( 'class-electrosuite-reseller-admin-page.php' ); // Include the main page controller
+			$include_class( 'class-electrosuite-reseller-admin-settings.php' );
+            // $include_class( 'class-electrosuite-reseller-admin-status.php' ); // REMOVE or keep commented if file is kept but deprecated
+			$include_class( 'class-electrosuite-reseller-admin-welcome.php' ); // Keep for activation redirect, notices hook, CSS enqueue
+			$include_class( 'class-electrosuite-reseller-admin-notices.php' ); // Keep for install/update notices
+
+            // --- START: Include Main Page Tab Classes ---
+            $main_tab_files = array(
+                'main/class-electrosuite-reseller-admin-tab.php', // Base class
+                'main/class-electrosuite-reseller-admin-tab-getting-started.php',
+                'main/class-electrosuite-reseller-admin-tab-status.php',
+                'main/class-electrosuite-reseller-admin-tab-tools.php',
+                'main/class-electrosuite-reseller-admin-tab-changelog.php',
+                'main/class-electrosuite-reseller-admin-tab-credits.php',
+                'main/class-electrosuite-reseller-admin-tab-translations.php',
+                'main/class-electrosuite-reseller-admin-tab-freedoms.php',
+            );
+            foreach ( $main_tab_files as $tab_file ) {
+                $include_class( $tab_file );
+            }
+            // --- END: Include Main Page Tab Classes ---
+
+
+			// Plugin Help (Keep if used)
 			if ( apply_filters( 'electrosuite_reseller_enable_admin_help_tab', true ) ) {
-				include_once( 'class-electrosuite-reseller-admin-help.php' );
+				$include_class( 'class-electrosuite-reseller-admin-help.php' );
 			}
 		}
 	}

@@ -87,14 +87,15 @@ class ElectroSuite_Reseller_Install {
 		}
 	}
 
-	/**
-	 * Install ElectroSuite Reseller
-	 *
-	 * @TODO Change the 'page-slug' to the page slug 
-	 * of the main page this plugin needs.
-	 * @access public
-	 */
+	
 	public function install() {
+        // Check if the main plugin function exists before using it
+        if ( ! function_exists('ElectroSuite_Reseller') ) {
+             error_log("ElectroSuite Reseller Error: Main plugin instance not available during install.");
+             return; // Exit if main plugin is unavailable
+        }
+        $main_plugin = ElectroSuite_Reseller();
+
 		$this->create_options();
 		$this->create_roles();
 
@@ -102,27 +103,34 @@ class ElectroSuite_Reseller_Install {
 		$current_version = get_option( 'electrosuite_reseller_version', null );
 		$current_db_version = get_option( 'electrosuite_reseller_db_version', null );
 
-		if ( version_compare( $current_db_version, '1.0.1', '<' ) && null !== $current_db_version ) {
+		// Use main plugin instance for version comparison
+		if ( version_compare( $current_db_version, '1.0.1', '<' ) && ! is_null( $current_db_version ) ) {
 			update_option( '_electrosuite_reseller_needs_update', 1 );
-		}
-		else {
-			update_option( 'electrosuite_reseller_db_version', ElectroSuite_Reseller()->version );
+		} else {
+			update_option( 'electrosuite_reseller_db_version', $main_plugin->version );
 		}
 
-		// Update version
-		update_option( 'electrosuite_reseller_version', ElectroSuite_Reseller()->version );
+		// Update version using main plugin instance
+		update_option( 'electrosuite_reseller_version', $main_plugin->version );
 
-		// Check if pages are needed
-		if ( electrosuite_reseller_get_page_id( 'page-slug' ) < 1 ) {
+		// Check if pages are needed - Replace 'page-slug' with your actual required page slug if applicable
+        // This check might be redundant if the setup notice covers all initial configuration.
+		if ( function_exists('electrosuite_reseller_get_page_id') && electrosuite_reseller_get_page_id( 'page-slug' ) < 1 ) {
 			update_option( '_electrosuite_reseller_needs_pages', 1 );
 		}
 
 		// Flush rewrite rules
 		flush_rewrite_rules();
 
-		// Redirect to welcome screen
+        // --- START: Added for Setup Notice ---
+        // Set a transient to indicate setup is needed. Set to non-expiring (0).
+        set_transient( '_esr_needs_setup', 1, 0 );
+        // --- END: Added for Setup Notice ---
+
+		// Redirect to welcome screen (existing logic)
 		set_transient( 'electrosuite_reseller_activation_redirect', 1, 60 * 60 );
 	}
+
 
 	/**
 	 * Handle updates
@@ -204,102 +212,62 @@ class ElectroSuite_Reseller_Install {
 		}
 	}
 
+	
 	/**
-	 * Create roles and capabilities
+	 * Create roles and capabilities.
+	 * Only adds CPT capabilities if defined in get_core_capabilities.
+	 * No longer adds the core 'manage_electrosuite_reseller' capability.
+	 * Removes example 'custom_role'. Add back ONLY if needed for frontend functionality.
 	 *
 	 * @access public
 	 */
 	public function create_roles() {
 		global $wp_roles;
 
-		if ( class_exists('WP_Roles') ) {
-			if ( ! isset( $wp_roles ) ) {
-				$wp_roles = new WP_Roles();
-			}
+		// Make sure WP_Roles class is available and instantiated.
+		if ( ! class_exists('WP_Roles') ) {
+			return;
+		}
+		if ( ! isset( $wp_roles ) ) {
+			$wp_roles = new WP_Roles();
 		}
 
-		if ( is_object( $wp_roles ) ) {
+        // Add CPT capabilities (if any are defined in get_core_capabilities) to Administrator
+        $cpt_capabilities = self::get_core_capabilities(); // Get only CPT capabilities now
 
-			/**
-			 * Add your custom user roles here and 
-			 * set the permissions for that role.
-			 */
-			add_role( 'custom_role', __( 'Custom Role', ELECTROSUITE_RESELLER_TEXT_DOMAIN ), array(
-				'level_9'                => false,
-				'level_8'                => false,
-				'level_7'                => false,
-				'level_6'                => false,
-				'level_5'                => false,
-				'level_4'                => false,
-				'level_3'                => false,
-				'level_2'                => false,
-				'level_1'                => false,
-				'level_0'                => false,
-				'read'                   => true,
-				'read_private_pages'     => false,
-				'read_private_posts'     => false,
-				'edit_users'             => false,
-				'edit_posts'             => false,
-				'edit_pages'             => false,
-				'edit_published_posts'   => false,
-				'edit_published_pages'   => false,
-				'edit_private_pages'     => false,
-				'edit_private_posts'     => false,
-				'edit_others_posts'      => false,
-				'edit_others_pages'      => false,
-				'publish_posts'          => false,
-				'publish_pages'          => false,
-				'delete_posts'           => false,
-				'delete_pages'           => false,
-				'delete_private_pages'   => false,
-				'delete_private_posts'   => false,
-				'delete_published_pages' => false,
-				'delete_published_posts' => false,
-				'delete_others_posts'    => false,
-				'delete_others_pages'    => false,
-				'manage_categories'      => false,
-				'manage_links'           => false,
-				'moderate_comments'      => false,
-				'unfiltered_html'        => false,
-				'upload_files'           => false,
-				'export'                 => false,
-				'import'                 => false,
-				'list_users'             => false
-			) );
+        if ( ! empty( $cpt_capabilities ) && $wp_roles->is_role( 'administrator' ) ) {
+            foreach( $cpt_capabilities as $cap_group ) { // $cap_group is the array for a specific CPT
+                if ( is_array( $cap_group ) ) {
+                    foreach( $cap_group as $cap ) {
+                        $wp_roles->add_cap( 'administrator', $cap );
+                    }
+                }
+            }
+        }
 
-			$capabilities = self::get_core_capabilities();
+        // Note: The example 'custom_role' registration has been removed.
+        // Add it back here ONLY if you have a specific reason for that role.
 
-			foreach( $capabilities as $cap_group ) {
-				foreach( $cap_group as $cap ) {
-					$wp_roles->add_cap( 'administrator', $cap );
-				}
-			}
-		}
 	}
 
+	
 	/**
-	 * Get capabilities for ElectroSuite Reseller.
+	 * Get capabilities for ElectroSuite Reseller - specific to CPTs if any.
+	 * The core 'manage_electrosuite_reseller' capability is no longer needed as we use 'manage_options'.
 	 *
-	 * These are assigned to admin and any 
-	 * other role cap during installation 
-	 * or reset.
-	 *
-	 * @TODO   Replace the post types with your custom post type.
+	 * @static
 	 * @access public
 	 * @return array
 	 */
-	public function get_core_capabilities() {
+	public static function get_core_capabilities() {
 		$capabilities = array();
 
-		$capabilities['core'] = array(
-			"manage_electrosuite_reseller",
-		);
-
-		// List the post types you want to apply these capability types.
-		$capability_types = apply_filters( 'electrosuite_reseller_capability_post_types', array( 'custom_post', 'custom_page' ) );
+		// List the capability types you want to apply. Often related to custom post types.
+        // Remove or modify 'your_cpt_slug' if you don't have CPTs needing specific capabilities.
+		$capability_types = apply_filters( 'electrosuite_reseller_capability_types', array( /* 'your_cpt_slug' */ ) );
 
 		foreach( $capability_types as $capability_type ) {
-
+            // Generate standard CPT capabilities
 			$capabilities[ $capability_type ] = array(
 				// Post type
 				"edit_{$capability_type}",
@@ -316,15 +284,15 @@ class ElectroSuite_Reseller_Install {
 				"edit_private_{$capability_type}s",
 				"edit_published_{$capability_type}s",
 
-				// Terms
-				"manage_{$capability_type}_terms",
-				"edit_{$capability_type}_terms",
-				"delete_{$capability_type}_terms",
-				"assign_{$capability_type}_terms"
+				// Terms (if using custom taxonomies associated with the CPT)
+				// "manage_{$capability_type}_terms",
+				// "edit_{$capability_type}_terms",
+				// "delete_{$capability_type}_terms",
+				// "assign_{$capability_type}_terms"
 			);
 		}
 
-		return $capabilities;
+		return $capabilities; // Returns only CPT caps, or empty array if no CPTs defined
 	}
 
 	/**

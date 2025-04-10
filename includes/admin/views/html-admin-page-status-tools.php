@@ -10,13 +10,20 @@
 				<th colspan="2"><?php _e( 'Tools', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></th>
 			</tr>
 		</thead>
+		
 		<tbody class="tools">
 			<?php foreach( $tools as $action => $tool ) { ?>
 				<tr>
 					<td><?php echo esc_html( $tool['name'] ); ?></td>
 					<td>
 						<p>
-							<a href="<?php echo wp_nonce_url( admin_url('admin.php?page=' . ELECTROSUITE_RESELLER_PAGE . '-status&tab=tools&action=' . $action ), 'debug_action' ); ?>" class="button"><?php echo esc_html( $tool['button'] ); ?></a>
+							<?php
+                            // Construct the correct base URL for the tools tab
+                            $base_url = admin_url('admin.php?page=' . ELECTROSUITE_RESELLER_PAGE . '&tab=tools&action=' . $action );
+                            // Generate the nonce URL using the correct base URL
+                            $nonce_url = wp_nonce_url( $base_url, 'debug_action' );
+                            ?>
+							<a href="<?php echo esc_url( $nonce_url ); ?>" class="button"><?php echo esc_html( $tool['button'] ); ?></a>
 							<span class="description"><?php echo wp_kses_post( $tool['desc'] ); ?></span>
 						</p>
 					</td>

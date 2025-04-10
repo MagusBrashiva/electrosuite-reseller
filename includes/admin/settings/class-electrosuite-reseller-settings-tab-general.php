@@ -84,6 +84,21 @@ class ElectroSuite_Reseller_Settings_General_Tab extends ElectroSuite_Reseller_S
 				'desc_tip'	=>  true
 			),
 
+			// TODO: Only show if both SureCart and WooCommerce are installed
+			// Select Cart Provider
+			array(
+				'title' 	=> __( 'Cart Provider', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+				'desc' 		=> __( 'Select the provider to create your domain product and handoff to your payment gateway.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+				'desc_tip' 	=> true,
+				'id' 		=> 'electrosuite_reseller_cart_radio',
+				'default'	=> '',
+				'type' 		=> 'radio',
+				'options' => array(
+								'woo' => __( 'WooCommerce', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+								'sure' => __( 'SureCart', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),
+				),
+			),
+
 			// Pricing Adjustment Mode			
 			array(
 				'title' 	=> __( 'Price Adjustment Mode', ELECTROSUITE_RESELLER_TEXT_DOMAIN ),

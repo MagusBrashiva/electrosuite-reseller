@@ -22,7 +22,9 @@ add_action( 'rest_api_init', function () {
         'methods' => 'POST',
         'callback' => 'handle_electrosuite_domain_search_request',
         'permission_callback' => function ( WP_REST_Request $request ) {
-
+           
+            // REVERT immediately AFTER TESTING
+            /*
             // --- NEW: 1. SSL Check (Add this first) ---
             if ( ! is_ssl() ) {
                 error_log("ElectroSuite Reseller REST API Error: Domain search request blocked over non-HTTPS connection.");
@@ -33,7 +35,7 @@ add_action( 'rest_api_init', function () {
                 );
             }
             // --- End NEW SSL Check ---
-
+            */
 
             // --- Existing: 2. Nonce Check (Was 1) ---
             $nonce = $request->get_header('X-WP-Nonce');

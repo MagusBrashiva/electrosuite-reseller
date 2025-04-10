@@ -19,8 +19,12 @@ if( ! class_exists( 'ElectroSuite_Reseller_Admin_Welcome' ) ) {
  */
 class ElectroSuite_Reseller_Admin_Welcome {
 
-	private $plugin;
+	//private $plugin;
 
+	
+	
+	
+	
 	/**
 	 * __construct function.
 	 *
@@ -28,644 +32,80 @@ class ElectroSuite_Reseller_Admin_Welcome {
 	 * @return void
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', array( &$this, 'admin_menus') );
-		add_action( 'admin_head', array( &$this, 'admin_head' ) );
-		add_action( 'admin_init', array( &$this, 'welcome' ) );
+		// add_action( 'admin_menu', array( &$this, 'admin_menus') ); // Should already be removed
+		// add_action( 'admin_head', array( $this, 'admin_head' ) ); // REMOVE THIS LINE
+		add_action( 'admin_init', array( $this, 'welcome' ) );
+        add_action( 'admin_init', array( $this, 'handle_theme_notice_dismissal' ) );
+        add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ) );
 	}
 
-	/**
-	 * List your dashboard pages, page slug, title, capability and screen.
-	 *
-	 * @TODO   List your dashboard pages here
-	 * @filter electrosuite_reseller_register_dashboard_pages
-	 * @access public
-	 * @return array()
-	 */
-	public function register_admin_menu() {
-		return $menus = apply_filters( 'electrosuite_reseller_register_dashboard_pages', array(
-					array(
-						'id' 			=> ELECTROSUITE_RESELLER_PAGE . '-about',
-						'title' 		=> sprintf( __( 'Welcome to %s', ELECTROSUITE_RESELLER_TEXT_DOMAIN ), ElectroSuite_Reseller()->name ),
-						'capability' 	=> 'manage_options',
-						'screen' 		=> 'about_screen',
-						'tab_name' 		=> __( 'Getting Started', ELECTROSUITE_RESELLER_TEXT_DOMAIN )
-					),
-					array(
-						'id' 			=> ELECTROSUITE_RESELLER_PAGE . '-changelog',
-						'title' 		=> sprintf( __( '%s Changelog', ELECTROSUITE_RESELLER_TEXT_DOMAIN ), ElectroSuite_Reseller()->name ),
-						'capability' 	=> 'manage_options',
-						'screen' 		=> 'changelog_screen',
-						'tab_name' 		=> __( 'Changelog', ELECTROSUITE_RESELLER_TEXT_DOMAIN )
-					),
-					array(
-						'id' 			=> ELECTROSUITE_RESELLER_PAGE . '-credits',
-						'title' 		=> sprintf( __( '%s Credits', ELECTROSUITE_RESELLER_TEXT_DOMAIN ), ElectroSuite_Reseller()->name ),
-						'capability' 	=> 'manage_options',
-						'screen' 		=> 'credits_screen',
-						'tab_name' 		=> __( 'Credits', ELECTROSUITE_RESELLER_TEXT_DOMAIN )
-					),
-					array(
-						'id' 			=> ELECTROSUITE_RESELLER_PAGE . '-translations',
-						'title' 		=> sprintf( __( '%s Translations', ELECTROSUITE_RESELLER_TEXT_DOMAIN ), ElectroSuite_Reseller()->name ),
-						'capability' 	=> 'manage_options',
-						'screen' 		=> 'translations_screen',
-						'tab_name' 		=> __( 'Translations', ELECTROSUITE_RESELLER_TEXT_DOMAIN )
-					),
-					array(
-						'id' 			=> ELECTROSUITE_RESELLER_PAGE . '-freedoms',
-						'title' 		=> sprintf( __( '%s Freedoms', ELECTROSUITE_RESELLER_TEXT_DOMAIN ), ElectroSuite_Reseller()->name ),
-						'capability' 	=> 'manage_options',
-						'screen' 		=> 'freedoms_screen',
-						'tab_name' 		=> __( 'Freedoms', ELECTROSUITE_RESELLER_TEXT_DOMAIN )
-					),
-		) );
-	}
-
-	/**
-	 * Register the Dashboard Pages which are normally hidden.
-	 * These pages are used to render the Welcome and Credits pages. 
-	 * Can be accessed again via the version number link at the 
-	 * bottom of the plugin pages.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function admin_menus() {
-		foreach ( $this->register_admin_menu() as $menu ) {
-			$page_title = $menu['title'];
-			$dashboard_page = add_dashboard_page( $page_title, $page_title, $menu['capability'], $menu['id'], array( &$this, $menu['screen'] ) );
-			add_action( 'admin_print_styles-'. $dashboard_page, array( &$this, 'admin_css' ) );
-		}
-	}
-
-	/**
-	 * Remove submenus. This hides each submenu under the dashboard page.
-	 *
-	 * TODO    Replace the submenus with your own
-	 * @filter electrosuite_reseller_remove_submenus
-	 * @access public
-	 * @return array()
-	 */
-	public function remove_submenus() {
-		$submenus = apply_filters( 'electrosuite_reseller_remove_submenus', array(
-			array( 'id' => 'about' ),
-			array( 'id' => 'changelog' ),
-			array( 'id' => 'credits' ),
-			array( 'id' => 'translations' ),
-			array( 'id' => 'freedoms' ),
-		) );
-
-		return $submenus;
-	}
-
-	/**
-	 * Loads the stylesheets for each of the dashboard pages.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function admin_css() {
-		wp_enqueue_style( 'electrosuite-reseller-activation', ElectroSuite_Reseller()->plugin_url() . '/assets/css/admin/welcome.css' );
-	}
-
-	/**
-	 * Add styles just for this page, and remove dashboard page links.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function admin_head() {
-		// This removes each submenu listed in function 'remove_submenus'.
-		foreach ( $this->remove_submenus() as $submenu ) {
-			remove_submenu_page( 'index.php', ELECTROSUITE_RESELLER_PAGE . '-' . $submenu['id'] );
-		}
-
-		// Badge for welcome page
-		$badge_url = ElectroSuite_Reseller()->plugin_url() . '/assets/images/welcome/electrosuite-reseller-badge.png';
-		?>
-		<style type="text/css">
-		.electrosuite-reseller-badge {
-			background-image: url('<?php echo $badge_url; ?>') !important;
-		}
-
-		@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-			.electrosuite-reseller-badge {
-				background-image: url('<?php echo str_replace( 'badge.png', 'badge@2x.png', $badge_url ); ?>') !important;
-			}
-		}
-		</style>
-		<?php
-	}
-
-	/**
-	 * Intro text/links shown on all about pages.
-	 *
-	 * @access private
-	 * @return void
-	 */
-	private function intro() {
-		// Flush after upgrades
-		if ( ! empty( $_GET['electrosuite-reseller-updated'] ) || ! empty( $_GET['electrosuite-reseller-installed'] ) ) {
-			flush_rewrite_rules();
-		}
-
-		// Drop minor version if 0
-		$major_version = substr( ElectroSuite_Reseller()->version, 0, 3 );
-		?>
-		<h1><?php _e( sprintf( 'Welcome to %s %s', ElectroSuite_Reseller()->name, $major_version ), ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h1>
-
-		<div class="about-text electrosuite-reseller-about-text">
-			<?php
-				do_action( 'electrosuite_reseller_welcome_text_before' );
-
-				if ( ! empty( $_GET['electrosuite-reseller-installed'] ) ) {
-					$message = __( 'Thanks, all done!', ELECTROSUITE_RESELLER_TEXT_DOMAIN );
-				}
-				elseif ( ! empty( $_GET['electrosuite-reseller-updated'] ) ) {
-					$message = __( 'Thank you for updating to the latest version!', ELECTROSUITE_RESELLER_TEXT_DOMAIN );
-				}
-				else {
-					$message = __( 'Thanks for installing!', ELECTROSUITE_RESELLER_TEXT_DOMAIN );
-				}
-
-				echo sprintf( __( '%s %s %s is a powerful, stable, and secure plugin boilerplate. I hope you enjoy it.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ), $message, ElectroSuite_Reseller()->name, $major_version );
-
-				do_action( 'electrosuite_reseller_welcome_text_after' );
-			?>
-		</div>
-
-		<div class="electrosuite-reseller-badge"><?php printf( __( 'Version %s', ELECTROSUITE_RESELLER_TEXT_DOMAIN ), ElectroSuite_Reseller()->version ); ?></div>
-
-		<div class="electrosuite-reseller-social-links">
-			<a class="facebook_link" href="https://www.facebook.com/<?php echo ElectroSuite_Reseller()->facebook_page; ?>" target="_blank">
-				<span class="dashicons dashicons-facebook-alt"></span>
-			</a>
-
-			<a class="twitter_link" href="https://twitter.com/<?php echo ElectroSuite_Reseller()->twitter_username; ?>" target="_blank">
-				<span class="dashicons dashicons-twitter"></span>
-			</a>
-
-			<a class="googleplus_link" href="https://plus.google.com/<?php echo ElectroSuite_Reseller()->google_plus_id; ?>" target="_blank">
-				<span class="dashicons dashicons-googleplus"></span>
-			</a>
-
-		</div><!-- .electrosuite-reseller-social-links -->
-
-		<p class="electrosuite-reseller-actions">
-			<a href="<?php echo admin_url('admin.php?page=' . ELECTROSUITE_RESELLER_PAGE . '-settings'); ?>" class="button button-primary"><?php _e( 'Settings', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></a>
-			<a class="docs button button-primary" href="<?php echo esc_url( apply_filters( 'electrosuite_reseller_docs_url', ElectroSuite_Reseller()->doc_url, ELECTROSUITE_RESELLER_TEXT_DOMAIN ) ); ?>"><?php _e( 'Docs', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></a>
-			<a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo ElectroSuite_Reseller()->web_url; ?>" data-text="<?php echo apply_filters( 'electrosuite_reseller_welcome_twitter_username', __('Your tweet message would be placed here.', ELECTROSUITE_RESELLER_TEXT_DOMAIN) ); ?>" data-via="<?php echo ElectroSuite_Reseller()->twitter_username; ?>" data-size="large" data-hashtags="<?php echo ElectroSuite_Reseller()->name; ?>">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
-			<div id="social-blocks">
-				<div class="fb" >
-					<div id="fb-root"></div>
-					<script>
-					(function(d, s, id) {
-						var js, fjs = d.getElementsByTagName(s)[0];
-						if (d.getElementById(id)) return;
-						js = d.createElement(s); js.id = id;
-						js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-						fjs.parentNode.insertBefore(js, fjs);
-					}(document, 'script', 'facebook-jssdk'));
-					</script>
-					<div class="fb-like" data-href="http://www.facebook.com/<?php echo ElectroSuite_Reseller()->facebook_page; ?>" data-send="false" data-layout="button_count" data-width="90" data-show-faces="false"></div>
-				</div>
-
-				<div class="twitter">
-				<a href="https://twitter.com/<?php echo ElectroSuite_Reseller()->twitter_username; ?>" class="twitter-follow-button" data-show-count="true" data-show-screen-name="false">Follow us</a>
-				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-				</div>
-
-				<div class="gplus">
-				<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
-				<g:plusone href="https://plus.google.com/<?php echo ElectroSuite_Reseller()->google_plus_id; ?>" size="medium"></g:plusone>
-				</div>
-			</div>
-
-		</p><!-- .electrosuite-reseller-actions -->
-
-		<h2 class="nav-tab-wrapper">
-			<?php
-			// Displays a tab for each dashboard page registered.
-			foreach ($this->register_admin_menu() as $menu) {
-				echo '<a class="nav-tab';
-				if ( $_GET['page'] == $menu['id'] ) echo ' nav-tab-active';
-				echo '" href=" ' . esc_url( admin_url( add_query_arg( array( 'page' => $menu['id'] ), 'index.php' ) ) ) . ' ">' . $menu['tab_name'] . '</a>';
-			}
-			?>
-		</h2>
-		<?php
-	}
-
-	/**
-	 * Output the about screen.
-	 *
-	 * TODO    Replace the about page with your own content.
-	 * @access public
-	 * @return void
-	 */
-	public function about_screen() {
-		?>
-		<div class="wrap about-wrap">
-
-			<?php $this->intro(); ?>
-
-			<p class="about-description"><?php _e( 'Use this page to show what the plugin does or what features you have added since your first release. Replace the placeholder images with screenshots of your plugin. You can even make the screenshots linkable to show a larger screenshot with or without caption or play an embedded video. It\'s all up to you.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></p>
-
-			<div>
-				<h3><?php _e( 'Three Columns with Screenshots', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h3>
-				<div class="electrosuite-reseller-feature feature-section col three-col">
-					<div>
-						<a href="http://placekitten.com/720/480" data-rel="prettyPhoto[gallery]"><img src="http://placekitten.com/300/250" alt="<?php _e( 'Screenshot Title', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?>" style="width: 99%; margin: 0 0 1em;"></a>
-						<h4><?php _e( 'Title of Feature or New Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-					</div>
-					<div>
-						<a href="http://placekitten.com/980/640" data-rel="prettyPhoto[gallery]" title="<?php _e( 'You can add captions to your screenshots.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?>"><img src="http://placekitten.com/300/250" alt="" style="width: 99%; margin: 0 0 1em;"></a>
-						<h4><?php _e( 'Title of Feature or New Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-					</div>
-					<div class="last-feature">
-						<a href="http://vimeo.com/88671403" data-rel="prettyPhoto" title="<?php _e( 'Or add captions on your videos.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?>"><img src="http://placekitten.com/300/250" alt="<?php _e( 'Video Title', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?>" style="width: 99%; margin: 0 0 1em;"></a>
-						<h4><?php _e( 'Title of Feature or New Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-					</div>
-				</div>
-			</div>
-
-			<div>
-				<h3><?php _e( 'Two Columns with Screenshots', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h3>
-				<div class="electrosuite-reseller-feature feature-section col two-col">
-					<div>
-						<img src="http://placekitten.com/490/410" alt="" style="width: 99%; margin: 0 0 1em;">
-						<h4><?php _e( 'Title of Feature or New Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-					</div>
-					<div class="last-feature">
-						<img src="http://placekitten.com/490/410" alt="" style="width: 99%; margin: 0 0 1em;">
-						<h4><?php _e( 'Title of Feature or New Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-					</div>
-				</div>
-			</div>
-
-			<div>
-				<h3><?php _e( 'Two Columns with a Single Screenshot', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h3>
-				<div class="electrosuite-reseller-feature feature-section col two-col">
-					<img src="http://placekitten.com/1042/600" alt="" style="width: 99%; margin: 0 0 1em;">
-					<div>
-						<h4><?php _e( 'Title of Feature or New Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-					</div>
-					<div class="last-feature">
-						<h4><?php _e( 'Title of Feature or New Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="changelog">
-				<h2 class="about-headline-callout"><?php _e( 'Callout Headline', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h2>
-				<img src="http://placekitten.com/980/560" alt="" style="width: 99%; margin: 0 0 1em;">
-
-				<div class="electrosuite-reseller-feature feature-section col one-col center-col">
-					<div>
-						<h3><?php _e( 'One Column centered with a Single Screenshot', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-					</div>
-				</div>
-			</div>
-
-			<div>
-				<div class="electrosuite-reseller-feature feature-section col two-col">
-					<div>
-						<h3><?php _e( 'Two Columns, Content Left, Screenshot Right', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-						<h4><?php _e( 'Sub-Title (H4)', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-					</div>
-					<div class="last-feature">
-						<img src="http://placekitten.com/526/394" alt="" style="width: 99%; margin: 0 0 1em;">
-					</div>
-				</div>
-			</div>
-
-			<div>
-				<div class="electrosuite-reseller-feature feature-section col two-col">
-					<div>
-						<img src="http://placekitten.com/526/394" alt="" style="width: 99%; margin: 0 0 1em;">
-					</div>
-					<div class="last-feature">
-						<h3><?php _e( 'Two Columns, Content Right, Screenshot Left', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-						<h4><?php _e( 'Sub-Title (H4)', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-					</div>
-				</div>
-			</div>
-
-			<div>
-				<h3><?php _e( 'Three Columns with NO Screenshots', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h3>
-
-				<div class="electrosuite-reseller-feature feature-section col three-col">
-					<div>
-						<h4><?php _e( 'Title of Feature or New Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-					</div>
-
-					<div>
-						<h4><?php _e( 'Title of Feature or New Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-					</div>
-
-					<div class="last-feature">
-						<h4><?php _e( 'Title of Feature or New Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-					</div>
-				</div>
-
-				<div class="electrosuite-reseller-feature feature-section col three-col">
-
-					<div>
-						<h4><?php _e( 'Title of Feature or New Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-					</div>
-
-					<div>
-						<h4><?php _e( 'Title of Feature or New Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-					</div>
-
-					<div class="last-feature">
-						<h4><?php _e( 'Title of Feature or New Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis. Mauris faucibus, orci eu blandit fermentum, lorem nibh sollicitudin mi, sit amet interdum metus urna ut lacus.</p>
-					</div>
-
-				</div>
-
-				<div class="electrosuite-reseller-feature feature-section col three-col">
-					<div>
-						<h2 class="about-headline-callout"><?php _e( 'Title of Feature or New Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h2>
-						<p class="about-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis.</p>
-					</div>
-
-					<div>
-						<h2 class="about-headline-callout"><?php _e( 'Title of Feature or New Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h2>
-						<p class="about-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis.</p>
-					</div>
-
-					<div class="last-feature">
-						<h2 class="about-headline-callout"><?php _e( 'Title of Feature or New Changes', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h2>
-						<p class="about-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet diam a facilisis eleifend. Cras ac justo felis.</p>
-					</div>
-
-				</div>
-
-			</div>
-
-			<div class="return-to-dashboard">
-				<a href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => ELECTROSUITE_RESELLER_PAGE . '-settings' ), 'admin.php' ) ) ); ?>"><?php _e( sprintf( 'Go to %s Settings', ElectroSuite_Reseller()->name ), ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></a>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Output the changelog screen.
-	 *
-	 * @TODO   List your own changelog
-	 * @access public
-	 * @return void
-	 */
-	public function changelog_screen() {
-		?>
-		<div class="wrap about-wrap">
-
-			<?php $this->intro(); ?>
-
-			<p><?php _e( 'Bulletpoint your changelog like so.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></p>
-
-			<div class="changelog point-releases">
-				<h3><?php _e( 'Version', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?> 1.0.0</strong></h3>
-				<p><strong><?php _e( sprintf( 'First version of the %s.', ElectroSuite_Reseller()->name ), ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></p>
-			</div>
-
-		</div>
-		<?php
-	}
-
-	/**
-	 * Output the credits.
-	 *
-	 * TODO    Place your own credits
-	 * @access public
-	 * @return void
-	 */
-	public function credits_screen() {
-		?>
-		<div class="wrap about-wrap">
-
-			<?php $this->intro(); ?>
-
-			<p class="about-description"><?php _e( sprintf( 'The %s is developed and maintained by "S&eacute;bastien Dumont". Are you a passionate individual, would you like to give your support and see your name here? <a href="%s" target="_blank">Contribute to %s</a>.', ElectroSuite_Reseller()->name, GITHUB_REPO_URL . 'blob/master/CONTRIBUTING.md', ElectroSuite_Reseller()->name ), ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></p>
-
-			<div class="electrosuite-reseller-feature feature-section col two-col">
-
-				<div>
-					<h2>S&eacute;bastien Dumont</h2>
-					<h4 style="font-weight:0; margin-top:0"><?php _e( 'Project Lead &amp; Developer', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-					<p><img style="float:left; margin: 0 15px 0 0;" src="<?php echo ElectroSuite_Reseller()->plugin_url() . '/assets/images/sebd.jpg'; ?>" width="100" height="100" /><?php _e( sprintf( '%s has been developing plugins for WordPress since 2009. He is a freelance Web and WordPress developer.', 'S&eacute;bastien'), ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></p>
-					<p><a href="http://www.sebastiendumont.com" target="_blank"><?php _e( sprintf( 'View %s&rsquo;s website', 'S&eacute;bastien' ), ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></a></p>
-				</div>
-
-				<div class="last-feature">
-					<h2>Francois-Xavier B&eacute;nard</h2>
-					<h4 style="font-weight:0; margin-top:0"><?php _e( 'Translation Manager, CEO of WP-Translations.org', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-					<p><img style="float:left; margin: 0 15px 0 0;" src="<?php echo ElectroSuite_Reseller()->plugin_url() . '/assets/images/fxbenard.jpg'; ?>" width="100" height="100" />Translation is my hobby, make it a living is my plan. I translate but also check and code the missing i18n() functions in your plugins or themes. I run a FREE WP Community of translators on Transifex. So if you need someone who cares about quality work, get in touch. Many developers are already trusting me, Seb of course but also Yoast, Pippin and the Mailpoet Team.</p>
-					<p><a href="http://wp-translations.org" target="_blank"><?php _e( sprintf( 'View %s&rsquo;s website', 'Francois' ), ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></a></p>
-				</div>
-
-			</div>
-
-			<hr class="clear" />
-
-			<h4 class="wp-people-group"><?php _e( 'Contributers' , ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4><span style="color:#aaa; float:right; position:relative; top:-40px;"><?php _e( 'These contributers are fetched from the GitHub repository.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></span>
-
-			<?php echo $this->contributors(); ?>
-
-			<hr class="clear">
-
-			<h4 class="wp-people-group"><?php _e( 'Translators' , ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4><span style="color:#aaa; float:right; position:relative; top:-40px;"><?php _e( sprintf( 'These translators are fetched from the Transifex project for %s.', ElectroSuite_Reseller()->name ), ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></span>
-
-			<p class="about-description"><?php _e( sprintf( '<strong>%s</strong> has been kindly translated into several other languages thanks to the WordPress community.', ElectroSuite_Reseller()->name ), ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></p>
-			<?php
-			// Display all translators on the project with a link to their profile.
-			transifex_display_translators();
-			?>
-			<p><?php _e( sprintf( 'Is your name not listed? Then how about taking part in helping with the translation of this plugin. See the list of <a href="%s">languages to translate</a>.', admin_url( 'index.php?page=' . ELECTROSUITE_RESELLER_PAGE . '-translations' ) ), ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></p>
-
-			<hr class="clear">
-
-			<h4 class="wp-people-group"><?php _e( 'External Libraries' , ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></h4>
-			<p class="wp-credits-list">
-			<a href="http://jquery.com/" target="_blank">jQuery</a>, 
-			<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>,
-			<a href="http://malsup.com/jquery/block/" target="_blank">jQuery Block UI</a>, 
-			<a href="https://github.com/harvesthq/chosen" target="_blank">jQuery Chosen</a>, 
-			<a href="https://github.com/carhartl/jquery-cookie" target="_blank">jQuery Cookie</a>, 
-			<a href="http://code.drewwilson.com/entry/tiptip-jquery-plugin" target="_blank">jQuery TipTip</a> and 
-			<a href="http://www.no-margin-for-errors.com/projects/prettyPhoto-jquery-lightbox-clone/" target="_blank">prettyPhoto</a>
-			</p>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Output the translations.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function translations_screen() {
-		?>
-		<div class="wrap about-wrap">
-
-			<?php $this->intro(); ?>
-
-			<p class="about-description"><?php _e( sprintf( 'Translations currently in progress and completed for %s. <a href="%s" target="_blank">View more on %s</a>.', ElectroSuite_Reseller()->name, TRANSIFEX_PROJECT_URL, 'Transifex' ), ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></p>
-
-			<?php transifex_display_translation_progress(); ?>
-
-		</div>
-		<?php
-	}
-
-	/**
-	 * Output the freedoms page.
-	 *
-	 * TODO    It's up to you if you want to keep this page
-	 * @access public
-	 * @return void
-	 */
-	public function freedoms_screen() {
-		?>
-		<div class="wrap about-wrap">
-
-			<?php $this->intro(); ?>
-
-			<p class="about-description"><?php _e( 'WordPress Plugin Boilerplate is Free and open source software, built to help speed up plugin development and to be stable and secure for all WordPress versions. Below is a list explaining what you are allowed to do. Enjoy!', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></p>
-
-			<ol start="1">
-				<li><p><?php _e( 'You have the freedom to run the program, for any purpose.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></p></li>
-				<li><p><?php _e( 'You have access to the source code, the freedom to study how the program works, and the freedom to change it to make it do what you wish.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></p></li>
-				<li><p><?php _e( 'You have the freedom to redistribute copies of the original program so you can help your neighbor.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></p></li>
-				<li><p><?php _e( 'You have the freedom to distribute copies of your modified versions to others. By doing this you can give the whole community a chance to benefit from your changes.', ELECTROSUITE_RESELLER_TEXT_DOMAIN ); ?></p></li>
-			</ol>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Render Contributors List
-	 *
-	 * @access public
-	 * @return string $contributor_list HTML formatted list of contributors.
-	 */
-	public function contributors() {
-		$contributors = $this->get_contributors();
-
-		if ( empty( $contributors ) )
-			return '';
-
-		$contributor_list = '<ul class="wp-people-group">';
-
-		foreach ( $contributors as $contributor ) {
-
-			// Get details about this contributor.
-			$contributor_details = $this->get_indvidual_contributor( $contributor->login );
-
-			$contributor_list .= '<li class="wp-person">';
-			$contributor_list .= sprintf( '<a href="%s" target="_blank" title="%s">',
-				esc_url( 'https://github.com/' . $contributor->login ),
-				esc_html( sprintf( __( 'View %s\'s GitHub Profile', ELECTROSUITE_RESELLER_TEXT_DOMAIN ), $contributor_details->name ) )
-			);
-			$contributor_list .= sprintf( '<img src="%s" width="64" height="64" class="gravatar" alt="%s" />', esc_url( $contributor->avatar_url ), esc_html( $contributor->login ) );
-			$contributor_list .= '</a>';
-
-			if( isset( $contributor_details->name ) ) {
-				$contributor_list .= __( 'Name', ELECTROSUITE_RESELLER_TEXT_DOMAIN ) . ':<strong>' . $contributor_details->name . '</strong><br>';
-			}
-
-			$contributor_list .= sprintf( __( 'Username', ELECTROSUITE_RESELLER_TEXT_DOMAIN ) . ':<strong><a href="%s" target="_blank">%s</a></strong><br>', esc_url( 'https://github.com/' . $contributor->login ), esc_html( $contributor->login ) );
-
-			if( isset( $contributor_details->blog ) ) { 
-				$contributor_list .= sprintf( '<strong><a href="%s" target="_blank">%s</a></strong><br>', esc_url( $contributor_details->blog ), __( 'View Website', ELECTROSUITE_RESELLER_TEXT_DOMAIN ) );
-			}
-
-			$contributor_list .= '</li>';
-		}
-
-		$contributor_list .= '</ul>';
-
-		return $contributor_list;
-	}
-
-	/**
-	 * Retrieve list of contributors from GitHub.
-	 *
-	 * @access public
-	 * @return mixed
-	 */
-	public function get_contributors() {
-		$contributors = get_transient( 'electrosuite_reseller_contributors' );
-
-		if ( false !== $contributors ) {
-			return $contributors;
-		}
-
-		$response = wp_remote_get( 'https://api.github.com/repos/seb86/WordPress-Plugin-Boilerplate/contributors', array( 'sslverify' => false ) );
-
-		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) ) {
-			return array();
-		}
-
-		$contributors = json_decode( wp_remote_retrieve_body( $response ) );
-
-		if ( ! is_array( $contributors ) ) {
-			return array();
-		}
-
-		set_transient( 'electrosuite_reseller_contributors', $contributors, 3600 );
-
-		return $contributors;
-	}
-
-	/**
-	 * Retrieve details about the single contributor from GitHub.
-	 *
-	 * @access public
-	 * @return mixed
-	 */
-	public function get_indvidual_contributor( $username ) {
-		$contributor = get_transient( 'electrosuite_reseller_' . $username . 'contributor' );
-
-		if ( false !== $contributor ) {
-			return $contributor;
-		}
-
-		$response = wp_remote_get( 'https://api.github.com/users/' . $username, array( 'sslverify' => false ) );
-
-		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) ) {
-			return array();
-		}
-
-		$contributor = json_decode( wp_remote_retrieve_body( $response ) );
-
-		set_transient( 'electrosuite_reseller_' . $username . 'contributor', $contributor, 3600 );
-
-		return $contributor;
-	}
+	
+    /**
+     * Enqueue styles for the main plugin page (which handles all tabs).
+     * Hooked to admin_enqueue_scripts.
+     *
+     * @param string $hook_suffix The hook suffix for the current admin page.
+     */
+    public function admin_enqueue_styles( $hook_suffix ) {
+        // Define the hook suffix for the main plugin page
+        // This is typically 'toplevel_page_{menu_slug}'
+        $main_page_slug = defined('ELECTROSUITE_RESELLER_PAGE') ? ELECTROSUITE_RESELLER_PAGE : 'electrosuite-reseller'; // Get slug safely
+        $main_page_hook = 'toplevel_page_' . $main_page_slug;
+
+        // Get the actual hook registered by add_menu_page if possible (more robust)
+        // $GLOBALS['admin_page_hooks'] might not be populated yet when this hook runs,
+        // so relying on the standard 'toplevel_page_{slug}' pattern is often necessary.
+        // We can add a check for the global as a secondary measure if needed.
+        // if ( isset($GLOBALS['admin_page_hooks'][$main_page_slug]) ) {
+        //     $main_page_hook = $GLOBALS['admin_page_hooks'][$main_page_slug];
+        // }
+
+        // Check if the current hook suffix matches our main page hook
+        if ( $hook_suffix === $main_page_hook ) {
+             // Check if main plugin instance exists before calling plugin_url() and version
+             if ( function_exists('ElectroSuite_Reseller') ) {
+                 $main_plugin = ElectroSuite_Reseller();
+                 // Use a more specific handle like 'electrosuite-reseller-main-styles'
+                 wp_enqueue_style(
+                    'electrosuite-reseller-main-styles',
+                    $main_plugin->plugin_url() . '/assets/css/admin/welcome.css', // Still points to welcome.css
+                    array(), // Dependencies
+                    $main_plugin->version // Version
+                 );
+             }
+        }
+    }
+
+
+	
+    /**
+     * Handles the dismissal link for the theme compatibility notice.
+     * Hooked to admin_init.
+     *
+     * @since 0.0.1
+     * @access public // Changed to public as it's called by WP hook
+     */
+    public function handle_theme_notice_dismissal() {
+        // Check if the dismiss parameter is set and the user has the capability
+        // Use 'manage_options' as a common capability for managing notices, adjust if needed
+        if ( ! empty( $_GET['hide_electrosuite_reseller_theme_support_check'] ) && current_user_can( 'manage_options' ) ) {
+            // Optional: Add nonce check here for better security if desired
+            // if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ), 'esr_dismiss_theme_notice' ) ) { ... }
+
+            $template = get_option( 'template' );
+            update_option( 'electrosuite_reseller_theme_support_check', $template );
+
+            // Redirect back to the welcome page without the query parameter
+            // Ensure constant is defined or use fallback
+            $welcome_page_slug = defined('ELECTROSUITE_RESELLER_PAGE') ? (ELECTROSUITE_RESELLER_PAGE . '-about') : 'electrosuite-reseller-about';
+            wp_safe_redirect( remove_query_arg( 'hide_electrosuite_reseller_theme_support_check', admin_url( 'index.php?page=' . $welcome_page_slug ) ) );
+            exit; // Exit is crucial after a redirect
+            // } // End nonce check if added
+        }
+    }
+
+
+	
 
 	/**
 	 * Sends user to the Welcome page on first activation of Plugin Name as well as each
@@ -701,6 +141,5 @@ class ElectroSuite_Reseller_Admin_Welcome {
 
 } // end if class exists.
 
-new ElectroSuite_Reseller_Admin_Welcome();
 
 ?>

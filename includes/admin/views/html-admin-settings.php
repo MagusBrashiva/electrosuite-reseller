@@ -1,6 +1,6 @@
 <div class="wrap electrosuite_reseller">
 	<form method="post" id="mainform" action="" enctype="multipart/form-data">
-		<h2><?php esc_html_e( 'ElectroSuite Reseller Settings', 'electrosuite-reseller' ); ?></h2>
+		<h1 class="wp-heading-inline"><?php esc_html_e( 'ElectroSuite Reseller Settings', 'electrosuite-reseller' ); ?></h1>
 
 		<div class="icon32 icon32-electrosuite-reseller-settings" id="icon-electrosuite-reseller"><br /></div><h2 class="nav-tab-wrapper">
 			<?php

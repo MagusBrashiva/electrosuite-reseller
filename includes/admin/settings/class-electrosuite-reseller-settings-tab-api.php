@@ -68,11 +68,11 @@ class ElectroSuite_Reseller_Settings_APIs_Tab extends ElectroSuite_Reseller_Sett
         if ( ! is_ssl() ) {
             // Add an error message to be displayed by the settings framework
             // Use the static method from the main settings class
-             if ( class_exists('ElectroSuite_Reseller_Admin_Settings') ) {
-                 ElectroSuite_Reseller_Admin_Settings::add_error(
-                    __( 'Settings cannot be saved over an insecure HTTP connection. Please use HTTPS.', 'electrosuite-reseller' )
-                 );
-             }
+            if ( class_exists('ElectroSuite_Reseller_Admin_Settings') ) {
+                ElectroSuite_Reseller_Admin_Settings::add_error(
+                __( 'Settings cannot be saved over an insecure HTTP connection. Please use HTTPS.', 'electrosuite-reseller' )
+                );
+            }
             error_log("ElectroSuite Reseller Security: Attempted to save API settings over HTTP. Save prevented.");
             // Prevent further processing by returning early
             return;
